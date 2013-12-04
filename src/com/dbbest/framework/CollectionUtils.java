@@ -45,4 +45,14 @@ public class CollectionUtils {
 
         return result;
     }
+
+    public static <T> void removeAll(Collection<T> collection, Predicate<T> predicate){
+        Iterator<T> iterator = collection.iterator();
+        while(iterator.hasNext()){
+            T item = iterator.next();
+            if(predicate.check(item)){
+                iterator.remove();
+            }
+        }
+    }
 }
