@@ -55,4 +55,14 @@ public class CollectionUtils {
             }
         }
     }
+
+    public static <T> T find(Iterable<T> iterable, Predicate<T> predicate){
+        for(T object : iterable){
+            if(predicate.check(object)){
+                return object;
+            }
+        }
+
+        return null;
+    }
 }
