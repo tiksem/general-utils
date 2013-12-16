@@ -1,7 +1,11 @@
 package com.dbbest.framework;
 
+import com.dbbest.framework.predicates.InstanceOfPredicate;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -56,6 +60,11 @@ public class CollectionUtils {
         }
     }
 
+    public static <T> void removeAllWithType(Collection<T> collection, Class<? extends T> aClass){
+        Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
+        removeAll(collection, predicate);
+    }
+
     public static <T> T find(Iterable<T> iterable, Predicate<T> predicate){
         for(T object : iterable){
             if(predicate.check(object)){
@@ -64,5 +73,21 @@ public class CollectionUtils {
         }
 
         return null;
+    }
+
+    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate){
+        List<T> result = new ArrayList<T>();
+        for(T object : iterable){
+            if(predicate.check(object)){
+                result.add(object);
+            }
+        }
+
+        return result;
+    }
+
+    public static <T> List<T> findAll(Iterable<T> iterable, Class<? extends T> aClass){
+        Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
+        return findAll(iterable, predicate);
     }
 }
