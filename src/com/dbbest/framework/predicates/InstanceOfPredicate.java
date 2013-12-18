@@ -8,7 +8,7 @@ import com.dbbest.framework.Predicate;
  * Time: 14:23
  */
 public class InstanceOfPredicate<T> implements Predicate<T>{
-    private Class aClass;
+    private Class<? extends T> aClass;
 
     public InstanceOfPredicate(Class<? extends T> aClass) {
         this.aClass = aClass;
