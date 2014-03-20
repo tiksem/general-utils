@@ -19,4 +19,19 @@ public class MathUtils {
 
         return a;
     }
+
+    public static long sum(int[] array){
+        long sum = 0;
+
+        for(int item : array){
+            sum += item;
+        }
+
+        return sum;
+    }
+
+    public static int getAverage(int[] array){
+        long sum = sum(array);
+        return (int) Math.round((double) sum / (double) array.length);
+    }
 }
