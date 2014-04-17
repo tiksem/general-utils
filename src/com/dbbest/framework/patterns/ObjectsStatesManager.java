@@ -1,8 +1,6 @@
 package com.dbbest.framework.patterns;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Tikhonenko.S
@@ -16,18 +14,21 @@ public class ObjectsStatesManager<T, State> {
         this.stateProvider = stateProvider;
     }
 
-    public StateRestorer changeStates(final Iterable<T> objects, StateChanger<T> statesChangingAction){
+    public StateRestorer changeStates(final Collection<T> objects, StateChanger<T> statesChangingAction){
         final List<State> states = new ArrayList<State>();
         for(T object : objects){
             states.add(stateProvider.getState(object));
             statesChangingAction.changeState(object);
         }
 
+        // prevent objects collection modifying bugs
+        final ArrayList<T> copiedObjects = new ArrayList<T>(objects);
+
         return new StateRestorer(){
             @Override
             public void restore() {
                 Iterator<State> stateIterator = states.iterator();
-                for(T object : objects){
+                for(T object : copiedObjects){
                     stateProvider.restoreState(object, stateIterator.next());
                 }
             }
