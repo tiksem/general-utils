@@ -6,6 +6,8 @@ package com.dbbest.framework;
  * Time: 17:05
  */
 public final class Primitive {
+    private static final float EQUALS_DELTA = 0.0005f;
+
     public static int compare(int a, int b){
         if(a < b){
             return -1;
@@ -16,5 +18,9 @@ public final class Primitive {
         }
 
         return 0;
+    }
+
+    public static boolean floatEquals(float a, float b) {
+        return Math.abs(a - b) <= EQUALS_DELTA;
     }
 }
