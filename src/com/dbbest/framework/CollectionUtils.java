@@ -90,4 +90,9 @@ public class CollectionUtils {
         Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
         return findAll(iterable, predicate);
     }
+
+    public static <T> T getLast(List<T> list) {
+        int index = list.size() - 1;
+        return list.get(index);
+    }
 }
