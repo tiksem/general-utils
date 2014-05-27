@@ -95,4 +95,43 @@ public class CollectionUtils {
         int index = list.size() - 1;
         return list.get(index);
     }
+
+    public static <T> Iterator<T> predicateIterator(final Iterator<T> iterator, final Predicate<T> predicate) {
+        return new Iterator<T>() {
+            T next;
+
+            private T getNext() {
+                T result;
+                do {
+                    result = iterator.next();
+                } while (result != null && !predicate.check(result));
+                return result;
+            }
+
+            @Override
+            public boolean hasNext() {
+                if(next == null){
+                    next = getNext();
+                }
+
+                return next != null;
+            }
+
+            @Override
+            public T next() {
+                T result = next;
+                if(result == null){
+                    result = getNext();
+                }
+                next = null;
+
+                return result;
+            }
+
+            @Override
+            public void remove() {
+                iterator.remove();
+            }
+        };
+    }
 }
