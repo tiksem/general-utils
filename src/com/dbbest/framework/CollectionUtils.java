@@ -41,6 +41,32 @@ public class CollectionUtils {
         return true;
     }
 
+    public static <T> boolean contentEquals(Collection<T> a, Collection<T> b, Equals<T> equals){
+        if(a == null){
+            return b == null;
+        } else if(b == null) {
+            return false;
+        }
+
+        if(a.size() != b.size()){
+            return false;
+        }
+
+        Iterator<T> aIterator = a.iterator();
+        Iterator<T> bIterator = b.iterator();
+
+        while (aIterator.hasNext()) {
+            T aItem = aIterator.next();
+            T bItem = bIterator.next();
+
+            if(!equals.equals(aItem, bItem)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static double sum(Collection<? extends Number> collection){
         double result = 0;
         for(Number number : collection){
