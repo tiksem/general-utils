@@ -2,10 +2,7 @@ package com.dbbest.framework;
 
 import com.dbbest.framework.predicates.InstanceOfPredicate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -159,5 +156,39 @@ public class CollectionUtils {
                 iterator.remove();
             }
         };
+    }
+
+    public static <T> Integer[] getSortedArrayIndexes(final T[] array, final Comparator<T> comparator) {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < indexes.length; i++) {
+            indexes[i] = i;
+        }
+
+        if (comparator != null) {
+            Arrays.sort(indexes, new Comparator<Integer>(){
+                @Override
+                public int compare(Integer aIndex, Integer bIndex) {
+                    return comparator.compare(array[aIndex], array[bIndex]);
+                }
+            });
+        }
+
+        return indexes;
+    }
+
+    public static <T extends Comparable> Integer[] getSortedArrayIndexes(final T[] array) {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < indexes.length; i++) {
+            indexes[i] = i;
+        }
+
+        Arrays.sort(indexes, new Comparator<Integer>(){
+            @Override
+            public int compare(Integer aIndex, Integer bIndex) {
+                return array[aIndex].compareTo(array[bIndex]);
+            }
+        });
+
+        return indexes;
     }
 }
