@@ -1,11 +1,10 @@
 package com.utils.framework.io;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 
 /**
  * Created by Tikhonenko.S on 24.09.13.
@@ -45,5 +44,153 @@ public final class IOUtilities {
     public static String toString(InputStream inputStream) throws IOException {
         Reader reader = readerFromInputStream(inputStream);
         return toString(reader);
+    }
+
+    // write CharSequence
+    //-----------------------------------------------------------------------
+    /**
+     * Writes chars from a <code>CharSequence</code> to a <code>Writer</code>.
+     *
+     * @param data  the <code>CharSequence</code> to write, null ignored
+     * @param output  the <code>Writer</code> to write to
+     * @throws NullPointerException if output is null
+     * @throws java.io.IOException if an I/O error occurs
+     * @since 2.0
+     */
+    public static void write(CharSequence data, Writer output) throws IOException {
+        if (data != null) {
+            write(data.toString(), output);
+        }
+    }
+
+    /**
+     * Writes chars from a <code>CharSequence</code> to bytes on an
+     * <code>OutputStream</code> using the default character encoding of the
+     * platform.
+     * <p>
+     * This method uses {@link String#getBytes()}.
+     *
+     * @param data  the <code>CharSequence</code> to write, null ignored
+     * @param output  the <code>OutputStream</code> to write to
+     * @throws NullPointerException if output is null
+     * @throws java.io.IOException if an I/O error occurs
+     * @since 2.0
+     */
+    public static void write(CharSequence data, OutputStream output)
+            throws IOException {
+        write(data, output, Charset.defaultCharset());
+    }
+
+    /**
+     * Writes chars from a <code>CharSequence</code> to bytes on an
+     * <code>OutputStream</code> using the specified character encoding.
+     * <p>
+     * This method uses {@link String#getBytes(String)}.
+     *
+     * @param data  the <code>CharSequence</code> to write, null ignored
+     * @param output  the <code>OutputStream</code> to write to
+     * @param encoding  the encoding to use, null means platform default
+     * @throws NullPointerException if output is null
+     * @throws java.io.IOException if an I/O error occurs
+     * @since 2.3
+     */
+    public static void write(CharSequence data, OutputStream output, Charset encoding) throws IOException {
+        if (data != null) {
+            write(data.toString(), output, encoding);
+        }
+    }
+
+    public static InputStream getInputStreamFromUrl(String url) throws IOException{
+        URLConnection connection = null;
+        try {
+            connection = new URL(url).openConnection();
+        } catch (MalformedURLException e) {
+            connection = new URL("file:" + url).openConnection();
+        }
+        return connection.getInputStream();
+    }
+
+    public static InputStream getBufferedInputStream(InputStream stream){
+        if(stream instanceof BufferedInputStream){
+            return stream;
+        } else {
+            return new BufferedInputStream(stream);
+        }
+    }
+
+    public static OutputStream getBufferedOutputStream(OutputStream stream){
+        if(stream instanceof BufferedOutputStream){
+            return stream;
+        } else {
+            return new BufferedOutputStream(stream);
+        }
+    }
+
+    public static InputStream getBufferedInputStreamFromUrl(String url) throws IOException{
+        InputStream stream = getInputStreamFromUrl(url);
+        return getBufferedInputStream(stream);
+    }
+
+    public static boolean createFile(String path) throws IOException {
+        File file = new File(path);
+        if(file.isDirectory()){
+            file.delete();
+        }
+        return file.createNewFile();
+    }
+
+    public static FileInputStream getOrCreateFileInputStream(String url) throws IOException {
+        createFile(url);
+        return new FileInputStream(url);
+    }
+
+    public static InputStream getOrCreateFileBufferedInputStream(String url) throws IOException {
+        FileInputStream stream = getOrCreateFileInputStream(url);
+        return getBufferedInputStream(stream);
+    }
+
+    public static FileOutputStream getOrCreateFileOutputStream(String url) throws IOException {
+        createFile(url);
+        return new FileOutputStream(url);
+    }
+
+    public static OutputStream getOrCreateFileBufferedOutputStream(String url) throws IOException {
+        FileOutputStream stream = getOrCreateFileOutputStream(url);
+        return getBufferedOutputStream(stream);
+    }
+
+    public static InputStream getBufferedInputStreamFromUrl(String url, int buffSize) throws IOException{
+        InputStream stream = getInputStreamFromUrl(url);
+        return new BufferedInputStream(stream,buffSize);
+    }
+
+    public static ObjectOutputStream getObjectOutputStreamFromFile(File file) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        return new ObjectOutputStream(fileOutputStream);
+    }
+
+    public static ObjectInputStream getObjectInputStreamFromFile(File file) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        return new ObjectInputStream(fileInputStream);
+    }
+
+    public static Object getObjectFromFile(File file){
+        try {
+            ObjectInputStream inputStream = getObjectInputStreamFromFile(file);
+            return inputStream.readObject();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static boolean writeObjectToFile(Object object, File file){
+        try {
+            ObjectOutputStream objectOutputStream = getObjectOutputStreamFromFile(file);
+            objectOutputStream.writeObject(object);
+        } catch (IOException e) {
+            return false;
+        }
+
+        return true;
     }
 }
