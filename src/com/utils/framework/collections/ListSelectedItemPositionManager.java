@@ -24,4 +24,9 @@ public class ListSelectedItemPositionManager<T> extends AbstractListSelectedItem
     public void setCurrentItemPosition(int currentItemPosition) {
         listWithSelectedItem.setCurrentItemPosition(currentItemPosition);
     }
+
+    @Override
+    public List<T> getItems() {
+        return listWithSelectedItem;
+    }
 }

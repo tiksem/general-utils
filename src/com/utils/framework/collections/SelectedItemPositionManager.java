@@ -2,6 +2,8 @@ package com.utils.framework.collections;
 
 import com.utils.framework.Cancelable;
 
+import java.util.List;
+
 /**
  * User: Tikhonenko.S
  * Date: 06.08.14
@@ -12,6 +14,7 @@ public interface SelectedItemPositionManager<T> {
         void onItemAvailable(T item);
     }
 
+    public List<T> getItems();
     public int getCurrentItemPosition();
     public void setCurrentItemPosition(int currentItemPosition);
     public T getCurrentSelectedItem();

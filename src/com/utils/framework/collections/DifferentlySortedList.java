@@ -9,7 +9,7 @@ import java.util.*;
  * Date: 05.08.14
  * Time: 19:51
  */
-public class DifferentlySortedList<T> extends AbstractList<T> {
+public class DifferentlySortedList<T> extends AbstractList<T> implements DifferentlySortable<T> {
     private static final Comparator DEFAULT_COMPARATOR = Comparators.defaultComparator();
 
     private Map<Comparator<T>, List<T>> sortedLists = new HashMap<Comparator<T>, List<T>>();
@@ -39,6 +39,7 @@ public class DifferentlySortedList<T> extends AbstractList<T> {
         return list;
     }
 
+    @Override
     public void setCurrentSortComparator(Comparator<T> sortComparator) {
         currentSortedList = getListBySortedComparator(sortComparator);
     }
