@@ -10,7 +10,7 @@ import java.util.*;
  * Time: 19:51
  */
 public class DifferentlySortedList<T> extends AbstractList<T> implements DifferentlySortable<T> {
-    private static final Comparator DEFAULT_COMPARATOR = Comparators.defaultComparator();
+    public static final Comparator DEFAULT_COMPARATOR = Comparators.defaultComparator();
 
     private Map<Comparator<T>, List<T>> sortedLists = new HashMap<Comparator<T>, List<T>>();
     private List<T> currentSortedList;
@@ -33,6 +33,7 @@ public class DifferentlySortedList<T> extends AbstractList<T> implements Differe
         List<T> list = sortedLists.get(comparator);
         if(list == null){
             list = new ArrayList<T>(getInternalOriginalList());
+            Collections.sort(list, comparator);
             sortedLists.put(comparator, list);
         }
 
