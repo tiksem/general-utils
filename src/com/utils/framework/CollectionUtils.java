@@ -191,4 +191,9 @@ public class CollectionUtils {
 
         return indexes;
     }
+
+    public static <T> T removeLast(List<T> list) {
+        int index = list.size() - 1;
+        return list.remove(index);
+    }
 }
