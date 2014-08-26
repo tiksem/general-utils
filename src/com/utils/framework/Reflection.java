@@ -1,10 +1,10 @@
 package com.utils.framework;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,5 +78,80 @@ public final class Reflection {
 
             }
         };
+    }
+
+    public static interface ParamTransformer{
+        Object transform(String paramName, Object value);
+    }
+
+    public static Map<String, Object> objectToPropertyMap(Object object, ParamTransformer paramTransformer) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        Class objectClass = object.getClass();
+        Field[] fields = objectClass.getFields();
+        try {
+            for (Field field : fields) {
+                Object value = field.get(object);
+                String key = field.getName();
+
+                if(paramTransformer != null){
+                    value = paramTransformer.transform(key, value);
+                }
+
+                if (value == null) {
+                    continue;
+                }
+
+                result.put(key, value);
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
+    public static Map<String, Object> objectToPropertyMap(Object object) {
+        return objectToPropertyMap(object,null);
+    }
+
+    public static Object[] objectToPropertiesArray(Object object){
+        Class objectClass = object.getClass();
+        Field[] fields = objectClass.getFields();
+        Object[] result = new Object[fields.length];
+
+        for(int i = 0; i < fields.length;){
+            Field field = fields[i];
+            if(Modifier.isTransient(field.getModifiers())){
+                continue;
+            }
+
+            field.setAccessible(true);
+            try {
+                result[i] = field.get(object);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+            i++;
+        }
+
+        return result;
+    }
+
+    public static <T> T createObjectOfClass(Class<T> type, Object... params) throws Throwable {
+        Constructor[] constructors = type.getConstructors();
+        for (Constructor constructor : constructors) {
+            try {
+                T object = (T) constructor.newInstance(params);
+                return object;
+            } catch (InstantiationException e) {
+
+            } catch (IllegalAccessException e) {
+
+            } catch (InvocationTargetException e) {
+                throw e.getTargetException();
+            }
+        }
+        throw new RuntimeException("no appropriate constructor available");
     }
 }
