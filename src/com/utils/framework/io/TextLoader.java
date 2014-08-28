@@ -12,24 +12,10 @@ import java.util.Map;
  * Time: 2:27 PM
  */
 public final class TextLoader {
-    private static TextLoader instance;
-
     private Cache<String,String> memoryCache;
     private Cache<String,String> diskCache;
 
-    public static TextLoader getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("call init before getInstance");
-        }
-
-        return instance;
-    }
-
-    public static void init(TextLoaderConfig config){
-        instance = new TextLoader(config);
-    }
-
-    private TextLoader(TextLoaderConfig config){
+    public TextLoader(TextLoaderConfig config){
         config.initUninitializedFields();
         memoryCache = config.memoryCache;
         diskCache = config.diskCache;

@@ -50,7 +50,7 @@ public class TextLoaderConfig {
         }
 
         if(allowDiskCaching && diskCache == null){
-            throw new NullPointerException("call setDiskCache or setDiskCacheSize or setDiskCachePath");
+            diskCache = new EmptyCache<String, String>();
         } else if(!allowDiskCaching) {
             diskCache = new EmptyCache<String, String>();
         }

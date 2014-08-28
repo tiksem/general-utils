@@ -13,18 +13,18 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public final class Search {
-    public static List filter(List data, String filter, int maxCount){
-        List result = new ArrayList(data.size());
+    public static <T> List<T> filter(List<T> data, String filter, int maxCount){
+        List<T> result = new ArrayList<T>(data.size());
         int listIndex = 0;
         int count = 0;
 
-        for(Object object : data){
+        for(T object : data){
             if(count >= maxCount){
                 return result;
             }
 
             String objectAsString = object.toString();
-            if(objectAsString.indexOf(filter) >= 0){
+            if(objectAsString.contains(filter)){
                 result.add(object);
                 count++;
             }
@@ -34,7 +34,7 @@ public final class Search {
     }
 
     public static <T> List<T> filter(List<T> data, Predicate<T> filter){
-        List<T> result = new ArrayList(data.size());
+        List<T> result = new ArrayList<T>(data.size());
 
         for(T object : data){
             if(filter.check(object)){
@@ -45,7 +45,7 @@ public final class Search {
         return result;
     }
 
-    public static List filter(List data, String filter){
+    public static <T> List filter(List<T> data, String filter){
         return filter(data, filter, Integer.MAX_VALUE);
     }
 

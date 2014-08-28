@@ -10,7 +10,7 @@ import java.util.Map;
  * Date: 21.08.14
  * Time: 20:00
  */
-public class UniqueValuesHashMultiMap<K, V> extends AbstractMultiMap<K, V> {
+public class SetValuesHashMultiMap<K, V> extends AbstractMultiMap<K, V> {
     @Override
     protected Collection<V> createValuesCollection() {
         return new LinkedHashSet<V>();
