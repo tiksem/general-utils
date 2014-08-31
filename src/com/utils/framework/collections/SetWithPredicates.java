@@ -70,11 +70,11 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
         this(set, null);
     }
 
-    public SetWithPredicates(Set<Entry<T>> set, Equals<T> equalsPredicate) {
+    public SetWithPredicates(Set set, Equals<T> equalsPredicate) {
         this(set, equalsPredicate, null);
     }
 
-    public SetWithPredicates(Set<Entry<T>> set, Equals equalsPredicate, HashCodeProvider hashCodeProvider) {
+    public SetWithPredicates(Set set, Equals equalsPredicate, HashCodeProvider hashCodeProvider) {
         initSet(set);
         initEqualsPredicate(equalsPredicate);
         initHashCodeProvider(hashCodeProvider);

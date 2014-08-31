@@ -1,5 +1,6 @@
 package com.utils.framework;
 
+import com.utils.framework.collections.SetWithPredicates;
 import com.utils.framework.collections.TimSort;
 import com.utils.framework.predicates.InstanceOfPredicate;
 
@@ -343,5 +344,19 @@ public class CollectionUtils {
             T object = source.get(i);
             destination.add(object);
         }
+    }
+
+    public static <T> List<T> unique(List<T> list, Equals<T> equals, HashCodeProvider<T> hashCodeProvider){
+        Set<T> set = new SetWithPredicates<T>(new LinkedHashSet(), equals, hashCodeProvider);
+        return new ArrayList<T>(set);
+    }
+
+    public static <T> List<T> unique(List<T> list, Equals<T> equals){
+        return unique(list, equals, null);
+    }
+
+    public static <T> List<T> unique(List<T> list){
+        Set<T> set = new LinkedHashSet<T>(list);
+        return new ArrayList<T>(set);
     }
 }
