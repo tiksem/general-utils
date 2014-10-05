@@ -348,6 +348,7 @@ public class CollectionUtils {
 
     public static <T> List<T> unique(List<T> list, Equals<T> equals, HashCodeProvider<T> hashCodeProvider){
         Set<T> set = new SetWithPredicates<T>(new LinkedHashSet(), equals, hashCodeProvider);
+        set.addAll(list);
         return new ArrayList<T>(set);
     }
 
@@ -358,5 +359,15 @@ public class CollectionUtils {
     public static <T> List<T> unique(List<T> list){
         Set<T> set = new LinkedHashSet<T>(list);
         return new ArrayList<T>(set);
+    }
+
+    public static <T> boolean replace(List<T> list, T value, T replacement) {
+        int index = list.indexOf(value);
+        if (index >= 0) {
+            list.set(index, replacement);
+            return true;
+        }
+
+        return false;
     }
 }
