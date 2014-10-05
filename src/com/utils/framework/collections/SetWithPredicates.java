@@ -82,7 +82,11 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
 
     @Override
     public boolean add(T t) {
-        return set.add(new Entry<T>(t));
+        if (t != null) {
+            return set.add(new Entry<T>(t));
+        } else {
+            return true;
+        }
     }
 
     public SetWithPredicates() {

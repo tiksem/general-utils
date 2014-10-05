@@ -7,7 +7,7 @@ package com.utils.framework.strings;
  * Time: 21:55
  * To change this template use File | Settings | File Templates.
  */
-public class SubSequence implements CharSequence{
+public class SubSequence extends AbstractCharSequence {
     private CharSequence charSequence;
 
     private int first;

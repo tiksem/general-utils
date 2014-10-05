@@ -6,7 +6,7 @@ package com.utils.framework.strings;
  * Date: 3/7/13
  * Time: 5:34 PM
  */
-public class TransformingString implements CharSequence{
+public class TransformingString extends AbstractCharSequence {
     private CharSequence string;
     private CharTransformer charTransformer;
 
@@ -48,25 +48,5 @@ public class TransformingString implements CharSequence{
     public char charAt(int i) {
         char ch = string.charAt(i);
         return charTransformer.transform(string, i, ch);
-    }
-
-    @Override
-    public CharSequence subSequence(int i, int i2) {
-        return new SubSequence(this, i, i2);
-    }
-
-    @Override
-    public String toString() {
-        return string.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return string.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return string.hashCode();
     }
 }
