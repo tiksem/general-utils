@@ -33,7 +33,7 @@ public final class CacheUtils {
         }
     }
 
-    public static <K,V> SetCache<K> setCacheFromCache(final Cache<K,K> cache){
+    public static <K> SetCache<K> setCacheFromCache(final Cache<K,K> cache){
         return new SetCache<K>() {
             @Override
             public K get(K key) {
