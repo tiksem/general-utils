@@ -167,4 +167,8 @@ public class Strings {
     public static String quote(String string, String quote) {
         return quote + string + quote;
     }
+
+    public static boolean isEmpty(String value) {
+        return value == null || value.isEmpty();
+    }
 }
