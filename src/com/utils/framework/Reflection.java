@@ -1,5 +1,6 @@
 package com.utils.framework;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -153,5 +154,21 @@ public final class Reflection {
             }
         }
         throw new RuntimeException("no appropriate constructor available");
+    }
+
+    public static List<Field> getFieldsWithAnnotations(Class aClass, final Class... annotationClasses) {
+        List<Field> allFields = getAllFieldsOfClass(aClass);
+        return CollectionUtils.findAll(allFields, new Predicate<Field>() {
+            @Override
+            public boolean check(Field item) {
+                for (Class annotationClass : annotationClasses) {
+                    if(item.getAnnotation(annotationClass) != null){
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Strings {
-    public static int length(List<CharSequence> sequences){
+    public static <T extends CharSequence> int length(List<T> sequences){
         int size = 0;
         for(CharSequence charSequence : sequences){
             size += charSequence.length();
@@ -31,7 +31,7 @@ public class Strings {
         return length(Arrays.asList(sequences));
     }
 
-    public static StringBuilder join(CharSequence separator, List<CharSequence> parts){
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts){
         int size = length(parts) + separator.length() * parts.size() - 1;
         StringBuilder result = new StringBuilder(size);
         int index = 0;
@@ -162,5 +162,9 @@ public class Strings {
         }
 
         return true;
+    }
+
+    public static String quote(String string, String quote) {
+        return quote + string + quote;
     }
 }
