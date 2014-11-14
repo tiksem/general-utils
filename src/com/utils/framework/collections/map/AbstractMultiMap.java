@@ -140,4 +140,9 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     public Iterator<MultiMapEntry<K, V>> iterator() {
         return new MapIterator<K, V>();
     }
+
+    @Override
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
 }

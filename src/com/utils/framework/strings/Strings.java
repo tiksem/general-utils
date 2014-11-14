@@ -32,13 +32,18 @@ public class Strings {
     }
 
     public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts){
-        int size = length(parts) + separator.length() * parts.size() - 1;
+        int partsSize = parts.size();
+        if(partsSize == 0){
+            return new StringBuilder(0);
+        }
+
+        int size = length(parts) + separator.length() * partsSize - 1;
         StringBuilder result = new StringBuilder(size);
         int index = 0;
         for(CharSequence part : parts){
             result.append(part);
             index++;
-            if(index != parts.size()){
+            if(index != partsSize){
                 result.append(separator);
             }
         }

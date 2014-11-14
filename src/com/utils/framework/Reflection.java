@@ -3,10 +3,7 @@ package com.utils.framework;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.net.URL;
 import java.util.*;
 
@@ -35,6 +32,23 @@ public final class Reflection {
         return getAllFieldsOfClass(objectClass);
     }
 
+    public static List<Method> getAllMethodsOfClass(Class aClass){
+        ArrayList<Method> methods = new ArrayList<Method>();
+
+        while(aClass != Object.class){
+            List<Method> methodList = Arrays.asList(aClass.getDeclaredMethods());
+            methods.addAll(methodList);
+            aClass = aClass.getSuperclass();
+        }
+
+        return methods;
+    }
+
+    public static List<Method> getAllMethods(Object object){
+        Class objectClass = object.getClass();
+        return getAllMethodsOfClass(objectClass);
+    }
+
     public static Object getValueOfField(Object object, Field field){
         try {
             field.setAccessible(true);
@@ -48,6 +62,17 @@ public final class Reflection {
         field.setAccessible(true);
         try {
             field.set(object, value);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void setValueOfFieldIfNull(Object object, Field field, Object value){
+        field.setAccessible(true);
+        try {
+            if (field.get(object) == null) {
+                field.set(object, value);
+            }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -159,7 +184,8 @@ public final class Reflection {
         throw new RuntimeException("no appropriate constructor available");
     }
 
-    public static List<Field> getFieldsWithAnnotations(Class aClass, final Class... annotationClasses) {
+    public static List<Field> getFieldsWithAnnotations(Class aClass,
+                                                       final Iterable<? extends Class> annotationClasses) {
         List<Field> allFields = getAllFieldsOfClass(aClass);
         return CollectionUtils.findAll(allFields, new Predicate<Field>() {
             @Override
@@ -171,6 +197,29 @@ public final class Reflection {
                 }
 
                 return false;
+            }
+        });
+    }
+
+    public static List<Field> getFieldsWithAnnotations(Class aClass,
+                                                       final Class... annotationClasses) {
+        return getFieldsWithAnnotations(aClass, Arrays.asList(annotationClasses));
+    }
+
+    public static List<Field> getFieldsWithAndWithoutAnnotations(Class aClass,
+                                                                 List<? extends Class> with,
+                                                                 List<? extends Class> without) {
+        List<Field> withList = getFieldsWithAnnotations(aClass, with);
+        final List<Field> withoutList = getFieldsWithAnnotations(aClass, without);
+        withList.removeAll(withoutList);
+        return withList;
+    }
+
+    public static Field getFieldWithAnnotation(Class aClass, final Class annotation) {
+        return CollectionUtils.find(getAllFieldsOfClass(aClass), new Predicate<Field>() {
+            @Override
+            public boolean check(Field item) {
+                return item.getAnnotation(annotation) != null;
             }
         });
     }
@@ -252,5 +301,14 @@ public final class Reflection {
         }
 
         return result;
+    }
+
+    public static boolean hasField(Class aClass, final String fieldName) {
+        return CollectionUtils.find(getAllFieldsOfClass(aClass), new Predicate<Field>() {
+            @Override
+            public boolean check(Field item) {
+                return item.getName().equals(fieldName);
+            }
+        }) != null;
     }
 }

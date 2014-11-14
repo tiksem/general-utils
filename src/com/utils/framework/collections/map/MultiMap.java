@@ -22,4 +22,5 @@ public interface MultiMap<K, V> {
     Collection<V> getAllValues();
 
     Iterator<MultiMapEntry<K, V>> iterator();
+    boolean isEmpty();
 }
