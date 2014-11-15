@@ -67,15 +67,18 @@ public final class Reflection {
         }
     }
 
-    public static void setValueOfFieldIfNull(Object object, Field field, Object value){
+    public static boolean setValueOfFieldIfNull(Object object, Field field, Object value){
         field.setAccessible(true);
         try {
             if (field.get(object) == null) {
                 field.set(object, value);
+                return true;
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+
+        return false;
     }
 
     public static Iterable<Object> getObjectProperties(final Object object){
