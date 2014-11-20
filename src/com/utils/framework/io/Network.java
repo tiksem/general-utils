@@ -64,8 +64,8 @@ public final class Network {
             URL urlObject = new URL(url);
             URLConnection connection = urlObject.openConnection();
 
-            connection.setReadTimeout(readTimeout);
-            connection.setConnectTimeout(connectionTimeout);
+//            connection.setReadTimeout(readTimeout);
+//            connection.setConnectTimeout(connectionTimeout);
 
             inputStream = connection.getInputStream();
             InputStreamReader responseReader = new InputStreamReader(inputStream);
