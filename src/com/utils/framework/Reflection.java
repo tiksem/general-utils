@@ -1,5 +1,7 @@
 package com.utils.framework;
 
+import com.utils.framework.strings.Strings;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -313,5 +315,37 @@ public final class Reflection {
                 return item.getName().equals(fieldName);
             }
         }) != null;
+    }
+
+    public static Object getFieldValueUsingGetter(Object object, Field field) {
+        Class aClass = object.getClass();
+        String getterName = "get" + Strings.capitalize(field.getName());
+        try {
+            Method getter = aClass.getDeclaredMethod(getterName);
+            getter.setAccessible(true);
+            return getter.invoke(object);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void setFieldValueUsingSetter(Object object, Field field, Object value) {
+        Class aClass = object.getClass();
+        String setterName = "set" + Strings.capitalize(field.getName());
+        try {
+            Method setter = aClass.getDeclaredMethod(setterName, field.getType());
+            setter.setAccessible(true);
+            setter.invoke(object, value);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
