@@ -70,14 +70,9 @@ public final class Reflection {
     }
 
     public static boolean setValueOfFieldIfNull(Object object, Field field, Object value){
-        field.setAccessible(true);
-        try {
-            if (field.get(object) == null) {
-                field.set(object, value);
-                return true;
-            }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (getFieldValueUsingGetter(object, field) == null) {
+            setFieldValueUsingSetter(object, field, value);
+            return true;
         }
 
         return false;
