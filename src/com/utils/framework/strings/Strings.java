@@ -69,7 +69,7 @@ public class Strings {
         return joinObjects(separator, Arrays.asList(parts));
     }
 
-    public static StringBuilder join(CharSequence separator, CharSequence[] parts){
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, T[] parts){
         return join(separator, Arrays.asList(parts));
     }
 
