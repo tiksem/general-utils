@@ -176,4 +176,36 @@ public class Strings {
     public static boolean isEmpty(String value) {
         return value == null || value.isEmpty();
     }
+
+    public static String repeat(char ch, int count) {
+        if(count < 0){
+            throw new IllegalArgumentException();
+        }
+
+        if(count == 0){
+            return "";
+        }
+
+        char[] array = new char[count];
+        for (int i = 0; i < count; i++) {
+            array[i] = ch;
+        }
+
+        return new String(array);
+    }
+
+    public static List<String> splitInStringsWithLength(String string, int length) {
+        List<String> result = new ArrayList<String>();
+        int stringLength = string.length();
+        for(int i = 0; i < stringLength; i += length){
+            int end = i + length;
+            if(stringLength - i < length){
+                end = stringLength;
+            }
+
+            result.add(string.substring(i, end));
+        }
+
+        return result;
+    }
 }
