@@ -312,6 +312,19 @@ public final class Reflection {
         }) != null;
     }
 
+    public static Field getFieldByNameOrThrow(Object object, String fieldName) {
+        try {
+            return object.getClass().getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object getFieldValueUsingGetter(Object object, String fieldName) {
+        Field field = getFieldByNameOrThrow(object, fieldName);
+        return getFieldValueUsingGetter(object, field);
+    }
+
     public static Object getFieldValueUsingGetter(Object object, Field field) {
         Class aClass = object.getClass();
         String getterName = "get" + Strings.capitalize(field.getName());
