@@ -31,23 +31,27 @@ public class Strings {
         return length(Arrays.asList(sequences));
     }
 
-    public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts){
+    public static <T extends CharSequence> void join(CharSequence separator, List<T> parts,
+                                                              StringBuilder out){
         int partsSize = parts.size();
         if(partsSize == 0){
-            return new StringBuilder(0);
+            return;
         }
 
         int size = length(parts) + separator.length() * partsSize - 1;
-        StringBuilder result = new StringBuilder(size);
         int index = 0;
         for(CharSequence part : parts){
-            result.append(part);
+            out.append(part);
             index++;
             if(index != partsSize){
-                result.append(separator);
+                out.append(separator);
             }
         }
+    }
 
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts){
+        StringBuilder result = new StringBuilder();
+        join(separator, parts, result);
         return result;
     }
 
