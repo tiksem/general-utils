@@ -40,6 +40,7 @@ public final class RandomUserGenerator {
                     response.largeAvatar = picture.getString("large");
                     response.smallAvatar = picture.getString("thumbnail");
                     response.mediumAvatar = picture.getString("medium");
+                    response.city = user.getJSONObject("location").getString("city");
 
                     return response;
                 }

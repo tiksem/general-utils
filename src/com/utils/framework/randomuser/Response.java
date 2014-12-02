@@ -12,4 +12,5 @@ public class Response {
     public String smallAvatar;
     public String mediumAvatar;
     public String largeAvatar;
+    public String city;
 }
