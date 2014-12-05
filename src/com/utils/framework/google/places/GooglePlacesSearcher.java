@@ -52,7 +52,7 @@ public class GooglePlacesSearcher {
 
         City city = new City();
 
-        String response = Network.executeGetRequest(SEARCH_BY_ID_URL, args);
+        String response = Network.getUtf8StringFromUrl(SEARCH_BY_ID_URL, args);
         try {
             ExtendedJSONObject jsonObject = new ExtendedJSONObject(response);
             JSONObject result = jsonObject.getJsonObjectFromPath("result");
@@ -83,7 +83,7 @@ public class GooglePlacesSearcher {
         Map<String, Object> args = getArgs();
         args.put("input", query);
         args.put("types", "(cities)");
-        String response = Network.executeGetRequest(AUTO_COMPLETE_URL, args);
+        String response = Network.getUtf8StringFromUrl(AUTO_COMPLETE_URL, args);
         try {
             ExtendedJSONObject jsonObject = new ExtendedJSONObject(response);
             return jsonObject.parseJsonArrayFromPath(new JsonArrayElementParser<AutoCompleteResult>() {

@@ -58,6 +58,11 @@ public final class Network {
         return executeRequestGET(url);
     }
 
+    public static String getUtf8StringFromUrl(String url, Map<String, Object> params) throws IOException {
+        url = getUrl(url, params);
+        return new String(getBytesFromUrl(url), "utf-8");
+    }
+
     public static String executeRequestGET(String url) throws IOException {
         InputStream inputStream = null;
         try {
