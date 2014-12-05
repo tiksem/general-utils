@@ -193,4 +193,14 @@ public final class IOUtilities {
 
         return true;
     }
+
+    public static String readStringFromUrl(String filePath) throws IOException {
+        return toString(getInputStreamFromUrl(filePath));
+    }
+
+    public static String readSourceFile(String path) throws IOException {
+        InputStream inputStream = IOUtilities.class.getClassLoader().
+                getResourceAsStream(path);
+        return toString(readerFromInputStream(inputStream));
+    }
 }
