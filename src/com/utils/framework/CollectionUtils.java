@@ -370,4 +370,17 @@ public class CollectionUtils {
 
         return false;
     }
+
+    public interface Transformer<From, To> {
+        To get(From from);
+    }
+
+    public static <From, To> List<To> transform(Iterable<From> from, Transformer<From, To> transformer) {
+        List<To> result = new ArrayList<To>();
+        for(From object : from){
+            result.add(transformer.get(object));
+        }
+
+        return result;
+    }
 }
