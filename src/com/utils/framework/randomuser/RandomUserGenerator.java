@@ -41,6 +41,7 @@ public final class RandomUserGenerator {
                     response.smallAvatar = picture.getString("thumbnail");
                     response.mediumAvatar = picture.getString("medium");
                     response.city = user.getJSONObject("location").getString("city");
+                    response.gender = Gender.valueOf(user.getString("gender"));
 
                     return response;
                 }

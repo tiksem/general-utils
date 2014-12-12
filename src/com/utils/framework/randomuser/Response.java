@@ -13,4 +13,5 @@ public class Response {
     public String mediumAvatar;
     public String largeAvatar;
     public String city;
+    public Gender gender;
 }
