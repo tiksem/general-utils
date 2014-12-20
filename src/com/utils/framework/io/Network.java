@@ -1,5 +1,10 @@
 package com.utils.framework.io;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -56,6 +61,16 @@ public final class Network {
     public static String executeGetRequest(String url, Map<String, Object> params) throws IOException{
         url = getUrl(url, params);
         return executeRequestGET(url);
+    }
+
+    public static String executeGetRequest(HttpClient httpClient, String url, Map<String, Object> params)
+            throws IOException {
+        url = getUrl(url, params);
+        HttpGet httpGet = new HttpGet(url);
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        HttpEntity httpEntity = httpResponse.getEntity();
+        InputStream inputStream = httpEntity.getContent();
+        return IOUtilities.toString(inputStream);
     }
 
     public static String getUtf8StringFromUrl(String url, Map<String, Object> params) throws IOException {

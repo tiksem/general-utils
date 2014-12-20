@@ -91,7 +91,11 @@ public abstract class NavigationList<T> extends AbstractList<T>{
             }
         }
         else {
-            return elements.get(location);
+            if (location < elements.size()) {
+                return elements.get(location);
+            } else {
+                return null;
+            }
         }
 
         return null;
@@ -232,45 +236,5 @@ public abstract class NavigationList<T> extends AbstractList<T>{
         if(list instanceof NavigationList){
             ((NavigationList)list).resumePageLoading();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-
-        if(getClass() != o.getClass()){
-            if(allDataLoaded){
-                return elements.equals(o);
-            }
-
-            return false;
-        }
-
-        if (!super.equals(o)) return false;
-
-        NavigationList that = (NavigationList) o;
-
-        if (allDataLoaded != that.allDataLoaded) return false;
-
-        if(allDataLoaded){
-            return that.elements.equals(elements);
-        }
-
-        if (elementsOffset != that.elementsOffset) return false;
-        if (maxElementsCount != that.maxElementsCount) return false;
-        if (elements != null ? !elements.equals(that.elements) : that.elements != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (allDataLoaded ? 1 : 0);
-        result = 31 * result + elementsOffset;
-        result = 31 * result + maxElementsCount;
-        result = 31 * result + (elements != null ? elements.hashCode() : 0);
-        return result;
     }
 }

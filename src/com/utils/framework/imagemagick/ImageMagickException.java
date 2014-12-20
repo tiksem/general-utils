@@ -18,8 +18,4 @@ public class ImageMagickException extends RuntimeException {
     public ImageMagickException(Throwable cause) {
         super(cause);
     }
-
-    public ImageMagickException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
