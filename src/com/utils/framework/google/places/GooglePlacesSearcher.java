@@ -89,6 +89,10 @@ public class GooglePlacesSearcher {
             return jsonObject.parseJsonArrayFromPath(new JsonArrayElementParser<AutoCompleteResult>() {
                 @Override
                 public AutoCompleteResult parse(JSONObject jsonObject) throws JSONException {
+                    if(!JsonCollections.asList(jsonObject.getJSONArray("types")).contains("locality")){
+                        return null;
+                    }
+
                     AutoCompleteResult result = new AutoCompleteResult();
                     result.placeId = jsonObject.getString("place_id");
                     result.value = jsonObject.getString("description");
