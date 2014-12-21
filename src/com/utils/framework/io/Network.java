@@ -36,24 +36,26 @@ public final class Network {
     }
 
     public static String getUrl(String url, Map<String, Object> params) throws IOException {
+        if(params == null || params.isEmpty()){
+            return url;
+        }
+
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(url);
 
-        if(!params.isEmpty()){
-            urlBuilder.append("?");
+        urlBuilder.append("?");
 
-            for(Map.Entry<String, Object> param : params.entrySet()){
-                String key = URLEncoder.encode(param.getKey(),"UTF-8");
-                String value = URLEncoder.encode(param.getValue().toString(),"UTF-8");
+        for(Map.Entry<String, Object> param : params.entrySet()){
+            String key = URLEncoder.encode(param.getKey(),"UTF-8");
+            String value = URLEncoder.encode(param.getValue().toString(),"UTF-8");
 
-                urlBuilder.append(key);
-                urlBuilder.append("=");
-                urlBuilder.append(value);
-                urlBuilder.append("&");
-            }
-
-            urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+            urlBuilder.append(key);
+            urlBuilder.append("=");
+            urlBuilder.append(value);
+            urlBuilder.append("&");
         }
+
+        urlBuilder.deleteCharAt(urlBuilder.length() - 1);
 
         return urlBuilder.toString();
     }
@@ -63,14 +65,19 @@ public final class Network {
         return executeRequestGET(url);
     }
 
-    public static String executeGetRequest(HttpClient httpClient, String url, Map<String, Object> params)
+    public static String executeGetRequest(HttpClient httpClient, String url)
             throws IOException {
-        url = getUrl(url, params);
         HttpGet httpGet = new HttpGet(url);
         HttpResponse httpResponse = httpClient.execute(httpGet);
         HttpEntity httpEntity = httpResponse.getEntity();
         InputStream inputStream = httpEntity.getContent();
         return IOUtilities.toString(inputStream);
+    }
+
+    public static String executeGetRequest(HttpClient httpClient, String url, Map<String, Object> params)
+            throws IOException {
+        url = getUrl(url, params);
+        return executeGetRequest(httpClient, url);
     }
 
     public static String getUtf8StringFromUrl(String url, Map<String, Object> params) throws IOException {
