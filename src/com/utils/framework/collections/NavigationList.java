@@ -144,9 +144,6 @@ public abstract class NavigationList<T> extends AbstractList<T>{
                 }
 
                 allDataLoaded = isLastPage;
-                if (allDataLoaded) {
-                    onAllDataLoaded();
-                }
 
                 loadedPagesCount++;
 
@@ -174,6 +171,11 @@ public abstract class NavigationList<T> extends AbstractList<T>{
                 } else {
                     lastIndexRequestedBeforePageLoading = -1;
                 }
+
+                if (allDataLoaded) {
+                    onAllDataLoaded();
+                }
+
             }
         });
     }

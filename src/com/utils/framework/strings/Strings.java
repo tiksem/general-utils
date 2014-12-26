@@ -22,7 +22,9 @@ public class Strings {
     public static <T extends CharSequence> int length(List<T> sequences){
         int size = 0;
         for(CharSequence charSequence : sequences){
-            size += charSequence.length();
+            if (charSequence != null) {
+                size += charSequence.length();
+            }
         }
         return size;
     }

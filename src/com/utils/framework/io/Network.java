@@ -1,9 +1,14 @@
 package com.utils.framework.io;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.*;
 import java.net.URL;
@@ -65,13 +70,17 @@ public final class Network {
         return executeRequestGET(url);
     }
 
-    public static String executeGetRequest(HttpClient httpClient, String url)
-            throws IOException {
-        HttpGet httpGet = new HttpGet(url);
-        HttpResponse httpResponse = httpClient.execute(httpGet);
+    public static String executeRequest(HttpClient httpClient, HttpUriRequest request) throws IOException {
+        HttpResponse httpResponse = httpClient.execute(request);
         HttpEntity httpEntity = httpResponse.getEntity();
         InputStream inputStream = httpEntity.getContent();
         return IOUtilities.toString(inputStream);
+    }
+
+    public static String executeGetRequest(HttpClient httpClient, String url)
+            throws IOException {
+        HttpGet httpGet = new HttpGet(url);
+        return executeRequest(httpClient, httpGet);
     }
 
     public static String executeGetRequest(HttpClient httpClient, String url, Map<String, Object> params)
