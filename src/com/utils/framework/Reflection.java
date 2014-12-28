@@ -1,5 +1,6 @@
 package com.utils.framework;
 
+import com.utils.framework.collections.SetWithPredicates;
 import com.utils.framework.strings.Strings;
 
 import java.io.File;
@@ -113,12 +114,17 @@ public final class Reflection {
         Object transform(String paramName, Object value);
     }
 
-    public static Map<String, Object> objectToPropertyMap(Object object, ParamTransformer paramTransformer) {
+    public static Map<String, Object> fieldsToPropertyMap(Object object, List<Field> fields) {
+        return fieldsToPropertyMap(object, fields, null);
+    }
+
+    public static Map<String, Object> fieldsToPropertyMap(Object object, List<Field> fields,
+                                                          ParamTransformer paramTransformer) {
         Map<String, Object> result = new HashMap<String, Object>();
-        Class objectClass = object.getClass();
-        Field[] fields = objectClass.getFields();
+
         try {
             for (Field field : fields) {
+                field.setAccessible(true);
                 Object value = field.get(object);
                 String key = field.getName();
 
@@ -137,6 +143,11 @@ public final class Reflection {
         }
 
         return result;
+    }
+
+    public static Map<String, Object> objectToPropertyMap(Object object, ParamTransformer paramTransformer) {
+        List<Field> fields = getAllFields(object);
+        return fieldsToPropertyMap(object, fields, paramTransformer);
     }
 
     public static Map<String, Object> objectToPropertyMap(Object object) {
@@ -167,7 +178,7 @@ public final class Reflection {
         return result;
     }
 
-    public static <T> T createObjectOfClass(Class<T> type, Object... params) throws Throwable {
+    public static <T> T createObjectOfClass(Class<T> type, Object... params) {
         Constructor[] constructors = type.getConstructors();
         for (Constructor constructor : constructors) {
             try {
@@ -178,7 +189,7 @@ public final class Reflection {
             } catch (IllegalAccessException e) {
 
             } catch (InvocationTargetException e) {
-                throw e.getTargetException();
+                throw new RuntimeException(e.getTargetException());
             }
         }
         throw new RuntimeException("no appropriate constructor available");
@@ -215,8 +226,21 @@ public final class Reflection {
         return withList;
     }
 
+    public static <T extends Annotation> T getAnnotationOrThrow(Field field, Class<T> aClass) {
+        T annotation = field.getAnnotation(aClass);
+        if(annotation == null){
+            throw new AnnotationNotFoundException(aClass, field.getName());
+        }
+
+        return annotation;
+    }
+
     public static Field getFieldWithAnnotation(Class aClass, final Class annotation) {
-        return CollectionUtils.find(getAllFieldsOfClass(aClass), new Predicate<Field>() {
+        return getFieldWithAnnotation(getAllFieldsOfClass(aClass), annotation);
+    }
+
+    public static Field getFieldWithAnnotation(Iterable<Field> fields, final Class annotation) {
+        return CollectionUtils.find(fields, new Predicate<Field>() {
             @Override
             public boolean check(Field item) {
                 return item.getAnnotation(annotation) != null;
@@ -303,6 +327,19 @@ public final class Reflection {
         return result;
     }
 
+    public static void setFieldsFromMap(Object object, Map<String, Object> map) {
+        setFieldsFromMap(object, getAllFields(object), map);
+    }
+
+    public static void setFieldsFromMap(Object object, List<Field> fields, Map<String, Object> map) {
+        for(Field field : fields){
+            Object value = map.get(field.getName());
+            if(value != null){
+                setFieldValueUsingSetter(object, field, value);
+            }
+        }
+    }
+
     public static boolean hasField(Class aClass, final String fieldName) {
         return CollectionUtils.find(getAllFieldsOfClass(aClass), new Predicate<Field>() {
             @Override
@@ -313,8 +350,12 @@ public final class Reflection {
     }
 
     public static Field getFieldByNameOrThrow(Object object, String fieldName) {
+        return getFieldByNameOrThrow(object.getClass(), fieldName);
+    }
+
+    public static Field getFieldByNameOrThrow(Class aClass, String fieldName) {
         try {
-            return object.getClass().getDeclaredField(fieldName);
+            return aClass.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -355,5 +396,21 @@ public final class Reflection {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static <T> Set<Class<T>> classNameSetIgnoreCase(Class<T>... classes) {
+        Equals<Class<T>> equals = new Equals<Class<T>>() {
+            @Override
+            public boolean equals(Class<T> a, Class<T> b) {
+                return a.getName().equalsIgnoreCase(b.getName());
+            }
+        };
+        HashCodeProvider<Class<T>> hashCodeProvider = new HashCodeProvider<Class<T>>() {
+            @Override
+            public int getHashCodeOf(Class<T> object) {
+                return object.getName().toLowerCase().hashCode();
+            }
+        };
+        return new SetWithPredicates<Class<T>>(equals, hashCodeProvider);
     }
 }
