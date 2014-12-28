@@ -382,6 +382,16 @@ public final class Reflection {
         }
     }
 
+    public static Object getOrCreateFieldValue(Object object, Field field, Object... constructorParams) {
+        Object value = getFieldValueUsingGetter(object, field);
+        if(value == null){
+            value = createObjectOfClass(field.getType(), constructorParams);
+            setFieldValueUsingSetter(object, field, value);
+        }
+
+        return value;
+    }
+
     public static void setFieldValueUsingSetter(Object object, Field field, Object value) {
         Class aClass = object.getClass();
         String setterName = "set" + Strings.capitalize(field.getName());
