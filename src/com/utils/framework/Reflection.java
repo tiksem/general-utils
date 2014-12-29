@@ -408,7 +408,7 @@ public final class Reflection {
         }
     }
 
-    public static <T> Set<Class<T>> classNameSetIgnoreCase(Class<T>... classes) {
+    public static <T> Set<Class<T>> classNameSetIgnoreCase() {
         Equals<Class<T>> equals = new Equals<Class<T>>() {
             @Override
             public boolean equals(Class<T> a, Class<T> b) {
@@ -422,5 +422,21 @@ public final class Reflection {
             }
         };
         return new SetWithPredicates<Class<T>>(equals, hashCodeProvider);
+    }
+
+    public static Set<Field> fieldNameSetIgnoreCase() {
+        Equals<Field> equals = new Equals<Field>() {
+            @Override
+            public boolean equals(Field a, Field b) {
+                return a.getName().equalsIgnoreCase(b.getName());
+            }
+        };
+        HashCodeProvider<Field> hashCodeProvider = new HashCodeProvider<Field>() {
+            @Override
+            public int getHashCodeOf(Field object) {
+                return object.getName().toLowerCase().hashCode();
+            }
+        };
+        return new SetWithPredicates<Field>(equals, hashCodeProvider);
     }
 }

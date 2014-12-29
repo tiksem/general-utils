@@ -214,4 +214,12 @@ public class Strings {
 
         return result;
     }
+
+    public static int findUnsignedIntegerInString(String string) {
+        try {
+            return new Integer(string.replaceAll("[^\\d]+", ""));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
 }
