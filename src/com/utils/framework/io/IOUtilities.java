@@ -195,7 +195,12 @@ public final class IOUtilities {
     }
 
     public static String readStringFromUrl(String filePath) throws IOException {
-        return toString(getInputStreamFromUrl(filePath));
+        InputStream inputStream = getInputStreamFromUrl(filePath);
+        try {
+            return toString(inputStream);
+        } finally {
+            inputStream.close();
+        }
     }
 
     public static String readSourceFile(String path) throws IOException {
