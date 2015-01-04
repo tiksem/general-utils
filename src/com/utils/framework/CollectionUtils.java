@@ -1,7 +1,10 @@
 package com.utils.framework;
 
+import com.utils.framework.collections.ObjectAddressSet;
 import com.utils.framework.collections.SetWithPredicates;
 import com.utils.framework.collections.TimSort;
+import com.utils.framework.collections.map.ListValuesMultiMap;
+import com.utils.framework.collections.map.MultiMap;
 import com.utils.framework.predicates.InstanceOfPredicate;
 
 import java.util.*;
@@ -75,7 +78,18 @@ public class CollectionUtils {
         return result;
     }
 
-    public static <T> void removeAll(Collection<T> collection, Predicate<T> predicate){
+    public static <T> void remove(Iterable<T> collection, Predicate<T> predicate){
+        Iterator<T> iterator = collection.iterator();
+        while(iterator.hasNext()){
+            T item = iterator.next();
+            if(predicate.check(item)){
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
+    public static <T> void removeAll(Iterable<T> collection, Predicate<T> predicate){
         Iterator<T> iterator = collection.iterator();
         while(iterator.hasNext()){
             T item = iterator.next();
@@ -83,6 +97,80 @@ public class CollectionUtils {
                 iterator.remove();
             }
         }
+    }
+
+    public static <T> List<T> removeNonUniqueItems(final Collection<T> collection, final Equals<T> equals) {
+        List<T> nonUnique = new ArrayList<T>();
+
+        for (final T object : collection) {
+            if(nonUnique.contains(object)){
+                continue;
+            }
+
+            List<T> list = CollectionUtils.findAll(collection, new Predicate<T>() {
+                @Override
+                public boolean check(T item) {
+                    return item != object && equals.equals(item, object);
+                }
+            });
+
+            if (!list.isEmpty()) {
+                nonUnique.addAll(list);
+                nonUnique.add(object);
+            }
+        }
+
+        collection.removeAll(nonUnique);
+
+        return nonUnique;
+    }
+
+    public static interface KeyProvider<K, V> {
+        public K getKey(V value);
+    }
+
+    public static <K, V> void multiMapFromList(List<V> list,
+                                                         KeyProvider<K, V> keyProvider, MultiMap<K, V> out) {
+        for(V object : list){
+            K key = keyProvider.getKey(object);
+            out.put(key, object);
+        }
+    }
+
+    public static <K, V> MultiMap<K, V> multiMapFromList(List<V> list, KeyProvider<K, V> keyProvider) {
+        MultiMap<K, V> multiMap = new ListValuesMultiMap<K, V>();
+        multiMapFromList(list, keyProvider, multiMap);
+        return multiMap;
+    }
+
+    public static <K, V> void mapFromList(List<V> list,
+                                               KeyProvider<K, V> keyProvider, Map<K, V> out) {
+        for(V object : list){
+            K key = keyProvider.getKey(object);
+            out.put(key, object);
+        }
+    }
+
+    public static <K, V> Map<K, V> mapFromList(List<V> list,
+                                          KeyProvider<K, V> keyProvider) {
+        Map<K, V> map = new LinkedHashMap<K, V>();
+        mapFromList(list, keyProvider, map);
+        return map;
+    }
+
+    public static <T> List<T> getRemovedItems(Iterable<T> collection, Predicate<T> predicate) {
+        List<T> result = new ArrayList<T>();
+
+        Iterator<T> iterator = collection.iterator();
+        while(iterator.hasNext()){
+            T item = iterator.next();
+            if(predicate.check(item)){
+                iterator.remove();
+                result.add(item);
+            }
+        }
+
+        return result;
     }
 
     public static <T> void removeAllWithType(Collection<T> collection, Class<? extends T> aClass){
@@ -344,6 +432,20 @@ public class CollectionUtils {
             T object = source.get(i);
             destination.add(object);
         }
+    }
+
+    public static <T> List<T> unique(List<T> list, final KeyProvider<Object, T> keyProvider) {
+        return unique(list, new Equals<T>() {
+            @Override
+            public boolean equals(T a, T b) {
+                return keyProvider.getKey(a).equals(keyProvider.getKey(b));
+            }
+        }, new HashCodeProvider<T>() {
+            @Override
+            public int getHashCodeOf(T object) {
+                return keyProvider.getKey(object).hashCode();
+            }
+        });
     }
 
     public static <T> List<T> unique(List<T> list, Equals<T> equals, HashCodeProvider<T> hashCodeProvider){

@@ -6,10 +6,7 @@ import com.utils.framework.strings.FirstLetterLowerCaseMaker;
 import com.utils.framework.strings.TransformingString;
 
 import java.lang.reflect.Field;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,17 +33,25 @@ public class Strings {
     public static <T extends CharSequence> void join(CharSequence separator, List<T> parts,
                                                               StringBuilder out){
         int partsSize = parts.size();
+
+        for (int i = partsSize - 1; i >= 0; i--, partsSize--) {
+            if(parts.get(i) != null){
+                break;
+            }
+        }
+
         if(partsSize == 0){
             return;
         }
 
-        int size = length(parts) + separator.length() * partsSize - 1;
-        int index = 0;
-        for(CharSequence part : parts){
-            out.append(part);
-            index++;
-            if(index != partsSize){
-                out.append(separator);
+        for (int i = 0; i < partsSize; i++) {
+            T part = parts.get(i);
+
+            if (part != null) {
+                out.append(part);
+                if(i < partsSize - 1){
+                    out.append(separator);
+                }
             }
         }
     }
@@ -179,8 +184,8 @@ public class Strings {
         return quote + string + quote;
     }
 
-    public static boolean isEmpty(String value) {
-        return value == null || value.isEmpty();
+    public static boolean isEmpty(CharSequence value) {
+        return value == null || value.length() <= 0;
     }
 
     public static String repeat(char ch, int count) {

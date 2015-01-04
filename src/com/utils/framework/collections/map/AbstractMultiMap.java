@@ -145,4 +145,24 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     public boolean isEmpty() {
         return map.isEmpty();
     }
+
+    @Override
+    public V getFirstValue(K key) {
+        Collection<V> values = getValues(key);
+        if(values == null || values.isEmpty()){
+            return null;
+        }
+
+        return values.iterator().next();
+    }
+
+    @Override
+    public Iterator<Map.Entry<K, Collection<V>>> mapIterator() {
+        return map.entrySet().iterator();
+    }
+
+    @Override
+    public Map<K, Collection<V>> getMap() {
+        return map;
+    }
 }

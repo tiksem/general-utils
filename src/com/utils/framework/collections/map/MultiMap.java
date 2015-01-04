@@ -2,6 +2,8 @@ package com.utils.framework.collections.map;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: Tikhonenko.S
@@ -19,8 +21,12 @@ public interface MultiMap<K, V> {
 
     Collection<K> getKeys();
     Collection<V> getValues(K key);
+    V getFirstValue(K key);
     Collection<V> getAllValues();
 
     Iterator<MultiMapEntry<K, V>> iterator();
+    Iterator<Map.Entry<K, Collection<V>>> mapIterator();
+    Map<K, Collection<V>> getMap();
+
     boolean isEmpty();
 }

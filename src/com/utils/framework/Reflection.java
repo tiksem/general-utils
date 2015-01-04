@@ -1,6 +1,8 @@
 package com.utils.framework;
 
 import com.utils.framework.collections.SetWithPredicates;
+import com.utils.framework.collections.map.ListValuesMultiMap;
+import com.utils.framework.collections.map.MultiMap;
 import com.utils.framework.strings.Strings;
 
 import java.io.File;
@@ -57,7 +59,7 @@ public final class Reflection {
             field.setAccessible(true);
             return field.get(object);
         } catch (IllegalAccessException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -111,7 +113,7 @@ public final class Reflection {
     }
 
     public static interface ParamTransformer{
-        Object transform(String paramName, Object value);
+        Object transform(Field field, Object value);
     }
 
     public static Map<String, Object> fieldsToPropertyMap(Object object, List<Field> fields) {
@@ -129,7 +131,7 @@ public final class Reflection {
                 String key = field.getName();
 
                 if(paramTransformer != null){
-                    value = paramTransformer.transform(key, value);
+                    value = paramTransformer.transform(field, value);
                 }
 
                 if (value == null) {
@@ -178,12 +180,34 @@ public final class Reflection {
         return result;
     }
 
+    public static <T> List<Class<T>> getClasses(List<T> objects) {
+        return CollectionUtils.transform(objects, new CollectionUtils.Transformer<T, Class<T>>() {
+            @Override
+            public Class<T> get(T t) {
+                return (Class<T>) t.getClass();
+            }
+        });
+    }
+
+    public static <T> List<Class<T>> getClasses(T... objects) {
+        return getClasses(Arrays.asList(objects));
+    }
+
     public static <T> T createObjectOfClass(Class<T> type, Object... params) {
+        if(params.length == 0){
+            try {
+                return type.newInstance();
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         Constructor[] constructors = type.getConstructors();
         for (Constructor constructor : constructors) {
             try {
-                T object = (T) constructor.newInstance(params);
-                return object;
+                return (T) constructor.newInstance(params);
             } catch (InstantiationException e) {
 
             } catch (IllegalAccessException e) {
@@ -210,6 +234,17 @@ public final class Reflection {
                 return false;
             }
         });
+    }
+
+    public static MultiMap<Class, Field> getFieldsWithAnnotationsMap(Class aClass,
+                                                                     final Class... annotationClasses) {
+        MultiMap<Class, Field> result = new ListValuesMultiMap<Class, Field>();
+        for(Class annotationClass : annotationClasses){
+            List<Field> fields = getFieldsWithAnnotations(aClass, annotationClasses);
+            result.putAll(annotationClass, fields);
+        }
+
+        return result;
     }
 
     public static List<Field> getFieldsWithAnnotations(Class aClass,
@@ -349,6 +384,16 @@ public final class Reflection {
         }) != null;
     }
 
+    public static boolean hasOneOrMoreAnnotations(Field field, Class... annotations) {
+        for (Class annotation : annotations) {
+            if(field.getAnnotation(annotation) != null){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static Field getFieldByNameOrThrow(Object object, String fieldName) {
         return getFieldByNameOrThrow(object.getClass(), fieldName);
     }
@@ -364,6 +409,10 @@ public final class Reflection {
     public static Object getFieldValueUsingGetter(Object object, String fieldName) {
         Field field = getFieldByNameOrThrow(object, fieldName);
         return getFieldValueUsingGetter(object, field);
+    }
+
+    public static boolean isNull(Object object, Field field) {
+        return getValueOfField(object, field) == null;
     }
 
     public static Object getFieldValueUsingGetter(Object object, Field field) {
@@ -438,5 +487,61 @@ public final class Reflection {
             }
         };
         return new SetWithPredicates<Field>(equals, hashCodeProvider);
+    }
+
+    public static List<Method> getMethodsWithAnnotation(Class aClass, final Class annotationClass) {
+        return CollectionUtils.findAll(
+                getAllMethodsOfClass(aClass), new Predicate<Method>() {
+                    @Override
+                    public boolean check(Method item) {
+                        return item.getAnnotation(annotationClass) != null;
+                    }
+                });
+    }
+
+    public static Object executeMethod(Object thisObject, Method method, Object... params) {
+        try {
+            method.setAccessible(true);
+            return method.invoke(thisObject, params);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void executeMethodsWithAnnotation(Object thisObject, Class annotationClass,
+                                                      Object... params) {
+        List<Method> methods = getMethodsWithAnnotation(thisObject.getClass(), annotationClass);
+        for(Method method : methods){
+            executeMethod(thisObject, method, params);
+        }
+    }
+
+    public static void setValuesOfFieldsWithAnnotation(Object object, Object value,
+                                                       Class annotationClass,
+                                                       Predicate<Object> condition) {
+        List<Field> fields = getFieldsWithAnnotations(object.getClass(), annotationClass);
+        for(Field field : fields){
+            Object fieldCurrentValue = getFieldValueUsingGetter(object, field);
+            if(condition == null || condition.check(fieldCurrentValue)) {
+                setFieldValueUsingSetter(object, field, value);
+            }
+        }
+    }
+
+    public static void setValuesOfFieldsWithAnnotation(Object object, Object value,
+                                                       Class annotationClass) {
+        setValuesOfFieldsWithAnnotation(object, value, annotationClass, null);
+    }
+
+    public static void setValuesOfFieldsWithAnnotationIfNull(Object object, Object value,
+                                                       Class annotationClass) {
+        setValuesOfFieldsWithAnnotation(object, value, annotationClass, new Predicate<Object>() {
+            @Override
+            public boolean check(Object item) {
+                return item == null;
+            }
+        });
     }
 }

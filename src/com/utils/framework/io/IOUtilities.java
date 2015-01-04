@@ -203,4 +203,45 @@ public final class IOUtilities {
                 getResourceAsStream(path);
         return toString(readerFromInputStream(inputStream));
     }
+
+    public static <T extends Serializable> T deserialize(InputStream inputStream) throws IOException {
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        try {
+            return (T) objectInputStream.readObject();
+        } catch (ClassNotFoundException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public static InputStream toInputStream(Object object) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream outputStream = new ObjectOutputStream(byteArrayOutputStream);
+            outputStream.writeObject(object);
+
+            outputStream.flush();
+            outputStream.close();
+
+            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean deleteDirectory(File directory) {
+        if(directory.exists()){
+            File[] files = directory.listFiles();
+            if(null != files){
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteDirectory(file);
+                    } else {
+                        file.delete();
+                    }
+                }
+
+            }
+        }
+        return(directory.delete());
+    }
 }
