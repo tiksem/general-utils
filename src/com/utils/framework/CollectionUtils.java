@@ -328,6 +328,16 @@ public class CollectionUtils {
         return list.set(index, integer + 1);
     }
 
+    public static <T> Integer changeValue(Map<T, Integer> map, T key, int value) {
+        Integer integer = map.get(key);
+        if(integer != null){
+            integer+=value;
+            map.put(key, integer);
+        }
+
+        return integer;
+    }
+
     public static <T extends Collection> int getGeneralSize(Collection<T> collections){
         int result = 0;
         for(T collection : collections){
