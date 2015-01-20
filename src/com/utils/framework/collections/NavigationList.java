@@ -48,15 +48,29 @@ public abstract class NavigationList<T> extends AbstractList<T>{
         return elements.size() - elementsOffset;
     }
 
+    protected boolean shouldAddElement(T element) {
+        return true;
+    }
+
     protected NavigationList(List<T> initialElements, int maxElementsCount) {
-        elements = new ArrayList<T>();
+        elements = new ArrayList<T>() {
+            @Override
+            public boolean add(T object) {
+                if (shouldAddElement(object)) {
+                    return super.add(object);
+                }
+
+                return false;
+            }
+        };
+
         elements.addAll(initialElements);
         elementsOffset = initialElements.size();
         this.maxElementsCount = maxElementsCount;
     }
 
-    private NavigationList(){
-
+    protected NavigationList() {
+        this(Integer.MAX_VALUE);
     }
 
     protected NavigationList(int maxElementsCount) {
@@ -193,7 +207,7 @@ public abstract class NavigationList<T> extends AbstractList<T>{
             return elements.size();
         }
         else {
-            return maxElementsCount;
+            return elements.size() + 1;
         }
     }
 
