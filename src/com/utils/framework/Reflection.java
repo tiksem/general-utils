@@ -37,6 +37,21 @@ public final class Reflection {
         return getAllFieldsOfClass(objectClass);
     }
 
+    public static List<Field> getAllFieldsExcluding(Object object, final Collection<String> names){
+        List<Field> fields = getAllFields(object);
+        CollectionUtils.removeAll(fields, new Predicate<Field>() {
+            @Override
+            public boolean check(Field item) {
+                return names.contains(item.getName());
+            }
+        });
+        return fields;
+    }
+
+    public static List<Field> getAllFieldsExcluding(Object object, final String... names){
+        return getAllFieldsExcluding(object, Arrays.asList(names));
+    }
+
     public static List<Method> getAllMethodsOfClass(Class aClass){
         ArrayList<Method> methods = new ArrayList<Method>();
 
