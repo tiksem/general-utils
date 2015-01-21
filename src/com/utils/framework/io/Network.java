@@ -70,17 +70,27 @@ public final class Network {
         return executeRequestGET(url);
     }
 
-    public static String executeRequest(HttpClient httpClient, HttpUriRequest request) throws IOException {
+    private static <T> T executeRequest(HttpClient httpClient, HttpUriRequest request,
+                                       Class<T> aClass) throws IOException {
         HttpResponse httpResponse = httpClient.execute(request);
         HttpEntity httpEntity = httpResponse.getEntity();
         InputStream inputStream = httpEntity.getContent();
-        return IOUtilities.toString(inputStream);
+        if (aClass == String.class) {
+            return (T) IOUtilities.toString(inputStream);
+        } else {
+            return (T) getBytesFromStream(inputStream);
+        }
     }
 
     public static String executeGetRequest(HttpClient httpClient, String url)
             throws IOException {
         HttpGet httpGet = new HttpGet(url);
-        return executeRequest(httpClient, httpGet);
+        return executeRequest(httpClient, httpGet, String.class);
+    }
+
+    public static byte[] executeBinaryGetRequest(HttpClient httpClient, String url) throws IOException {
+        HttpGet httpGet = new HttpGet(url);
+        return executeRequest(httpClient, httpGet, byte[].class);
     }
 
     public static String executeGetRequest(HttpClient httpClient, String url, Map<String, Object> params)
