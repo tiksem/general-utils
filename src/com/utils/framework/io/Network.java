@@ -70,7 +70,7 @@ public final class Network {
         return executeRequestGET(url);
     }
 
-    private static <T> T executeRequest(HttpClient httpClient, HttpUriRequest request,
+    public static <T> T executeRequest(HttpClient httpClient, HttpUriRequest request,
                                        Class<T> aClass) throws IOException {
         HttpResponse httpResponse = httpClient.execute(request);
         HttpEntity httpEntity = httpResponse.getEntity();

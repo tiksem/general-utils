@@ -199,6 +199,21 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate, int maxCount){
+        List<T> result = new ArrayList<T>(maxCount);
+        for(T object : iterable){
+            if(predicate.check(object)){
+                result.add(object);
+            }
+
+            if(result.size() >= maxCount){
+                break;
+            }
+        }
+
+        return result;
+    }
+
     public static <T> List<T> findAll(Iterable<T> iterable, Class<? extends T> aClass){
         Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
         return findAll(iterable, predicate);
@@ -207,6 +222,14 @@ public class CollectionUtils {
     public static <T> T getLast(List<T> list) {
         int index = list.size() - 1;
         return list.get(index);
+    }
+
+    public static <T> T getFirstOrNull(List<T> list) {
+        if(list.isEmpty()){
+            return null;
+        }
+
+        return list.get(0);
     }
 
     public static <T> Iterator<T> predicateIterator(final Iterator<T> iterator, final Predicate<T> predicate) {
@@ -358,7 +381,7 @@ public class CollectionUtils {
         int size = getGeneralSize(lists);
         List<T> result = new ArrayList<T>(size);
         List<List<T>> listsClone = new ArrayList<List<T>>(lists);
-        List<Integer> indexInLists = new ArrayList(Collections.nCopies(listsClone.size(),0));
+        List<Integer> indexInLists = new ArrayList<Integer>(Collections.nCopies(listsClone.size(),0));
 
         for(int i = 0; i < size;){
             int listIndex = i % listsClone.size();
@@ -491,6 +514,28 @@ public class CollectionUtils {
         List<To> result = new ArrayList<To>();
         for(From object : from){
             result.add(transformer.get(object));
+        }
+
+        return result;
+    }
+
+    public static <T> List<T> toList(Iterable<T> iterable, int maxCount) {
+        List<T> result = new ArrayList<T>(maxCount);
+        for(T object : iterable){
+            if(result.size() >= maxCount){
+                break;
+            }
+
+            result.add(object);
+        }
+
+        return result;
+    }
+
+    public static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> result = new ArrayList<T>();
+        for(T object : iterable){
+            result.add(object);
         }
 
         return result;

@@ -264,4 +264,8 @@ public final class IOUtilities {
 
         return directory.delete();
     }
+
+    public static String getUtf8StringFromStream(InputStream inputStream) throws IOException {
+        return new String(Network.getBytesFromStream(inputStream), "utf-8");
+    }
 }

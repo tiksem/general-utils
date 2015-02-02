@@ -9,7 +9,7 @@ import java.util.*;
  * Time: 18:29
  * To change this template use File | Settings | File Templates.
  */
-public abstract class NavigationList<T> extends AbstractList<T>{
+public abstract class NavigationList<T> extends AbstractList<T> implements NavigationEntity<T>{
     private boolean allDataLoaded = false;
     private int loadedPagesCount = 0;
     private int distanceToLoadNextPage;
@@ -19,10 +19,6 @@ public abstract class NavigationList<T> extends AbstractList<T>{
     private boolean pageLoadingExecuted = false;
     private boolean pageLoadingPaused = false;
     private int lastIndexRequestedBeforePageLoading = -1;
-
-    public static interface OnPageLoadingFinished<T>{
-        void onLoadingFinished(List<T> result, boolean isLastPage);
-    }
 
     public static interface OnNextPageLoadingFinished{
         void onLoadingFinished();
@@ -44,6 +40,7 @@ public abstract class NavigationList<T> extends AbstractList<T>{
         this.onNextPageLoadingFinished = onNextPageLoadingFinished;
     }
 
+    @Override
     public int getLoadedElementsCount(){
         return elements.size() - elementsOffset;
     }
@@ -150,7 +147,7 @@ public abstract class NavigationList<T> extends AbstractList<T>{
         pageLoadingExecuted = true;
         final int pageToLoad = loadedPagesCount;
 
-        getElementsOfPage(pageToLoad, new OnPageLoadingFinished<T>() {
+        getElementsOfPage(pageToLoad, new OnLoadingFinished<T>() {
             @Override
             public void onLoadingFinished(List<T> pageElements, boolean isLastPage) {
                 if (isAllDataLoaded()) {
@@ -194,9 +191,6 @@ public abstract class NavigationList<T> extends AbstractList<T>{
         });
     }
 
-    protected abstract void getElementsOfPage(int pageNumber,
-                                              OnPageLoadingFinished<T> onPageLoadingFinished);
-
     protected void onAllDataLoaded(){
 
     }
@@ -214,8 +208,8 @@ public abstract class NavigationList<T> extends AbstractList<T>{
     public static NavigationList emptyList(){
         NavigationList navigationList = new NavigationList(0) {
             @Override
-            protected void getElementsOfPage(int pageNumber,
-                                             OnPageLoadingFinished onPageLoadingFinished) {
+            public void getElementsOfPage(int pageNumber,
+                                             OnLoadingFinished onPageLoadingFinished) {
 
             }
         };
@@ -226,7 +220,7 @@ public abstract class NavigationList<T> extends AbstractList<T>{
     public static <T> NavigationList<T> decorate(List<T> elements){
         NavigationList<T> list = new NavigationList<T>() {
             @Override
-            protected void getElementsOfPage(int pageNumber, OnPageLoadingFinished<T> onPageLoadingFinished) {
+            public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished) {
 
             }
         };
