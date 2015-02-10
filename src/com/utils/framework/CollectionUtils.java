@@ -519,6 +519,13 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> void transformAndAdd(Iterable<From> from, Collection<To> to,
+                                             Transformer<From, To> transformer) {
+        for(From object : from){
+            to.add(transformer.get(object));
+        }
+    }
+
     public static <T> List<T> toList(Iterable<T> iterable, int maxCount) {
         List<T> result = new ArrayList<T>(maxCount);
         for(T object : iterable){
@@ -539,5 +546,21 @@ public class CollectionUtils {
         }
 
         return result;
+    }
+
+    public static <T> Iterable<T> asIterable(final Iterator<T> iterator) {
+        return new Iterable<T>(){
+            boolean called = false;
+
+            @Override
+            public Iterator<T> iterator() {
+                if(called){
+                    throw new IllegalArgumentException("wrapped iterable twice iterator call");
+                }
+                called = true;
+
+                return iterator;
+            }
+        };
     }
 }
