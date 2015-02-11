@@ -78,6 +78,27 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final String... values){
+        for(String value : values){
+            removeIgnoreCase(collection, value);
+        }
+    }
+
+    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final Iterable<String> values){
+        for(String value : values){
+            removeIgnoreCase(collection, value);
+        }
+    }
+
+    public static <T extends String> void removeIgnoreCase(Iterable<T> collection, final String value){
+        remove(collection, new Predicate<T>() {
+            @Override
+            public boolean check(T item) {
+                return item.equalsIgnoreCase(value);
+            }
+        });
+    }
+
     public static <T> void remove(Iterable<T> collection, Predicate<T> predicate){
         Iterator<T> iterator = collection.iterator();
         while(iterator.hasNext()){
