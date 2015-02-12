@@ -1,12 +1,15 @@
 package com.utils.framework.strings;
 
 import com.utils.framework.Reflection;
+import com.utils.framework.collections.iterator.AbstractIterator;
 import com.utils.framework.strings.Capitalizer;
 import com.utils.framework.strings.FirstLetterLowerCaseMaker;
 import com.utils.framework.strings.TransformingString;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -226,5 +229,15 @@ public class Strings {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+
+    public static List<String> findAll(CharSequence string, Pattern pattern) {
+        final Matcher matcher = pattern.matcher(string);
+        List<String> result = new ArrayList<String>();
+        while (matcher.find()) {
+            result.add(matcher.group());
+        }
+
+        return result;
     }
 }
