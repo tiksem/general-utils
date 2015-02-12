@@ -231,6 +231,29 @@ public class Strings {
         }
     }
 
+    public static char[] replaceCharArray(char[] string, int begin, int end, char[] replacement) {
+        if(begin < 0 || end > string.length){
+            throw new IllegalArgumentException("begin < 0 || end > string.length()");
+        }
+
+        int resultLength = string.length - end + begin + replacement.length;
+        char[] result = new char[resultLength];
+
+        System.arraycopy(string, 0, result, 0, begin);
+        System.arraycopy(replacement, 0, result, begin, replacement.length);
+        System.arraycopy(string, end, result, begin + replacement.length, string.length - end);
+
+        return result;
+    }
+
+    public static String replace(String string, int begin, int end, String replacement) {
+        return String.valueOf(replaceCharArray(string.toCharArray(), begin, end, replacement.toCharArray()));
+    }
+
+    public static String replace(String string, Matcher matcher, String replacement) {
+        return replace(string, matcher.start(), matcher.end(), replacement);
+    }
+
     public static List<String> findAll(CharSequence string, Pattern pattern) {
         final Matcher matcher = pattern.matcher(string);
         List<String> result = new ArrayList<String>();
