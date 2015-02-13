@@ -1,5 +1,7 @@
 package com.utils.framework.io;
 
+import com.utils.framework.ArrayUtils;
+import com.utils.framework.strings.Strings;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -205,5 +207,15 @@ public final class Network {
 
     public static final byte[] getBytesFromUrl(String url) throws IOException {
         return getBytesFromUrl(url, null);
+    }
+
+    public static int ip4StringToInt(String stringIP) {
+        byte[] bytes = ArrayUtils.stringsToBytes(stringIP.split("\\.", 4));
+        return ArrayUtils.byteArrayToInt(bytes);
+    }
+
+    public static String ip4IntToString(int intIP) {
+        byte[] bytes = ArrayUtils.intToByteArray(intIP);
+        return Strings.join(".", ArrayUtils.bytesToStrings(bytes)).toString();
     }
 }

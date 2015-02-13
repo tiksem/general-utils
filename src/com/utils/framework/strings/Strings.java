@@ -263,4 +263,12 @@ public class Strings {
 
         return result;
     }
+
+    public static boolean equalsIgnoreCase(String a, String b) {
+        if(a != null){
+            return a.equalsIgnoreCase(b);
+        } else {
+            return b == null;
+        }
+    }
 }

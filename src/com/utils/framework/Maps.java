@@ -1,6 +1,8 @@
 package com.utils.framework;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by CM on 1/25/2015.
@@ -10,5 +12,46 @@ public class Maps {
         HashMap<K, V> map = new HashMap<K, V>();
         map.put(key, value);
         return map;
+    }
+
+    public static <K, V> V get(Map<K, V> map, K key, V defaultValue) {
+        V value = map.get(key);
+        if(value == null){
+            value = defaultValue;
+        }
+
+        return value;
+    }
+
+    public static <K, V> V getOrPut(Map<K, V> map, K key, V valueToPutIfNotExists) {
+        V value = map.get(key);
+        if(value == null){
+            value = valueToPutIfNotExists;
+            map.put(key, value);
+        }
+
+        return value;
+    }
+
+    public static <K, V> V getOrPut(ConcurrentHashMap<K, V> map, K key, V valueToPutIfNotExists) {
+        V value = map.putIfAbsent(key, valueToPutIfNotExists);
+        if(value == null){
+            return valueToPutIfNotExists;
+        }
+
+        return value;
+    }
+
+    public static <K> int getInt(Map<K, String> map, K key, int defaultValue) {
+        String strValue = map.get(key);
+        if(strValue == null){
+            return defaultValue;
+        }
+
+        try {
+            return Integer.parseInt(strValue);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 }
