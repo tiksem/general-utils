@@ -1,5 +1,6 @@
 package com.utils.framework.strings;
 
+import com.utils.framework.ArrayUtils;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.iterator.AbstractIterator;
 import com.utils.framework.strings.Capitalizer;
@@ -19,6 +20,8 @@ import java.util.regex.Pattern;
  * To change this template use File | Settings | File Templates.
  */
 public class Strings {
+    private static final Pattern ONLY_SPACES = Pattern.compile("\\s*");
+
     public static <T extends CharSequence> int length(List<T> sequences){
         int size = 0;
         for(CharSequence charSequence : sequences){
@@ -270,5 +273,33 @@ public class Strings {
         } else {
             return b == null;
         }
+    }
+
+    public static boolean hasOnlySpaceCharacters(String string) {
+        return ONLY_SPACES.matcher(string).matches();
+    }
+
+    public static char[][] split(char[] string, char delimiter) {
+        int size = ArrayUtils.count(string, delimiter) + 1;
+        char[][] result = new char[size][];
+
+        int begin = 0;
+        int end;
+        int index = 0;
+        boolean exitLoop = false;
+
+        while (true) {
+            end = ArrayUtils.indexOf(string, delimiter, begin);
+            if(end < 0){
+                exitLoop = true;
+
+            }
+
+            if(exitLoop){
+                break;
+            }
+        }
+
+        throw new UnsupportedOperationException("Sorry, not implemented yet");
     }
 }

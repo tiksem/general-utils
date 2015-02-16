@@ -268,4 +268,14 @@ public final class IOUtilities {
     public static String getUtf8StringFromStream(InputStream inputStream) throws IOException {
         return new String(Network.getBytesFromStream(inputStream), "utf-8");
     }
+
+    public static BufferedReader getBufferedReader(InputStream inputStream, String encoding) {
+        InputStreamReader responseReader = null;
+        try {
+            responseReader = new InputStreamReader(inputStream, encoding);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return new BufferedReader(responseReader);
+    }
 }

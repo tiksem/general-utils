@@ -1,7 +1,6 @@
 package com.utils.framework;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -53,5 +52,14 @@ public class Maps {
         } catch (NumberFormatException e) {
             return defaultValue;
         }
+    }
+
+    public static <K, V> Map<K, Set<V>> toSetValuesMap(Map<K, List<V>> map) {
+        Map<K, Set<V>> result = new HashMap<K, Set<V>>();
+        for(Map.Entry<K, List<V>> entry : map.entrySet()){
+            result.put(entry.getKey(), new LinkedHashSet<V>(entry.getValue()));
+        }
+
+        return result;
     }
 }

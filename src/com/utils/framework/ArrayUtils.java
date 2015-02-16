@@ -71,4 +71,27 @@ public class ArrayUtils {
     public static byte[] intToByteArray(int integer) {
         return intToByteArray(integer, ByteOrder.BIG_ENDIAN);
     }
+
+    public static int count(char[] array, char ch) {
+        int count = 0;
+        int length = array.length;
+        for (int i = 0; i < length; i++) {
+            if(array[i] == ch){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static int indexOf(char[] array, char ch, int from) {
+        int length = array.length;
+        for (int i = from; i < length; i++) {
+            if(array[i] == ch){
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

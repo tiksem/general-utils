@@ -1,6 +1,7 @@
 package com.utils.framework.parsers.json;
 
 import com.utils.framework.CollectionUtils;
+import com.utils.framework.Maps;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,10 @@ public class JsonCollections {
                 return jsonArray.length();
             }
         };
+    }
+
+    public static Map<String, Set<String>> toStringSetMap(final JSONObject jsonObject) {
+        return Maps.toSetValuesMap(asStringListMap(jsonObject));
     }
 
     public static Map<String, List<String>> asStringListMap(final JSONObject jsonObject) {
