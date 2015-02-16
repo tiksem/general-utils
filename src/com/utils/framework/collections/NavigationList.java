@@ -19,25 +19,20 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private boolean pageLoadingExecuted = false;
     private boolean pageLoadingPaused = false;
     private int lastIndexRequestedBeforePageLoading = -1;
+    private OnAllDataLoaded onAllDataLoaded;
 
-    public static interface OnNextPageLoadingFinished{
+    public static interface OnPageLoadingFinished {
         void onLoadingFinished();
     }
 
-    private OnNextPageLoadingFinished onNextPageLoadingFinished;
+    private OnPageLoadingFinished onPageLoadingFinished;
 
-    public OnNextPageLoadingFinished getOnNextPageLoadingFinished() {
-        return onNextPageLoadingFinished;
+    public OnPageLoadingFinished getOnPageLoadingFinished() {
+        return onPageLoadingFinished;
     }
 
-    public void setOnNextPageLoadingFinished(OnNextPageLoadingFinished onNextPageLoadingFinished) {
-        if(onNextPageLoadingFinished != null && this.onNextPageLoadingFinished == null){
-            if(loadedPagesCount > 0){
-                onNextPageLoadingFinished.onLoadingFinished();
-            }
-        }
-
-        this.onNextPageLoadingFinished = onNextPageLoadingFinished;
+    public void setOnPageLoadingFinished(OnPageLoadingFinished onPageLoadingFinished) {
+        this.onPageLoadingFinished = onPageLoadingFinished;
     }
 
     @Override
@@ -131,6 +126,10 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         }
     }
 
+    protected void onPageLoadingFinished(int pageNumber) {
+
+    }
+
     public void loadNextPage(){
         if(allDataLoaded){
             return;
@@ -162,7 +161,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                 while (pageElementsIterator.hasNext()) {
                     if (elements.size() >= maxElementsCount) {
                         allDataLoaded = true;
-                        onAllDataLoaded();
+                        notifyAllDataLoaded();
                         break;
                     }
 
@@ -170,9 +169,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                     elements.add(pageElement);
                 }
 
-                OnNextPageLoadingFinished onNextPageLoadingFinished = getOnNextPageLoadingFinished();
-                if (onNextPageLoadingFinished != null) {
-                    onNextPageLoadingFinished.onLoadingFinished();
+                onPageLoadingFinished(pageToLoad);
+
+                OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
+                if (onPageLoadingFinished != null) {
+                    onPageLoadingFinished.onLoadingFinished();
                 }
 
                 pageLoadingExecuted = false;
@@ -184,11 +185,18 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                 }
 
                 if (allDataLoaded) {
-                    onAllDataLoaded();
+                    notifyAllDataLoaded();
                 }
 
             }
         });
+    }
+
+    private void notifyAllDataLoaded() {
+        onAllDataLoaded();
+        if(onAllDataLoaded != null){
+            onAllDataLoaded.onAllDataLoaded();
+        }
     }
 
     protected void onAllDataLoaded(){
@@ -236,15 +244,15 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
 
-    public static void pausePageLoadingOfNavigationList(List list){
-        if(list instanceof NavigationList){
-            ((NavigationList)list).pausePageLoading();
-        }
+    public OnAllDataLoaded getOnAllDataLoaded() {
+        return onAllDataLoaded;
     }
 
-    public static void resumePageLoadingOfNavigationList(List list){
-        if(list instanceof NavigationList){
-            ((NavigationList)list).resumePageLoading();
-        }
+    public void setOnAllDataLoaded(OnAllDataLoaded onAllDataLoaded) {
+        this.onAllDataLoaded = onAllDataLoaded;
+    }
+
+    public int getLoadedPagesCount() {
+        return loadedPagesCount;
     }
 }
