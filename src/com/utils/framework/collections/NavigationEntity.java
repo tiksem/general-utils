@@ -1,9 +1,11 @@
 package com.utils.framework.collections;
 
+import com.utils.framework.OnError;
+
 /**
  * Created by CM on 1/25/2015.
  */
 public interface NavigationEntity<T> {
     int getLoadedElementsCount();
-    void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished);
+    void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError);
 }

@@ -1,5 +1,6 @@
 package com.utils.framework.collections;
 
+import com.utils.framework.OnError;
 import com.utils.framework.collections.iterator.AbstractIterator;
 
 import java.util.*;
@@ -29,6 +30,11 @@ public abstract class NavigationIterator<T> extends AbstractIterator<T> implemen
                     iterator = elements.iterator();
                     allDataLoaded = isLastPage;
                     dataLoaded = true;
+                }
+            }, new OnError() {
+                @Override
+                public void onError(Throwable e) {
+                    throw new RuntimeException(e);
                 }
             });
             if(!dataLoaded){

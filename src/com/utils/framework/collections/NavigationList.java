@@ -1,5 +1,7 @@
 package com.utils.framework.collections;
 
+import com.utils.framework.OnError;
+
 import java.util.*;
 
 /**
@@ -20,6 +22,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private boolean pageLoadingPaused = false;
     private int lastIndexRequestedBeforePageLoading = -1;
     private OnAllDataLoaded onAllDataLoaded;
+    private OnError onError;
 
     public static interface OnPageLoadingFinished {
         void onLoadingFinished();
@@ -189,7 +192,21 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                 }
 
             }
+        }, new OnError() {
+            @Override
+            public void onError(Throwable e) {
+                onErrorOccurred(e);
+            }
         });
+    }
+
+    private void onErrorOccurred(Throwable e) {
+        lastIndexRequestedBeforePageLoading = -1;
+        pageLoadingExecuted = false;
+
+        if (onError != null) {
+            onError.onError(e);
+        }
     }
 
     private void notifyAllDataLoaded() {
@@ -214,10 +231,9 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     public static NavigationList emptyList(){
-        NavigationList navigationList = new NavigationList(0) {
+        NavigationList navigationList = new NavigationList() {
             @Override
-            public void getElementsOfPage(int pageNumber,
-                                             OnLoadingFinished onPageLoadingFinished) {
+            public void getElementsOfPage(int pageNumber, OnLoadingFinished onPageLoadingFinished, OnError onError) {
 
             }
         };
@@ -228,7 +244,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     public static <T> NavigationList<T> decorate(List<T> elements){
         NavigationList<T> list = new NavigationList<T>() {
             @Override
-            public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished) {
+            public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError) {
 
             }
         };
@@ -254,5 +270,13 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     public int getLoadedPagesCount() {
         return loadedPagesCount;
+    }
+
+    public OnError getOnError() {
+        return onError;
+    }
+
+    public void setOnError(OnError onError) {
+        this.onError = onError;
     }
 }
