@@ -135,10 +135,8 @@ public final class Reflection {
         return fieldsToPropertyMap(object, fields, null);
     }
 
-    public static Map<String, Object> fieldsToPropertyMap(Object object, List<Field> fields,
+    public static void fieldsToPropertyMap(Map<String, Object> map, Object object, List<Field> fields,
                                                           ParamTransformer paramTransformer) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -153,13 +151,27 @@ public final class Reflection {
                     continue;
                 }
 
-                result.put(key, value);
+                map.put(key, value);
             }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public static Map<String, Object> fieldsToPropertyMap(Object object, List<Field> fields,
+                                                          ParamTransformer paramTransformer) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        fieldsToPropertyMap(result, object, fields, paramTransformer);
         return result;
+    }
+
+    public static void objectToPropertyMap(Map<String, Object> map, Object object) {
+        objectToPropertyMap(map, object, null);
+    }
+
+    public static void objectToPropertyMap(Map<String, Object> map, Object object, ParamTransformer paramTransformer) {
+        List<Field> fields = getAllFields(object);
+        fieldsToPropertyMap(map, object, fields, paramTransformer);
     }
 
     public static Map<String, Object> objectToPropertyMap(Object object, ParamTransformer paramTransformer) {
