@@ -488,6 +488,13 @@ public class CollectionUtils {
         }
     }
 
+    public static <T> void addAllInReverseOrder(List<T> destination, int index, List<T> source){
+        for(int i = source.size() - 1; i >= 0; i--){
+            T object = source.get(i);
+            destination.add(index, object);
+        }
+    }
+
     public static <T> List<T> unique(List<T> list, final KeyProvider<Object, T> keyProvider) {
         return unique(list, new Equals<T>() {
             @Override

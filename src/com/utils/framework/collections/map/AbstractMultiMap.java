@@ -16,7 +16,8 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
     @Override
     public boolean containsKey(K key) {
-        return getValues(key) != null;
+        Collection<V> values = getValues(key);
+        return values != null && !values.isEmpty();
     }
 
     @Override
