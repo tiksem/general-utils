@@ -221,6 +221,18 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     @Override
+    public void add(int location, T object) {
+        if(location > elementsOffset){
+            throw new IndexOutOfBoundsException("Unable to insert element between loaded elements");
+        }
+
+        if (shouldAddElement(object)) {
+            elements.add(location, object);
+            elementsOffset++;
+        }
+    }
+
+    @Override
     public int size() {
         if(allDataLoaded) {
             return elements.size();

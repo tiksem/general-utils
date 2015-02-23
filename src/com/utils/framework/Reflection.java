@@ -78,6 +78,11 @@ public final class Reflection {
         }
     }
 
+    public static Object getValueOfField(Object object, String fieldName){
+        Field field = getFieldByNameOrThrow(object.getClass(), fieldName);
+        return getValueOfField(object, field);
+    }
+
     public static void setValueOfField(Object object, Field field, Object value){
         field.setAccessible(true);
         try {
