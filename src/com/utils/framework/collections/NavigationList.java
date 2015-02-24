@@ -23,9 +23,15 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private int lastIndexRequestedBeforePageLoading = -1;
     private OnAllDataLoaded onAllDataLoaded;
     private OnError onError;
+    private boolean manualPageLoading = false;
+    private OnPageLoadingRequested onPageLoadingRequested;
 
     public static interface OnPageLoadingFinished {
         void onLoadingFinished();
+    }
+
+    public static interface OnPageLoadingRequested {
+        void onPageLoadingRequested(int index);
     }
 
     private OnPageLoadingFinished onPageLoadingFinished;
@@ -90,7 +96,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
             int size = elements.size();
             if(shouldLoadNextPage(location)){
                 lastIndexRequestedBeforePageLoading = location;
-                loadNextPage();
+                if (!manualPageLoading) {
+                    loadNextPage();
+                } else {
+                    requestLoadNextPage(location);
+                }
                 if(location < size){
                     return elements.get(location);
                 }
@@ -133,7 +143,17 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     }
 
+    private void requestLoadNextPage(int index) {
+        if(onPageLoadingRequested != null){
+            onPageLoadingRequested.onPageLoadingRequested(index);
+        }
+    }
+
     public void loadNextPage(){
+        loadNextPage(null);
+    }
+
+    public void loadNextPage(final OnPageLoadingFinished onPageLoadingFinished){
         if(allDataLoaded){
             return;
         }
@@ -173,6 +193,10 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                 }
 
                 onPageLoadingFinished(pageToLoad);
+
+                if(onPageLoadingFinished != null){
+                    onPageLoadingFinished.onLoadingFinished();
+                }
 
                 OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
                 if (onPageLoadingFinished != null) {
@@ -290,5 +314,21 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     public void setOnError(OnError onError) {
         this.onError = onError;
+    }
+
+    public OnPageLoadingRequested getOnPageLoadingRequested() {
+        return onPageLoadingRequested;
+    }
+
+    public void setOnPageLoadingRequested(OnPageLoadingRequested onPageLoadingRequested) {
+        this.onPageLoadingRequested = onPageLoadingRequested;
+    }
+
+    public boolean isManualPageLoading() {
+        return manualPageLoading;
+    }
+
+    public void setManualPageLoading(boolean manualPageLoading) {
+        this.manualPageLoading = manualPageLoading;
     }
 }
