@@ -473,6 +473,11 @@ public final class Reflection {
         return value;
     }
 
+    public static void setFieldValueUsingSetter(Object object, String fieldName, Object value) {
+        Field field = getFieldByNameOrThrow(object, fieldName);
+        setFieldValueUsingSetter(object, field, value);
+    }
+
     public static void setFieldValueUsingSetter(Object object, Field field, Object value) {
         Class aClass = object.getClass();
         String setterName = "set" + Strings.capitalize(field.getName());
@@ -575,5 +580,26 @@ public final class Reflection {
                 return item == null;
             }
         });
+    }
+
+    public static void changeNumberUsingGetterAndSetter(Object object, String fieldName, long diff) {
+        Field field = getFieldByNameOrThrow(object, fieldName);
+        changeNumberUsingGetterAndSetter(object, field, diff);
+    }
+
+    public static void changeNumberUsingGetterAndSetter(Object object, Field field, long diff) {
+        Object value = getFieldValueUsingGetter(object, field);
+        long valueAsLong = ((Number)value).longValue() + diff;
+        if (value instanceof Integer) {
+            setFieldValueUsingSetter(object, field, (int)valueAsLong);
+        } else if(value instanceof Long) {
+            setFieldValueUsingSetter(object, field, valueAsLong);
+        } else if(value instanceof Short) {
+            setFieldValueUsingSetter(object, field, (short)valueAsLong);
+        } else if(value instanceof Byte) {
+            setFieldValueUsingSetter(object, field, (byte)valueAsLong);
+        } else {
+            throw new ClassCastException("Field value is not a number");
+        }
     }
 }
