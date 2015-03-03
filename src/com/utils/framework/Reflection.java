@@ -589,6 +589,10 @@ public final class Reflection {
 
     public static void changeNumberUsingGetterAndSetter(Object object, Field field, long diff) {
         Object value = getFieldValueUsingGetter(object, field);
+        if(value == null){
+            return;
+        }
+
         long valueAsLong = ((Number)value).longValue() + diff;
         if (value instanceof Integer) {
             setFieldValueUsingSetter(object, field, (int)valueAsLong);
