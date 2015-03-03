@@ -1,5 +1,7 @@
 package com.utils.framework;
 
+import com.utils.framework.strings.Strings;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,6 +54,37 @@ public class Maps {
         } catch (NumberFormatException e) {
             return defaultValue;
         }
+    }
+
+    public static <K> long getLong(Map<K, String> map, K key, long defaultValue) {
+        String strValue = map.get(key);
+        if(strValue == null){
+            return defaultValue;
+        }
+
+        try {
+            return Long.parseLong(strValue);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public static <K> double getDouble(Map<K, String> map, K key, double defaultValue) {
+        String strValue = map.get(key);
+        if(strValue == null){
+            return defaultValue;
+        }
+
+        try {
+            return Double.parseDouble(strValue);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public static <K> boolean getBoolean(Map<K, String> map, K key) {
+        String strValue = map.get(key);
+        return Strings.equalsIgnoreCase(strValue, "true");
     }
 
     public static <K, V> Map<K, Set<V>> toSetValuesMap(Map<K, List<V>> map) {
