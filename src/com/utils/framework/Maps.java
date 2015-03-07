@@ -2,6 +2,9 @@ package com.utils.framework;
 
 import com.utils.framework.strings.Strings;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +22,15 @@ public class Maps {
         V value = map.get(key);
         if(value == null){
             value = defaultValue;
+        }
+
+        return value;
+    }
+
+    public static <K, V> V getOrThrow(Map<K, V> map, K key) {
+        V value = map.get(key);
+        if(value == null){
+            throw new IllegalStateException("Value of " + key + " doesn't exist");
         }
 
         return value;
@@ -56,6 +68,15 @@ public class Maps {
         }
     }
 
+    public static <K> int getIntOrThrow(Map<K, String> map, K key) {
+        String strValue = getOrThrow(map, key);
+        try {
+            return Integer.parseInt(strValue);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Error, value of " + key);
+        }
+    }
+
     public static <K> long getLong(Map<K, String> map, K key, long defaultValue) {
         String strValue = map.get(key);
         if(strValue == null){
@@ -66,6 +87,15 @@ public class Maps {
             return Long.parseLong(strValue);
         } catch (NumberFormatException e) {
             return defaultValue;
+        }
+    }
+
+    public static <K> long getLongOrThrow(Map<K, String> map, K key) {
+        String strValue = getOrThrow(map, key);
+        try {
+            return Long.parseLong(strValue);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Error, value of " + key);
         }
     }
 
@@ -94,5 +124,15 @@ public class Maps {
         }
 
         return result;
+    }
+
+    public static Map<String, String> readProperties(InputStream inputStream) throws IOException {
+        Properties properties = new Properties();
+        properties.load(inputStream);
+        return new LinkedHashMap<String, String>((Map)properties);
+    }
+
+    public static Map<String, String> readProperties(String filePath) throws IOException {
+        return readProperties(new FileInputStream(filePath));
     }
 }
