@@ -1,5 +1,6 @@
 package com.utils.framework.imagemagick;
 
+import com.utils.framework.strings.Strings;
 import com.utils.framework.system.SystemUtilities;
 
 import java.io.File;
@@ -16,11 +17,11 @@ public class ImageMagickExecutor {
     private String imageMagickExecutablePath;
 
     public ImageMagickExecutor(String imageMagickExecutablePath) {
-        this.imageMagickExecutablePath = imageMagickExecutablePath;
-        if(!new File(imageMagickExecutablePath).exists()){
-            throw new RuntimeException("Could not found image magick exe "
-                    + imageMagickExecutablePath);
+        if(!Strings.isEmpty(imageMagickExecutablePath)){
+            imageMagickExecutablePath += "/";
         }
+
+        this.imageMagickExecutablePath = imageMagickExecutablePath;
     }
 
     private void checkFilePath(String imagePath) throws FileNotFoundException {
@@ -31,7 +32,7 @@ public class ImageMagickExecutor {
 
     public Size getImageSize(String imagePath) throws IOException {
         checkFilePath(imagePath);
-        String command = imageMagickExecutablePath + "/identify " + imagePath;
+        String command = imageMagickExecutablePath + "identify " + imagePath;
         String output = SystemUtilities.execCmd(command);
 
         Size size = null;
@@ -81,7 +82,7 @@ public class ImageMagickExecutor {
             String dimensions = resultWidth + "x" + resultHeight + "^";
             String thumbnailDimensions = dimension + "x" + dimension;
             String gravity = size.width >= size.height ? "center" : "north";
-            String command = imageMagickExecutablePath + "/"
+            String command = imageMagickExecutablePath
                     + "convert " + source +
                     " -resize " + dimensions +
                     " -gravity " + gravity +
@@ -109,7 +110,7 @@ public class ImageMagickExecutor {
                 sizeArg = max.width + "x";
             }
 
-            String command = imageMagickExecutablePath + "/"
+            String command = imageMagickExecutablePath
                     + "convert " + source +
                     " -resize " +
                     sizeArg +

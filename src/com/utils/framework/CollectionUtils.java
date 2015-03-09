@@ -547,6 +547,15 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> List<To> transformUnique(Iterable<From> from, Transformer<From, To> transformer) {
+        Set<To> result = new LinkedHashSet<To>();
+        for(From object : from){
+            result.add(transformer.get(object));
+        }
+
+        return new ArrayList<To>(result);
+    }
+
     public static <From, To> void transformAndAdd(Iterable<From> from, Collection<To> to,
                                              Transformer<From, To> transformer) {
         for(From object : from){
