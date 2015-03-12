@@ -284,6 +284,22 @@ public final class Reflection {
         return getFieldsWithAnnotations(aClass, Arrays.asList(annotationClasses));
     }
 
+    public static <T extends Annotation> List<Field> getFieldsWithAnnotation(Class aClass,
+                                                       final Class<T> annotationClass, final Predicate<T> predicate) {
+        List<Field> fields = getAllFieldsOfClass(aClass);
+        return CollectionUtils.findAll(fields, new Predicate<Field>() {
+            @Override
+            public boolean check(Field item) {
+                T annotation = item.getAnnotation(annotationClass);
+                if(annotation == null){
+                    return false;
+                }
+
+                return predicate.check(annotation);
+            }
+        });
+    }
+
     public static List<Field> getFieldsWithAndWithoutAnnotations(Class aClass,
                                                                  List<? extends Class> with,
                                                                  List<? extends Class> without) {
