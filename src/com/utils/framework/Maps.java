@@ -126,6 +126,19 @@ public class Maps {
         return result;
     }
 
+    public static <K> String[] getStringArray(Map<K, String> map, K key, String regExp) {
+        String string = map.get(key);
+        if(string == null){
+            return new String[0];
+        }
+
+        return string.split(regExp);
+    }
+
+    public static <K> String[] getStringArray(Map<K, String> map, K key) {
+        return getStringArray(map, key, ", *");
+    }
+
     public static Map<String, String> readProperties(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
         properties.load(inputStream);

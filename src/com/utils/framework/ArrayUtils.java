@@ -94,4 +94,27 @@ public class ArrayUtils {
 
         return -1;
     }
+
+    public static int indexOf(Object[] array, Object object) {
+        int length = array.length;
+        if (object != null) {
+            for (int i = 0; i < length; i++) {
+                if(object.equals(array[i])){
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                if(array[i] == null){
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public static boolean contains(Object[] array, Object object) {
+        return indexOf(array, object) >= 0;
+    }
 }
