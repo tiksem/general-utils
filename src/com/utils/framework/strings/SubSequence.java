@@ -18,8 +18,8 @@ public class SubSequence extends AbstractCharSequence {
         this.first = first;
 
         int length = charSequence.length();
-        if(last < 0 || last >= length){
-            this.last = length - 1;
+        if(last < 0 || last > length){
+            this.last = length;
         } else {
             this.last = last;
         }
@@ -31,7 +31,7 @@ public class SubSequence extends AbstractCharSequence {
 
     @Override
     public int length() {
-        return last - first + 1;
+        return last - first;
     }
 
     @Override

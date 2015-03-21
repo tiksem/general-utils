@@ -1,6 +1,7 @@
 package com.utils.framework.strings;
 
 import com.utils.framework.ArrayUtils;
+import com.utils.framework.CollectionUtils;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.iterator.AbstractIterator;
 import com.utils.framework.strings.Capitalizer;
@@ -301,5 +302,65 @@ public class Strings {
         }
 
         throw new UnsupportedOperationException("Sorry, not implemented yet");
+    }
+
+    public static String getFirstStringBetweenQuotes(String string, String quote1, String quote2) {
+        int a = string.indexOf(quote1);
+        if(a < 0){
+            return null;
+        }
+        a += quote1.length();
+
+        int b = string.indexOf(quote2, a);
+        if(b < 0){
+            return null;
+        }
+
+        return string.substring(a, b);
+    }
+
+    public static String getFirstStringBetweenQuotes(String string, String quote) {
+        return getFirstStringBetweenQuotes(string, quote, quote);
+    }
+
+    public interface Replacer {
+        String getReplacement(String source);
+    }
+
+    public static void regexpReplace(StringBuilder result, String string, Pattern pattern, Replacer replacer) {
+        Matcher matcher = pattern.matcher(string);
+        int startIndex = 0;
+        while (matcher.find(startIndex)) {
+            int start = matcher.start();
+            int end = matcher.end();
+
+            String value = string.substring(start, end);
+            String replacement = replacer.getReplacement(value);
+            result.append(string.substring(startIndex, start));
+            result.append(replacement);
+
+            startIndex = end;
+        }
+
+        result.append(string.substring(startIndex));
+    }
+
+    public static String regexpReplace(String string, Pattern pattern, Replacer replacer) {
+        StringBuilder stringBuilder = new StringBuilder();
+        regexpReplace(stringBuilder, string, pattern, replacer);
+        return stringBuilder.toString();
+    }
+
+    public static String splitReplaceAndJoin(String delimiter, String joinDelimiter,
+                                             String string, final Replacer replacer) {
+        String[] split = string.split(delimiter);
+        List<String> transform = CollectionUtils.transform(Arrays.asList(split),
+                new CollectionUtils.Transformer<String, String>() {
+            @Override
+            public String get(String s) {
+                return replacer.getReplacement(s);
+            }
+        });
+        return join(joinDelimiter, transform).toString();
     }
 }
