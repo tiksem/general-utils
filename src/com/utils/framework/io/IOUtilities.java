@@ -266,7 +266,9 @@ public final class IOUtilities {
     }
 
     public static String getUtf8StringFromStream(InputStream inputStream) throws IOException {
-        return new String(Network.getBytesFromStream(inputStream), "utf-8");
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        BufferedReader buffReader = new BufferedReader(inputStreamReader);
+        return toString(buffReader);
     }
 
     public static BufferedReader getBufferedReader(InputStream inputStream, String encoding) {
