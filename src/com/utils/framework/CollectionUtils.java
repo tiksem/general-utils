@@ -245,6 +245,11 @@ public class CollectionUtils {
         return list.get(index);
     }
 
+    public static <T> T setLast(List<T> list, T value) {
+        int index = list.size() - 1;
+        return list.set(index, value);
+    }
+
     public static <T> T getFirstOrNull(List<T> list) {
         if(list.isEmpty()){
             return null;
