@@ -120,6 +120,10 @@ public class Strings {
         return new TransformingString(charSequence, new Capitalizer());
     }
 
+    public static String capitalize(String string){
+        return setCharAt(string, 0, Character.toUpperCase(string.charAt(0)));
+    }
+
     public static String capitalizeAndCopy(CharSequence charSequence) {
         return capitalize(charSequence).toString();
     }
