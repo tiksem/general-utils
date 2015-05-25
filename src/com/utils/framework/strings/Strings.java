@@ -107,8 +107,13 @@ public class Strings {
     }
 
     public static String copyCharSequence(CharSequence charSequence) {
-        StringBuilder stringBuilder = new StringBuilder(charSequence);
-        return stringBuilder.toString();
+        int length = charSequence.length();
+        char[] array = new char[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = charSequence.charAt(i);
+        }
+
+        return new String(array);
     }
 
     public static CharSequence capitalize(CharSequence charSequence){
