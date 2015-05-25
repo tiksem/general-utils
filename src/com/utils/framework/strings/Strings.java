@@ -234,7 +234,7 @@ public class Strings {
 
     public static int findUnsignedIntegerInString(String string) {
         try {
-            return new Integer(string.replaceAll("[^\\d]+", ""));
+            return Integer.valueOf(string.replaceAll("[^\\d]+", ""));
         } catch (NumberFormatException e) {
             return -1;
         }
