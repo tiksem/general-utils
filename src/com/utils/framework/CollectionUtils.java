@@ -220,6 +220,15 @@ public class CollectionUtils {
         return result;
     }
 
+    public interface FindTransform<From, To> extends Transformer<From, To>, Predicate<From> {
+
+    }
+
+    public static <From, To> List<To> findAllAndTransform(Iterable<From> froms,
+                                                          FindTransform<From, To> findTransform) {
+        return transform(findAll(froms, findTransform), findTransform);
+    }
+
     public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate, int maxCount){
         List<T> result = new ArrayList<T>(maxCount);
         for(T object : iterable){
