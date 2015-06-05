@@ -14,11 +14,11 @@ public final class IOUtilities {
 
     public static String toString(Reader reader) throws IOException {
         StringBuilder content = new StringBuilder();
-        char[] buffer = new char[1024];
+        char[] buffer = new char[BUFFER_SIZE];
         int n;
 
         while ( ( n = reader.read(buffer)) != -1 ) {
-            content.append(buffer,0,n);
+            content.append(buffer, 0, n);
         }
 
         return content.toString();
