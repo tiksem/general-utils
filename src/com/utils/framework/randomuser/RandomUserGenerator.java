@@ -15,7 +15,7 @@ import java.util.List;
  */
 public final class RandomUserGenerator {
     public static List<Response> generate(int count) throws IOException {
-        if(count <= 0){
+        if (count <= 0) {
             return new ArrayList<Response>();
         }
 

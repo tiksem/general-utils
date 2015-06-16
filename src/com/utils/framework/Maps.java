@@ -20,7 +20,7 @@ public class Maps {
 
     public static <K, V> V get(Map<K, V> map, K key, V defaultValue) {
         V value = map.get(key);
-        if(value == null){
+        if (value == null) {
             value = defaultValue;
         }
 
@@ -29,7 +29,7 @@ public class Maps {
 
     public static <K, V> V getOrThrow(Map<K, V> map, K key) {
         V value = map.get(key);
-        if(value == null){
+        if (value == null) {
             throw new IllegalStateException("Value of " + key + " doesn't exist");
         }
 
@@ -38,7 +38,7 @@ public class Maps {
 
     public static <K, V> V getOrPut(Map<K, V> map, K key, V valueToPutIfNotExists) {
         V value = map.get(key);
-        if(value == null){
+        if (value == null) {
             value = valueToPutIfNotExists;
             map.put(key, value);
         }
@@ -48,7 +48,7 @@ public class Maps {
 
     public static <K, V> V getOrPut(ConcurrentHashMap<K, V> map, K key, V valueToPutIfNotExists) {
         V value = map.putIfAbsent(key, valueToPutIfNotExists);
-        if(value == null){
+        if (value == null) {
             return valueToPutIfNotExists;
         }
 
@@ -57,7 +57,7 @@ public class Maps {
 
     public static <K> int getInt(Map<K, String> map, K key, int defaultValue) {
         String strValue = map.get(key);
-        if(strValue == null){
+        if (strValue == null) {
             return defaultValue;
         }
 
@@ -79,7 +79,7 @@ public class Maps {
 
     public static <K> long getLong(Map<K, String> map, K key, long defaultValue) {
         String strValue = map.get(key);
-        if(strValue == null){
+        if (strValue == null) {
             return defaultValue;
         }
 
@@ -101,7 +101,7 @@ public class Maps {
 
     public static <K> double getDouble(Map<K, String> map, K key, double defaultValue) {
         String strValue = map.get(key);
-        if(strValue == null){
+        if (strValue == null) {
             return defaultValue;
         }
 
@@ -119,7 +119,7 @@ public class Maps {
 
     public static <K, V> Map<K, Set<V>> toSetValuesMap(Map<K, List<V>> map) {
         Map<K, Set<V>> result = new HashMap<K, Set<V>>();
-        for(Map.Entry<K, List<V>> entry : map.entrySet()){
+        for (Map.Entry<K, List<V>> entry : map.entrySet()) {
             result.put(entry.getKey(), new LinkedHashSet<V>(entry.getValue()));
         }
 
@@ -128,7 +128,7 @@ public class Maps {
 
     public static <K> String[] getStringArray(Map<K, String> map, K key, String regExp) {
         String string = map.get(key);
-        if(string == null){
+        if (string == null) {
             return new String[0];
         }
 
@@ -142,7 +142,7 @@ public class Maps {
     public static Map<String, String> readProperties(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
         properties.load(inputStream);
-        return new LinkedHashMap<String, String>((Map)properties);
+        return new LinkedHashMap<String, String>((Map) properties);
     }
 
     public static Map<String, String> readProperties(String filePath) throws IOException {

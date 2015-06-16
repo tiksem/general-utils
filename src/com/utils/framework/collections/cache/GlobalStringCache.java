@@ -2,12 +2,12 @@ package com.utils.framework.collections.cache;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 23.03.13
  * Time: 17:23
  * To change this template use File | Settings | File Templates.
  */
-public class GlobalStringCache implements SetCache<String>{
+public class GlobalStringCache implements SetCache<String> {
     private static GlobalStringCache instance;
     private SetCache<String> stringCache;
 
@@ -15,8 +15,8 @@ public class GlobalStringCache implements SetCache<String>{
         this.stringCache = CacheUtils.setCacheFromCache(new WeakCache<String, String>());
     }
 
-    public static GlobalStringCache getInstance(){
-        if(instance == null){
+    public static GlobalStringCache getInstance() {
+        if (instance == null) {
             instance = new GlobalStringCache();
         }
 

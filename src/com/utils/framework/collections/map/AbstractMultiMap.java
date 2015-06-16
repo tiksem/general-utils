@@ -29,12 +29,12 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     @Override
     public V put(K key, V value) {
         Collection<V> values = getValues(key);
-        if(values == null){
+        if (values == null) {
             values = createValuesCollection();
             putValuesCollection(key, values);
         }
 
-        if(values.add(value)){
+        if (values.add(value)) {
             return null;
         } else {
             return value;
@@ -57,7 +57,7 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     @Override
     public Collection<V> getAllValues() {
         ArrayList<V> result = new ArrayList<V>();
-        for(MultiMapEntry<K, V> entry : this){
+        for (MultiMapEntry<K, V> entry : this) {
             result.add(entry.value);
         }
 
@@ -65,9 +65,10 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     }
 
     protected abstract Collection<V> createValuesCollection();
+
     protected abstract Map<K, Collection<V>> createMap();
 
-    protected void putValuesCollection(K key, Collection<V> values){
+    protected void putValuesCollection(K key, Collection<V> values) {
         map.put(key, values);
     }
 
@@ -93,12 +94,12 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
         @Override
         public boolean hasNext() {
-            if(iterator.hasNext()){
+            if (iterator.hasNext()) {
                 return true;
             }
 
-            if(valueIterator != null){
-                while(!valueIterator.hasNext()){
+            if (valueIterator != null) {
+                while (!valueIterator.hasNext()) {
                     if (iterator.hasNext()) {
                         updateIterator();
                     } else {
@@ -120,8 +121,8 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
         @Override
         public MultiMapEntry<K, V> next() {
-            while(valueIterator == null || !valueIterator.hasNext()){
-                if(iterator.hasNext()){
+            while (valueIterator == null || !valueIterator.hasNext()) {
+                if (iterator.hasNext()) {
                     updateIterator();
                 } else {
                     throw new NoSuchElementException();
@@ -150,7 +151,7 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     @Override
     public V getFirstValue(K key) {
         Collection<V> values = getValues(key);
-        if(values == null || values.isEmpty()){
+        if (values == null || values.isEmpty()) {
             return null;
         }
 

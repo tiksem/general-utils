@@ -15,15 +15,26 @@ public interface SelectedItemPositionManager<T> {
     }
 
     public List<T> getItems();
+
     public int getCurrentItemPosition();
+
     public void setCurrentItemPosition(int currentItemPosition);
+
     public T getCurrentSelectedItem();
+
     public T selectNext();
+
     public T selectPrev();
+
     public boolean canSelectNext();
+
     public boolean isNextAvailable();
+
     public boolean canSelectPrev();
+
     public boolean isPrevAvailable();
+
     public Cancelable selectNextWhenAvailable(OnAvailable<T> onNextAvailable);
+
     public Cancelable selectPrevWhenAvailable(OnAvailable<T> onPrevAvailable);
 }

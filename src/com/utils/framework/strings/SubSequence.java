@@ -18,7 +18,7 @@ public class SubSequence extends AbstractCharSequence {
         this.first = first;
 
         int length = charSequence.length();
-        if(last < 0 || last > length){
+        if (last < 0 || last > length) {
             this.last = length;
         } else {
             this.last = last;

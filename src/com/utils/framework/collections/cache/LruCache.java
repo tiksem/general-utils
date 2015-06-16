@@ -26,10 +26,12 @@ import java.util.Map;
  * framework's implementation. See the framework SDK documentation for a class
  * overview.
  */
-public class LruCache<K, V> extends CacheWithSizeOfProvider<K,V> implements Cache<K,V>{
+public class LruCache<K, V> extends CacheWithSizeOfProvider<K, V> implements Cache<K, V> {
     private final LinkedHashMap<K, V> map;
 
-    /** Size of this cache in units. Not necessarily the number of elements. */
+    /**
+     * Size of this cache in units. Not necessarily the number of elements.
+     */
     private int size;
     private int maxSize;
 
@@ -41,8 +43,8 @@ public class LruCache<K, V> extends CacheWithSizeOfProvider<K,V> implements Cach
 
     /**
      * @param maxSize for caches that do not override {@link #sizeOf}, this is
-     *     the maximum number of entries in the cache. For all other caches,
-     *     this is the maximum sum of the sizes of the entries in this cache.
+     *                the maximum number of entries in the cache. For all other caches,
+     *                this is the maximum sum of the sizes of the entries in this cache.
      */
     public LruCache(int maxSize) {
         if (maxSize <= 0) {
@@ -140,7 +142,7 @@ public class LruCache<K, V> extends CacheWithSizeOfProvider<K,V> implements Cach
      * below the requested size.
      *
      * @param maxSize the maximum size of the cache before returning. May be -1
-     *            to evict even 0-sized elements.
+     *                to evict even 0-sized elements.
      */
     public void trimToSize(int maxSize) {
         while (true) {
@@ -198,26 +200,27 @@ public class LruCache<K, V> extends CacheWithSizeOfProvider<K,V> implements Cach
      * invoked when a value is evicted to make space, removed by a call to
      * {@link #remove}, or replaced by a call to {@link #put}. The default
      * implementation does nothing.
-     *
+     * <p>
      * <p>The method is called without synchronization: other threads may
      * access the cache while this method is executing.
      *
-     * @param evicted true if the entry is being removed to make space, false
-     *     if the removal was caused by a {@link #put} or {@link #remove}.
+     * @param evicted  true if the entry is being removed to make space, false
+     *                 if the removal was caused by a {@link #put} or {@link #remove}.
      * @param newValue the new value for {@code key}, if it exists. If non-null,
-     *     this removal was caused by a {@link #put}. Otherwise it was caused by
-     *     an eviction or a {@link #remove}.
+     *                 this removal was caused by a {@link #put}. Otherwise it was caused by
+     *                 an eviction or a {@link #remove}.
      */
-    protected void entryRemoved(boolean evicted, K key, V oldValue, V newValue) {}
+    protected void entryRemoved(boolean evicted, K key, V oldValue, V newValue) {
+    }
 
     /**
      * Called after a cache miss to compute a value for the corresponding key.
      * Returns the computed value or null if no value can be computed. The
      * default implementation returns null.
-     *
+     * <p>
      * <p>The method is called without synchronization: other threads may
      * access the cache while this method is executing.
-     *
+     * <p>
      * <p>If a value for {@code key} exists in the cache when this method
      * returns, the created value will be released with {@link #entryRemoved}
      * and discarded. This can occur when multiple threads request the same key
@@ -306,7 +309,8 @@ public class LruCache<K, V> extends CacheWithSizeOfProvider<K,V> implements Cach
         return new LinkedHashMap<K, V>(map);
     }
 
-    @Override public synchronized final String toString() {
+    @Override
+    public synchronized final String toString() {
         int accesses = hitCount + missCount;
         int hitPercent = accesses != 0 ? (100 * hitCount / accesses) : 0;
         return String.format("LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]",

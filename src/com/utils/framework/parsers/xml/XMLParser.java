@@ -20,7 +20,7 @@ public abstract class XMLParser<T> {
         return doc;
     }
 
-    private Document initDomElement(String xml){
+    private Document initDomElement(String xml) {
         Document doc = null;
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         try {
@@ -42,7 +42,7 @@ public abstract class XMLParser<T> {
 
     protected abstract T getElements();
 
-    final public T parse(String xml){
+    final public T parse(String xml) {
         doc = initDomElement(xml);
         parseResult = getElements();
         return parseResult;

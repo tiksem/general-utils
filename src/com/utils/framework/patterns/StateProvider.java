@@ -7,5 +7,6 @@ package com.utils.framework.patterns;
  */
 public interface StateProvider<T, State> {
     State getState(T object);
+
     void restoreState(T object, State state);
 }

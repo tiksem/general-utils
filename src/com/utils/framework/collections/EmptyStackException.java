@@ -5,7 +5,7 @@ package com.utils.framework.collections;
  * Date: 12.12.13
  * Time: 13:38
  */
-public class EmptyStackException extends RuntimeException{
+public class EmptyStackException extends RuntimeException {
     public EmptyStackException() {
     }
 

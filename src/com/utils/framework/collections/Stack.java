@@ -7,8 +7,12 @@ package com.utils.framework.collections;
  */
 public interface Stack<T> {
     void push(T value);
+
     T pop();
+
     T top();
+
     int size();
+
     void clear();
 }

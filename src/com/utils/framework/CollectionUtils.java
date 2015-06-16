@@ -17,14 +17,14 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CollectionUtils {
-    public static boolean contentEquals(Collection a, Collection b){
-        if(a == null){
+    public static boolean contentEquals(Collection a, Collection b) {
+        if (a == null) {
             return b == null;
-        } else if(b == null) {
+        } else if (b == null) {
             return false;
         }
 
-        if(a.size() != b.size()){
+        if (a.size() != b.size()) {
             return false;
         }
 
@@ -35,7 +35,7 @@ public class CollectionUtils {
             Object aItem = aIterator.next();
             Object bItem = bIterator.next();
 
-            if(!aItem.equals(bItem)){
+            if (!aItem.equals(bItem)) {
                 return false;
             }
         }
@@ -43,14 +43,14 @@ public class CollectionUtils {
         return true;
     }
 
-    public static <T> boolean contentEquals(Collection<T> a, Collection<T> b, Equals<T> equals){
-        if(a == null){
+    public static <T> boolean contentEquals(Collection<T> a, Collection<T> b, Equals<T> equals) {
+        if (a == null) {
             return b == null;
-        } else if(b == null) {
+        } else if (b == null) {
             return false;
         }
 
-        if(a.size() != b.size()){
+        if (a.size() != b.size()) {
             return false;
         }
 
@@ -61,7 +61,7 @@ public class CollectionUtils {
             T aItem = aIterator.next();
             T bItem = bIterator.next();
 
-            if(!equals.equals(aItem, bItem)){
+            if (!equals.equals(aItem, bItem)) {
                 return false;
             }
         }
@@ -69,28 +69,28 @@ public class CollectionUtils {
         return true;
     }
 
-    public static double sum(Collection<? extends Number> collection){
+    public static double sum(Collection<? extends Number> collection) {
         double result = 0;
-        for(Number number : collection){
+        for (Number number : collection) {
             result += number.doubleValue();
         }
 
         return result;
     }
 
-    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final String... values){
-        for(String value : values){
+    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final String... values) {
+        for (String value : values) {
             removeIgnoreCase(collection, value);
         }
     }
 
-    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final Iterable<String> values){
-        for(String value : values){
+    public static <T extends String> void removeAllIgnoreCase(Iterable<T> collection, final Iterable<String> values) {
+        for (String value : values) {
             removeIgnoreCase(collection, value);
         }
     }
 
-    public static <T extends String> void removeIgnoreCase(Iterable<T> collection, final String value){
+    public static <T extends String> void removeIgnoreCase(Iterable<T> collection, final String value) {
         remove(collection, new Predicate<T>() {
             @Override
             public boolean check(T item) {
@@ -99,22 +99,22 @@ public class CollectionUtils {
         });
     }
 
-    public static <T> void remove(Iterable<T> collection, Predicate<T> predicate){
+    public static <T> void remove(Iterable<T> collection, Predicate<T> predicate) {
         Iterator<T> iterator = collection.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             T item = iterator.next();
-            if(predicate.check(item)){
+            if (predicate.check(item)) {
                 iterator.remove();
                 return;
             }
         }
     }
 
-    public static <T> void removeAll(Iterable<T> collection, Predicate<T> predicate){
+    public static <T> void removeAll(Iterable<T> collection, Predicate<T> predicate) {
         Iterator<T> iterator = collection.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             T item = iterator.next();
-            if(predicate.check(item)){
+            if (predicate.check(item)) {
                 iterator.remove();
             }
         }
@@ -124,7 +124,7 @@ public class CollectionUtils {
         List<T> nonUnique = new ArrayList<T>();
 
         for (final T object : collection) {
-            if(nonUnique.contains(object)){
+            if (nonUnique.contains(object)) {
                 continue;
             }
 
@@ -151,8 +151,8 @@ public class CollectionUtils {
     }
 
     public static <K, V> void multiMapFromList(List<V> list,
-                                                         KeyProvider<K, V> keyProvider, MultiMap<K, V> out) {
-        for(V object : list){
+                                               KeyProvider<K, V> keyProvider, MultiMap<K, V> out) {
+        for (V object : list) {
             K key = keyProvider.getKey(object);
             out.put(key, object);
         }
@@ -165,15 +165,15 @@ public class CollectionUtils {
     }
 
     public static <K, V> void mapFromList(List<V> list,
-                                               KeyProvider<K, V> keyProvider, Map<K, V> out) {
-        for(V object : list){
+                                          KeyProvider<K, V> keyProvider, Map<K, V> out) {
+        for (V object : list) {
             K key = keyProvider.getKey(object);
             out.put(key, object);
         }
     }
 
     public static <K, V> Map<K, V> mapFromList(List<V> list,
-                                          KeyProvider<K, V> keyProvider) {
+                                               KeyProvider<K, V> keyProvider) {
         Map<K, V> map = new LinkedHashMap<K, V>();
         mapFromList(list, keyProvider, map);
         return map;
@@ -183,9 +183,9 @@ public class CollectionUtils {
         List<T> result = new ArrayList<T>();
 
         Iterator<T> iterator = collection.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             T item = iterator.next();
-            if(predicate.check(item)){
+            if (predicate.check(item)) {
                 iterator.remove();
                 result.add(item);
             }
@@ -194,14 +194,14 @@ public class CollectionUtils {
         return result;
     }
 
-    public static <T> void removeAllWithType(Collection<T> collection, Class<? extends T> aClass){
+    public static <T> void removeAllWithType(Collection<T> collection, Class<? extends T> aClass) {
         Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
         removeAll(collection, predicate);
     }
 
-    public static <T> T find(Iterable<T> iterable, Predicate<T> predicate){
-        for(T object : iterable){
-            if(predicate.check(object)){
+    public static <T> T find(Iterable<T> iterable, Predicate<T> predicate) {
+        for (T object : iterable) {
+            if (predicate.check(object)) {
                 return object;
             }
         }
@@ -209,10 +209,10 @@ public class CollectionUtils {
         return null;
     }
 
-    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate){
+    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate) {
         List<T> result = new ArrayList<T>();
-        for(T object : iterable){
-            if(predicate.check(object)){
+        for (T object : iterable) {
+            if (predicate.check(object)) {
                 result.add(object);
             }
         }
@@ -229,14 +229,14 @@ public class CollectionUtils {
         return transform(findAll(froms, findTransform), findTransform);
     }
 
-    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate, int maxCount){
+    public static <T> List<T> findAll(Iterable<T> iterable, Predicate<T> predicate, int maxCount) {
         List<T> result = new ArrayList<T>(maxCount);
-        for(T object : iterable){
-            if(predicate.check(object)){
+        for (T object : iterable) {
+            if (predicate.check(object)) {
                 result.add(object);
             }
 
-            if(result.size() >= maxCount){
+            if (result.size() >= maxCount) {
                 break;
             }
         }
@@ -244,7 +244,7 @@ public class CollectionUtils {
         return result;
     }
 
-    public static <T> List<T> findAll(Iterable<T> iterable, Class<? extends T> aClass){
+    public static <T> List<T> findAll(Iterable<T> iterable, Class<? extends T> aClass) {
         Predicate<T> predicate = new InstanceOfPredicate<T>(aClass);
         return findAll(iterable, predicate);
     }
@@ -260,7 +260,7 @@ public class CollectionUtils {
     }
 
     public static <T> T getFirstOrNull(List<T> list) {
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
 
@@ -281,7 +281,7 @@ public class CollectionUtils {
 
             @Override
             public boolean hasNext() {
-                if(next == null){
+                if (next == null) {
                     next = getNext();
                 }
 
@@ -291,7 +291,7 @@ public class CollectionUtils {
             @Override
             public T next() {
                 T result = next;
-                if(result == null){
+                if (result == null) {
                     result = getNext();
                 }
                 next = null;
@@ -313,7 +313,7 @@ public class CollectionUtils {
         }
 
         if (comparator != null) {
-            Arrays.sort(indexes, new Comparator<Integer>(){
+            Arrays.sort(indexes, new Comparator<Integer>() {
                 @Override
                 public int compare(Integer aIndex, Integer bIndex) {
                     return comparator.compare(array[aIndex], array[bIndex]);
@@ -330,7 +330,7 @@ public class CollectionUtils {
             indexes[i] = i;
         }
 
-        Arrays.sort(indexes, new Comparator<Integer>(){
+        Arrays.sort(indexes, new Comparator<Integer>() {
             @Override
             public int compare(Integer aIndex, Integer bIndex) {
                 return array[aIndex].compareTo(array[bIndex]);
@@ -345,9 +345,9 @@ public class CollectionUtils {
         return list.remove(index);
     }
 
-    public static  <T> List<Integer> getSortedListIndexingMap(final List<T> list, final Comparator<T> comparator){
+    public static <T> List<Integer> getSortedListIndexingMap(final List<T> list, final Comparator<T> comparator) {
         List<Integer> indexingMap = new ArrayList<Integer>();
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             indexingMap.add(i);
         }
 
@@ -356,14 +356,14 @@ public class CollectionUtils {
             public int compare(Integer integer, Integer integer2) {
                 T a = list.get(integer);
                 T b = list.get(integer2);
-                return comparator.compare(a,b);
+                return comparator.compare(a, b);
             }
         });
 
         return indexingMap;
     }
 
-    public static  <T extends Comparable> List<Integer> getSortedListIndexingMap(final List<T> list){
+    public static <T extends Comparable> List<Integer> getSortedListIndexingMap(final List<T> list) {
         return getSortedListIndexingMap(list, new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
@@ -372,61 +372,61 @@ public class CollectionUtils {
         });
     }
 
-    public static <T> void sortWithIndexesComparator(final List<T> list, final Comparator<Integer> comparator){
+    public static <T> void sortWithIndexesComparator(final List<T> list, final Comparator<Integer> comparator) {
         Collections.sort(list, new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
-                return comparator.compare(list.indexOf(lhs),list.indexOf(rhs));
+                return comparator.compare(list.indexOf(lhs), list.indexOf(rhs));
             }
         });
     }
 
-    public static Integer incrementAndGet(List<Integer> list, int index){
+    public static Integer incrementAndGet(List<Integer> list, int index) {
         Integer integer = list.get(index);
         return list.set(index, integer + 1);
     }
 
     public static <T> Integer changeValue(Map<T, Integer> map, T key, int value) {
         Integer integer = map.get(key);
-        if(integer != null){
-            integer+=value;
+        if (integer != null) {
+            integer += value;
             map.put(key, integer);
         }
 
         return integer;
     }
 
-    public static <T extends Collection> int getGeneralSize(Collection<T> collections){
+    public static <T extends Collection> int getGeneralSize(Collection<T> collections) {
         int result = 0;
-        for(T collection : collections){
+        for (T collection : collections) {
             result += collection.size();
         }
         return result;
     }
 
-    public static <T> int getGeneralSizeOfArrays(Collection<T[]> arrays){
+    public static <T> int getGeneralSizeOfArrays(Collection<T[]> arrays) {
         int result = 0;
-        for(T[] array : arrays){
+        for (T[] array : arrays) {
             result += array.length;
         }
         return result;
     }
 
-    public static <T> List<T> mergeToSingleListSequentially(List<List<T>> lists){
+    public static <T> List<T> mergeToSingleListSequentially(List<List<T>> lists) {
         int size = getGeneralSize(lists);
         List<T> result = new ArrayList<T>(size);
         List<List<T>> listsClone = new ArrayList<List<T>>(lists);
-        List<Integer> indexInLists = new ArrayList<Integer>(Collections.nCopies(listsClone.size(),0));
+        List<Integer> indexInLists = new ArrayList<Integer>(Collections.nCopies(listsClone.size(), 0));
 
-        for(int i = 0; i < size;){
+        for (int i = 0; i < size; ) {
             int listIndex = i % listsClone.size();
             int indexInList = CollectionUtils.incrementAndGet(indexInLists, listIndex);
             List<T> list = listsClone.get(listIndex);
-            if(list == null){
+            if (list == null) {
                 throw new NullPointerException("list in lists should not be null");
             }
 
-            if(indexInList >= list.size()){
+            if (indexInList >= list.size()) {
                 listsClone.remove(listIndex);
                 indexInLists.remove(listIndex);
                 continue;
@@ -441,39 +441,40 @@ public class CollectionUtils {
         return result;
     }
 
-    public static <T> void sortUsingSeveralComparators(List<T> list, Comparator<T>... comparators){
-        if(comparators.length == 0){
+    public static <T> void sortUsingSeveralComparators(List<T> list, Comparator<T>... comparators) {
+        if (comparators.length == 0) {
             throw new IllegalArgumentException();
         }
 
         Collections.sort(list, Comparators.comparatorCombination(comparators));
     }
 
-    public static <T> void sortUsingListItemComparator(T[] list, ListItemComparator<T> comparator){
+    public static <T> void sortUsingListItemComparator(T[] list, ListItemComparator<T> comparator) {
         TimSort.sort(list, comparator);
     }
 
-    public static <T> void sortUsingListItemComparator(List<T> list, ListItemComparator<T> comparator){
+    public static <T> void sortUsingListItemComparator(List<T> list, ListItemComparator<T> comparator) {
         Object[] a = list.toArray();
-        sortUsingListItemComparator(a, (ListItemComparator)comparator);
+        sortUsingListItemComparator(a, (ListItemComparator) comparator);
         ListIterator i = list.listIterator();
-        for (int j=0; j<a.length; j++) {
+        for (int j = 0; j < a.length; j++) {
             i.next();
             i.set(a[j]);
         }
     }
 
-    public static interface PrioritiesProvider<T>{
+    public static interface PrioritiesProvider<T> {
         int getPriorityOf(T object, int index);
+
         int getPrioritiesCount();
     }
 
-    public static <T> void sortByPriority(List<T> list, PrioritiesProvider<T> prioritiesProvider){
+    public static <T> void sortByPriority(List<T> list, PrioritiesProvider<T> prioritiesProvider) {
         int prioritiesCount = prioritiesProvider.getPrioritiesCount();
         int[][] resultIndexesByPriority = new int[prioritiesCount][list.size()];
         int[] indexesByPriorityLengths = new int[prioritiesCount];
 
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             T object = list.get(i);
             int priority = prioritiesProvider.getPriorityOf(object, i);
             int[] arrayOfPriority = resultIndexesByPriority[priority];
@@ -484,26 +485,26 @@ public class CollectionUtils {
         Object[] clone = list.toArray();
 
         int listIndex = 0;
-        for(int i = 0; i < prioritiesCount; i++){
+        for (int i = 0; i < prioritiesCount; i++) {
             int[] arrayOfPriority = resultIndexesByPriority[i];
             int arrayOfPriorityLength = indexesByPriorityLengths[i];
-            for(int j = 0; j < arrayOfPriorityLength; j++, listIndex++){
+            for (int j = 0; j < arrayOfPriorityLength; j++, listIndex++) {
                 int index = arrayOfPriority[j];
-                T object = (T)clone[index];
-                list.set(listIndex,object);
+                T object = (T) clone[index];
+                list.set(listIndex, object);
             }
         }
     }
 
-    public static <T> void addAllInReverseOrder(Collection<T> destination, List<T> source){
-        for(int i = source.size() - 1; i >= 0; i--){
+    public static <T> void addAllInReverseOrder(Collection<T> destination, List<T> source) {
+        for (int i = source.size() - 1; i >= 0; i--) {
             T object = source.get(i);
             destination.add(object);
         }
     }
 
-    public static <T> void addAllInReverseOrder(List<T> destination, int index, List<T> source){
-        for(int i = source.size() - 1; i >= 0; i--){
+    public static <T> void addAllInReverseOrder(List<T> destination, int index, List<T> source) {
+        for (int i = source.size() - 1; i >= 0; i--) {
             T object = source.get(i);
             destination.add(index, object);
         }
@@ -523,17 +524,17 @@ public class CollectionUtils {
         });
     }
 
-    public static <T> List<T> unique(List<T> list, Equals<T> equals, HashCodeProvider<T> hashCodeProvider){
+    public static <T> List<T> unique(List<T> list, Equals<T> equals, HashCodeProvider<T> hashCodeProvider) {
         Set<T> set = new SetWithPredicates<T>(new LinkedHashSet(), equals, hashCodeProvider);
         set.addAll(list);
         return new ArrayList<T>(set);
     }
 
-    public static <T> List<T> unique(List<T> list, Equals<T> equals){
+    public static <T> List<T> unique(List<T> list, Equals<T> equals) {
         return unique(list, equals, null);
     }
 
-    public static <T> List<T> unique(List<T> list){
+    public static <T> List<T> unique(List<T> list) {
         Set<T> set = new LinkedHashSet<T>(list);
         return new ArrayList<T>(set);
     }
@@ -554,7 +555,7 @@ public class CollectionUtils {
 
     public static <From, To> List<To> transform(Iterable<From> from, Transformer<From, To> transformer) {
         List<To> result = new ArrayList<To>();
-        for(From object : from){
+        for (From object : from) {
             result.add(transformer.get(object));
         }
 
@@ -563,7 +564,7 @@ public class CollectionUtils {
 
     public static <From, To> List<To> transformUnique(Iterable<From> from, Transformer<From, To> transformer) {
         Set<To> result = new LinkedHashSet<To>();
-        for(From object : from){
+        for (From object : from) {
             result.add(transformer.get(object));
         }
 
@@ -571,16 +572,16 @@ public class CollectionUtils {
     }
 
     public static <From, To> void transformAndAdd(Iterable<From> from, Collection<To> to,
-                                             Transformer<From, To> transformer) {
-        for(From object : from){
+                                                  Transformer<From, To> transformer) {
+        for (From object : from) {
             to.add(transformer.get(object));
         }
     }
 
     public static <T> List<T> toList(Iterable<T> iterable, int maxCount) {
         List<T> result = new ArrayList<T>(maxCount);
-        for(T object : iterable){
-            if(result.size() >= maxCount){
+        for (T object : iterable) {
+            if (result.size() >= maxCount) {
                 break;
             }
 
@@ -592,7 +593,7 @@ public class CollectionUtils {
 
     public static <T> List<T> toList(Iterable<T> iterable) {
         List<T> result = new ArrayList<T>();
-        for(T object : iterable){
+        for (T object : iterable) {
             result.add(object);
         }
 
@@ -600,12 +601,12 @@ public class CollectionUtils {
     }
 
     public static <T> Iterable<T> asIterable(final Iterator<T> iterator) {
-        return new Iterable<T>(){
+        return new Iterable<T>() {
             boolean called = false;
 
             @Override
             public Iterator<T> iterator() {
-                if(called){
+                if (called) {
                     throw new IllegalArgumentException("wrapped iterable twice iterator call");
                 }
                 called = true;

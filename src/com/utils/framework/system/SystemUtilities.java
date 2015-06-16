@@ -35,8 +35,7 @@ public class SystemUtilities {
         String val = "";
         if (s.hasNext()) {
             val = s.next();
-        }
-        else {
+        } else {
             val = "";
         }
         return val;

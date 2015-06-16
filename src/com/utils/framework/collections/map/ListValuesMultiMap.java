@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by CM on 8/30/2014.
  */
-public class ListValuesMultiMap<K, V> extends AbstractMultiMap<K, V>{
+public class ListValuesMultiMap<K, V> extends AbstractMultiMap<K, V> {
     @Override
     protected Collection<V> createValuesCollection() {
         return new ArrayList<V>();

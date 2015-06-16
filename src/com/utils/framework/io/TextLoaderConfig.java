@@ -9,20 +9,20 @@ import com.utils.framework.collections.cache.*;
  * Time: 2:49 PM
  */
 public class TextLoaderConfig {
-    Cache<String,String> memoryCache;
-    Cache<String,String> diskCache;
+    Cache<String, String> memoryCache;
+    Cache<String, String> diskCache;
     boolean allowMemoryCaching = true;
     boolean allowDiskCaching = true;
 
-    public void setMemoryCache(Cache<String,String> memoryCache){
+    public void setMemoryCache(Cache<String, String> memoryCache) {
         TextLoaderConfig.this.memoryCache = memoryCache;
     }
 
-    public void setMemoryCacheSize(int sizeInBytes){
+    public void setMemoryCacheSize(int sizeInBytes) {
         this.memoryCache = new StringLruCache(sizeInBytes);
     }
 
-    public void setDiskCache(Cache<String,String> diskCache){
+    public void setDiskCache(Cache<String, String> diskCache) {
         this.diskCache = diskCache;
     }
 
@@ -34,24 +34,24 @@ public class TextLoaderConfig {
         this.allowDiskCaching = allowDiskCaching;
     }
 
-    public void setDiskCacheSize(int sizeInBytes, CacheDirectoryPathGenerator cacheDirectory){
+    public void setDiskCacheSize(int sizeInBytes, CacheDirectoryPathGenerator cacheDirectory) {
         diskCache = new StringLruDiskCache(sizeInBytes, cacheDirectory);
     }
 
-    public void setDiskCachePath(CacheDirectoryPathGenerator cacheDirectory){
+    public void setDiskCachePath(CacheDirectoryPathGenerator cacheDirectory) {
         setDiskCacheSize(1024 * 1024 * 5, cacheDirectory);
     }
 
-    void initUninitializedFields(){
-        if(allowMemoryCaching && memoryCache == null){
+    void initUninitializedFields() {
+        if (allowMemoryCaching && memoryCache == null) {
             setMemoryCacheSize(1024 * 1024);
-        } else if(!allowMemoryCaching) {
+        } else if (!allowMemoryCaching) {
             memoryCache = new EmptyCache<String, String>();
         }
 
-        if(allowDiskCaching && diskCache == null){
+        if (allowDiskCaching && diskCache == null) {
             diskCache = new EmptyCache<String, String>();
-        } else if(!allowDiskCaching) {
+        } else if (!allowDiskCaching) {
             diskCache = new EmptyCache<String, String>();
         }
     }

@@ -44,7 +44,7 @@ public class GoogleTranslate {
             try {
                 return simpleTranslate(fromLangCode, toLangCode, query);
             } catch (IOException e) {
-                if(i == 2 || !e.getMessage().contains("403")){
+                if (i == 2 || !e.getMessage().contains("403")) {
                     throw e;
                 } else {
                     Threads.sleep(1000);

@@ -20,6 +20,7 @@ public abstract class NavigationIterator<T> extends AbstractIterator<T> implemen
     }
 
     private boolean dataLoaded = false;
+
     private void loadDataIfRequired() {
         while (!iterator.hasNext() && !allDataLoaded) {
             dataLoaded = false;
@@ -37,7 +38,7 @@ public abstract class NavigationIterator<T> extends AbstractIterator<T> implemen
                     throw new RuntimeException(e);
                 }
             });
-            if(!dataLoaded){
+            if (!dataLoaded) {
                 throw new ConcurrentModificationException("Only one thread can use NavigationIterator");
             }
         }

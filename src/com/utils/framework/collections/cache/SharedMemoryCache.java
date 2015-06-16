@@ -2,13 +2,13 @@ package com.utils.framework.collections.cache;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 26.02.13
  * Time: 22:04
  * To change this template use File | Settings | File Templates.
  */
-public abstract class SharedMemoryCache implements SharedCache{
-    protected static class Key implements SelfSizeOfProvider{
+public abstract class SharedMemoryCache implements SharedCache {
+    protected static class Key implements SelfSizeOfProvider {
         Cache cache;
         Object key;
         int size;
@@ -39,7 +39,7 @@ public abstract class SharedMemoryCache implements SharedCache{
         }
     }
 
-    private CacheWithSizeOfProvider<Key,Object> cache;
+    private CacheWithSizeOfProvider<Key, Object> cache;
 
     protected SharedMemoryCache(CacheWithSizeOfProvider<Key, Object> cache) {
         this.cache = cache;
@@ -51,9 +51,9 @@ public abstract class SharedMemoryCache implements SharedCache{
         });
     }
 
-    public <K,V> Cache<K,V> createCache(final SizeProvider<K,V> sizeProvider){
-         return new Cache<K, V>() {
-            private Key getInternalKey(K key){
+    public <K, V> Cache<K, V> createCache(final SizeProvider<K, V> sizeProvider) {
+        return new Cache<K, V>() {
+            private Key getInternalKey(K key) {
                 Key internalKey = new Key();
                 internalKey.cache = this;
                 internalKey.key = key;
@@ -63,14 +63,14 @@ public abstract class SharedMemoryCache implements SharedCache{
             @Override
             public V get(K key) {
                 Key internalKey = getInternalKey(key);
-                return (V)cache.get(internalKey);
+                return (V) cache.get(internalKey);
             }
 
             @Override
             public V put(K key, V value) {
                 Key internalKey = getInternalKey(key);
                 internalKey.size = sizeProvider.sizeOf(key, value);
-                return (V)cache.put(internalKey, value);
+                return (V) cache.put(internalKey, value);
             }
 
             @Override
@@ -81,7 +81,7 @@ public abstract class SharedMemoryCache implements SharedCache{
         };
     }
 
-    public <K,V> Cache<K,V> createCache(){
+    public <K, V> Cache<K, V> createCache() {
         return createCache(new DefaultSizeProvider<K, V>());
     }
 }

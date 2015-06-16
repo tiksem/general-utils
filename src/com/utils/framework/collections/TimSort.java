@@ -28,24 +28,24 @@ import java.util.Arrays;
  * runs O(n log n) time (worst case).  In the worst case, this sort requires
  * temporary storage space for n/2 object references; in the best case,
  * it requires only a small constant amount of space.
- *
+ * <p>
  * This implementation was adapted from Tim Peters's list sort for
  * Python, which is described in detail here:
- *
- *   http://svn.python.org/projects/python/trunk/Objects/listsort.txt
- *
+ * <p>
+ * http://svn.python.org/projects/python/trunk/Objects/listsort.txt
+ * <p>
  * Tim's C code may be found here:
- *
- *   http://svn.python.org/projects/python/trunk/Objects/listobject.c
- *
+ * <p>
+ * http://svn.python.org/projects/python/trunk/Objects/listobject.c
+ * <p>
  * The underlying techniques are described in this paper (and may have
  * even earlier origins):
- *
- *  "Optimistic Sorting and Information Theoretic Complexity"
- *  Peter McIlroy
- *  SODA (Fourth Annual ACM-SIAM Symposium on Discrete Algorithms),
- *  pp 467-474, Austin, Texas, 25-27 January 1993.
- *
+ * <p>
+ * "Optimistic Sorting and Information Theoretic Complexity"
+ * Peter McIlroy
+ * SODA (Fourth Annual ACM-SIAM Symposium on Discrete Algorithms),
+ * pp 467-474, Austin, Texas, 25-27 January 1993.
+ * <p>
  * While the API to this class consists solely of static methods, it is
  * (privately) instantiable; a TimSort instance holds the state of an ongoing
  * sort, assuming the input array is large enough to warrant the full-blown
@@ -56,13 +56,13 @@ public class TimSort<T> {
      * This is the minimum sized sequence that will be merged.  Shorter
      * sequences will be lengthened by calling binarySort.  If the entire
      * array is less than this length, no merges will be performed.
-     *
+     * <p>
      * This constant should be a power of two.  It was 64 in Tim Peter's C
      * implementation, but 32 was empirically determined to work better in
      * this implementation.  In the unlikely event that you set this constant
      * to be a number that's not a power of two, you'll need to change the
      * {@link #minRunLength} computation.
-     *
+     * <p>
      * If you decrease this constant, you must change the stackLen
      * computation in the TimSort constructor, or you risk an
      * ArrayOutOfBounds exception.  See listsort.txt for a discussion
@@ -85,7 +85,7 @@ public class TimSort<T> {
      * When we get into galloping mode, we stay there until both runs win less
      * often than MIN_GALLOP consecutive times.
      */
-    private static final int  MIN_GALLOP = 7;
+    private static final int MIN_GALLOP = 7;
 
     /**
      * This controls when we get *into* galloping mode.  It is initialized
@@ -97,7 +97,7 @@ public class TimSort<T> {
     /**
      * Maximum initial size of tmp array, which is used for merging.  The array
      * can grow to accommodate demand.
-     *
+     * <p>
      * Unlike Tim's original C version, we do not allocate this much storage
      * when sorting smaller arrays.  This change was required for performance.
      */
@@ -112,9 +112,9 @@ public class TimSort<T> {
      * A stack of pending runs yet to be merged.  Run i starts at
      * address base[i] and extends for len[i] elements.  It's always
      * true (so long as the indices are in bounds) that:
-     *
-     *     runBase[i] + runLen[i] == runBase[i + 1]
-     *
+     * <p>
+     * runBase[i] + runLen[i] == runBase[i + 1]
+     * <p>
      * so we could cut the storage for this, but it's a minor amount,
      * and keeping all the info explicit simplifies the code.
      */
@@ -156,9 +156,9 @@ public class TimSort<T> {
          * computation below must be changed if MIN_MERGE is decreased.  See
          * the MIN_MERGE declaration above for more information.
          */
-        int stackLen = (len <    120  ?  5 :
-                len <   1542  ? 10 :
-                        len < 119151  ? 19 : 40);
+        int stackLen = (len < 120 ? 5 :
+                len < 1542 ? 10 :
+                        len < 119151 ? 19 : 40);
         runBase = new int[stackLen];
         runLen = new int[stackLen];
     }
@@ -180,7 +180,7 @@ public class TimSort<T> {
         }
 
         rangeCheck(a.length, lo, hi);
-        int nRemaining  = hi - lo;
+        int nRemaining = hi - lo;
         if (nRemaining < 2)
             return;  // Arrays of size 0 and 1 are always sorted
 
@@ -229,18 +229,18 @@ public class TimSort<T> {
      * insertion sort.  This is the best method for sorting small numbers
      * of elements.  It requires O(n log n) compares, but O(n^2) data
      * movement (worst case).
-     *
+     * <p>
      * If the initial part of the specified range is already sorted,
      * this method can take advantage of it: the method assumes that the
      * elements from index {@code lo}, inclusive, to {@code start},
      * exclusive are already sorted.
      *
-     * @param a the array in which a range is to be sorted
-     * @param lo the index of the first element in the range to be sorted
-     * @param hi the index after the last element in the range to be sorted
+     * @param a     the array in which a range is to be sorted
+     * @param lo    the index of the first element in the range to be sorted
+     * @param hi    the index after the last element in the range to be sorted
      * @param start the index of the first element in the range that is
-     *        not already known to be sorted (@code lo <= start <= hi}
-     * @param c comparator to used for the sort
+     *              not already known to be sorted (@code lo <= start <= hi}
+     * @param c     comparator to used for the sort
      */
     @SuppressWarnings("fallthrough")
     private static <T> void binarySort(T[] a, int lo, int hi, int start,
@@ -248,7 +248,7 @@ public class TimSort<T> {
         if (DEBUG) assert lo <= start && start <= hi;
         if (start == lo)
             start++;
-        for ( ; start < hi; start++) {
+        for (; start < hi; start++) {
             T pivot = a[start];
 
             // Set left (and right) to the index where a[start] (pivot) belongs
@@ -278,11 +278,14 @@ public class TimSort<T> {
              */
             int n = start - left;  // The number of elements to move
             // Switch is just an optimization for arraycopy in default case
-            switch(n) {
-                case 2:  a[left + 2] = a[left + 1];
-                case 1:  a[left + 1] = a[left];
+            switch (n) {
+                case 2:
+                    a[left + 2] = a[left + 1];
+                case 1:
+                    a[left + 1] = a[left];
                     break;
-                default: System.arraycopy(a, left, a, left + 1, n);
+                default:
+                    System.arraycopy(a, left, a, left + 1, n);
             }
             a[left] = pivot;
         }
@@ -292,26 +295,26 @@ public class TimSort<T> {
      * Returns the length of the run beginning at the specified position in
      * the specified array and reverses the run if it is descending (ensuring
      * that the run will always be ascending when the method returns).
-     *
+     * <p>
      * A run is the longest ascending sequence with:
-     *
-     *    a[lo] <= a[lo + 1] <= a[lo + 2] <= ...
-     *
+     * <p>
+     * a[lo] <= a[lo + 1] <= a[lo + 2] <= ...
+     * <p>
      * or the longest descending sequence with:
-     *
-     *    a[lo] >  a[lo + 1] >  a[lo + 2] >  ...
-     *
+     * <p>
+     * a[lo] >  a[lo + 1] >  a[lo + 2] >  ...
+     * <p>
      * For its intended use in a stable mergesort, the strictness of the
      * definition of "descending" is needed so that the call can safely
      * reverse a descending sequence without violating stability.
      *
-     * @param a the array in which a run is to be counted and possibly reversed
+     * @param a  the array in which a run is to be counted and possibly reversed
      * @param lo index of the first element in the run
      * @param hi index after the last element that may be contained in the run.
-    It is required that @code{lo < hi}.
-     * @param c the comparator to used for the sort
-     * @return  the length of the run beginning at the specified position in
-     *          the specified array
+     *           It is required that @code{lo < hi}.
+     * @param c  the comparator to used for the sort
+     * @return the length of the run beginning at the specified position in
+     * the specified array
      */
     private static <T> int countRunAndMakeAscending(T[] a, int lo, int hi,
                                                     ListItemComparator<? super T> c) {
@@ -323,7 +326,7 @@ public class TimSort<T> {
         // Find end of run, and reverse range if descending
         int firstIndex = runHi++;
         if (c.compare(a[firstIndex], a[lo], firstIndex, lo) < 0) { // Descending
-            while(runHi < hi && c.compare(a[runHi], a[runHi - 1], runHi, runHi - 1) < 0)
+            while (runHi < hi && c.compare(a[runHi], a[runHi - 1], runHi, runHi - 1) < 0)
                 runHi++;
             reverseRange(a, lo, runHi);
         } else {                              // Ascending
@@ -337,7 +340,7 @@ public class TimSort<T> {
     /**
      * Reverse the specified range of the specified array.
      *
-     * @param a the array in which a range is to be reversed
+     * @param a  the array in which a range is to be reversed
      * @param lo the index of the first element in the range to be reversed
      * @param hi the index after the last element in the range to be reversed
      */
@@ -354,14 +357,14 @@ public class TimSort<T> {
      * Returns the minimum acceptable run length for an array of the specified
      * length. Natural runs shorter than this will be extended with
      * {@link #binarySort}.
-     *
+     * <p>
      * Roughly speaking, the computation is:
-     *
-     *  If n < MIN_MERGE, return n (it's too small to bother with fancy stuff).
-     *  Else if n is an exact power of 2, return MIN_MERGE/2.
-     *  Else return an int k, MIN_MERGE/2 <= k <= MIN_MERGE, such that n/k
-     *   is close to, but strictly less than, an exact power of 2.
-     *
+     * <p>
+     * If n < MIN_MERGE, return n (it's too small to bother with fancy stuff).
+     * Else if n is an exact power of 2, return MIN_MERGE/2.
+     * Else return an int k, MIN_MERGE/2 <= k <= MIN_MERGE, such that n/k
+     * is close to, but strictly less than, an exact power of 2.
+     * <p>
      * For the rationale, see listsort.txt.
      *
      * @param n the length of the array to be sorted
@@ -392,10 +395,10 @@ public class TimSort<T> {
     /**
      * Examines the stack of runs waiting to be merged and merges adjacent runs
      * until the stack invariants are reestablished:
-     *
-     *     1. runLen[i - 3] > runLen[i - 2] + runLen[i - 1]
-     *     2. runLen[i - 2] > runLen[i - 1]
-     *
+     * <p>
+     * 1. runLen[i - 3] > runLen[i - 2] + runLen[i - 1]
+     * 2. runLen[i - 2] > runLen[i - 1]
+     * <p>
      * This method is called each time a new run is pushed onto the stack,
      * so the invariants are guaranteed to hold for i < stackSize upon
      * entry to the method.
@@ -403,7 +406,7 @@ public class TimSort<T> {
     private void mergeCollapse() {
         while (stackSize > 1) {
             int n = stackSize - 2;
-            if (n > 0 && runLen[n-1] <= runLen[n] + runLen[n+1]) {
+            if (n > 0 && runLen[n - 1] <= runLen[n] + runLen[n + 1]) {
                 if (runLen[n - 1] < runLen[n + 1])
                     n--;
                 mergeAt(n);
@@ -492,18 +495,18 @@ public class TimSort<T> {
      * specified sorted range; if the range contains an element equal to key,
      * returns the index of the leftmost equal element.
      *
-     * @param key the key whose insertion point to search for
-     * @param a the array in which to search
+     * @param key  the key whose insertion point to search for
+     * @param a    the array in which to search
      * @param base the index of the first element in the range
-     * @param len the length of the range; must be > 0
+     * @param len  the length of the range; must be > 0
      * @param hint the index at which to begin the search, 0 <= hint < n.
-     *     The closer hint is to the result, the faster this method will run.
-     * @param c the comparator used to order the range, and to search
+     *             The closer hint is to the result, the faster this method will run.
+     * @param c    the comparator used to order the range, and to search
      * @return the int k,  0 <= k <= n such that a[b + k - 1] < key <= a[b + k],
-     *    pretending that a[b - 1] is minus infinity and a[b + n] is infinity.
-     *    In other words, key belongs at index b + k; or in other words,
-     *    the first k elements of a should precede key, and the last n - k
-     *    should follow it.
+     * pretending that a[b - 1] is minus infinity and a[b + n] is infinity.
+     * In other words, key belongs at index b + k; or in other words,
+     * the first k elements of a should precede key, and the last n - k
+     * should follow it.
      */
     private static <T> int gallopLeft(T key, int keyIndex, T[] a, int base, int len, int hint,
                                       ListItemComparator<? super T> c) {
@@ -533,7 +536,7 @@ public class TimSort<T> {
             int secondsIndex;
             while (ofs < maxOfs) {
                 secondIndex = base + hint - ofs;
-                if(c.compare(key, a[secondIndex], keyIndex, secondIndex) > 0){
+                if (c.compare(key, a[secondIndex], keyIndex, secondIndex) > 0) {
                     break;
                 }
 
@@ -576,13 +579,13 @@ public class TimSort<T> {
      * Like gallopLeft, except that if the range contains an element equal to
      * key, gallopRight returns the index after the rightmost equal element.
      *
-     * @param key the key whose insertion point to search for
-     * @param a the array in which to search
+     * @param key  the key whose insertion point to search for
+     * @param a    the array in which to search
      * @param base the index of the first element in the range
-     * @param len the length of the range; must be > 0
+     * @param len  the length of the range; must be > 0
      * @param hint the index at which to begin the search, 0 <= hint < n.
-     *     The closer hint is to the result, the faster this method will run.
-     * @param c the comparator used to order the range, and to search
+     *             The closer hint is to the result, the faster this method will run.
+     * @param c    the comparator used to order the range, and to search
      * @return the int k,  0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
      */
     private static <T> int gallopRight(T key, int keyIndex, T[] a, int base, int len,
@@ -649,7 +652,7 @@ public class TimSort<T> {
      * element of the first run must be greater than the first element of the
      * second run (a[base1] > a[base2]), and the last element of the first run
      * (a[base1 + len1-1]) must be greater than all elements of the second run.
-     *
+     * <p>
      * For performance, this method should be called only when len1 <= len2;
      * its twin, mergeHi should be called if len1 >= len2.  (Either method
      * may be called if len1 == len2.)
@@ -657,7 +660,7 @@ public class TimSort<T> {
      * @param base1 index of first element in first run to be merged
      * @param len1  length of first run to be merged (must be > 0)
      * @param base2 index of first element in second run to be merged
-     *        (must be aBase + aLen)
+     *              (must be aBase + aLen)
      * @param len2  length of second run to be merged (must be > 0)
      */
     private void mergeLo(int base1, int len1, int base2, int len2) {
@@ -774,7 +777,7 @@ public class TimSort<T> {
      * @param base1 index of first element in first run to be merged
      * @param len1  length of first run to be merged (must be > 0)
      * @param base2 index of first element in second run to be merged
-     *        (must be aBase + aLen)
+     *              (must be aBase + aLen)
      * @param len2  length of second run to be merged (must be > 0)
      */
     private void mergeHi(int base1, int len1, int base2, int len2) {
@@ -922,17 +925,17 @@ public class TimSort<T> {
      * Checks that fromIndex and toIndex are in range, and throws an
      * appropriate exception if they aren't.
      *
-     * @param arrayLen the length of the array
+     * @param arrayLen  the length of the array
      * @param fromIndex the index of the first element of the range
-     * @param toIndex the index after the last element of the range
-     * @throws IllegalArgumentException if fromIndex > toIndex
+     * @param toIndex   the index after the last element of the range
+     * @throws IllegalArgumentException       if fromIndex > toIndex
      * @throws ArrayIndexOutOfBoundsException if fromIndex < 0
-     *         or toIndex > arrayLen
+     *                                        or toIndex > arrayLen
      */
     private static void rangeCheck(int arrayLen, int fromIndex, int toIndex) {
         if (fromIndex > toIndex)
             throw new IllegalArgumentException("fromIndex(" + fromIndex +
-                    ") > toIndex(" + toIndex+")");
+                    ") > toIndex(" + toIndex + ")");
         if (fromIndex < 0)
             throw new ArrayIndexOutOfBoundsException(fromIndex);
         if (toIndex > arrayLen)

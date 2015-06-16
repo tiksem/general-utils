@@ -34,8 +34,8 @@ public abstract class NextPrevNavigation<T> {
             @Override
             public void onPageLoaded(List<T> items) {
                 navigationQueue.addAll(items);
-                if(requestedIndex != null){
-                    if(requestedIndex < navigationQueue.size() && requestedIndex >= 0){
+                if (requestedIndex != null) {
+                    if (requestedIndex < navigationQueue.size() && requestedIndex >= 0) {
                         T item = navigationQueue.get(requestedIndex);
                         onItemLoaded.onLoad(item);
                         requestedIndex = null;
@@ -48,7 +48,7 @@ public abstract class NextPrevNavigation<T> {
     }
 
     public void next() {
-        if(requestedIndex == null && currentIndex < navigationQueue.size() - 1){
+        if (requestedIndex == null && currentIndex < navigationQueue.size() - 1) {
             T item = navigationQueue.get(++currentIndex);
             onItemLoaded.onLoad(item);
             requestedIndex = null;
@@ -67,8 +67,8 @@ public abstract class NextPrevNavigation<T> {
             @Override
             public void onPageLoaded(List<T> items) {
                 CollectionUtils.addAllInReverseOrder(navigationQueue, 0, items);
-                if(requestedIndex != null){
-                    if(requestedIndex < navigationQueue.size() && requestedIndex >= 0){
+                if (requestedIndex != null) {
+                    if (requestedIndex < navigationQueue.size() && requestedIndex >= 0) {
                         T item = navigationQueue.get(requestedIndex);
                         onItemLoaded.onLoad(item);
                         requestedIndex = null;
@@ -81,7 +81,7 @@ public abstract class NextPrevNavigation<T> {
     }
 
     public void prev() {
-        if(requestedIndex == null && currentIndex > 0){
+        if (requestedIndex == null && currentIndex > 0) {
             T item = navigationQueue.get(--currentIndex);
             onItemLoaded.onLoad(item);
             requestedIndex = null;
@@ -97,6 +97,7 @@ public abstract class NextPrevNavigation<T> {
 
     protected abstract void loadNext(T item, OnPageLoaded<T> onPageLoaded,
                                      IOExceptionListener ioExceptionListener);
+
     protected abstract void loadPrev(T item, OnPageLoaded<T> onPageLoaded,
                                      IOExceptionListener ioExceptionListener);
 }

@@ -1,13 +1,12 @@
 package com.utils.framework.collections.cache;
 
 /**
- *
  * User: stikhonenko
  * Date: 3/13/13
  * Time: 1:32 PM
  */
-public abstract class SharedLruDiskCache implements SharedCache{
-    private BaseLruDiskCache<String,Object> diskCache;
+public abstract class SharedLruDiskCache implements SharedCache {
+    private BaseLruDiskCache<String, Object> diskCache;
 
     protected SharedLruDiskCache(BaseLruDiskCache<String, Object> diskCache) {
         this.diskCache = diskCache;
@@ -24,14 +23,14 @@ public abstract class SharedLruDiskCache implements SharedCache{
         return new Cache<K, V>() {
             String thisHashCode = String.valueOf(System.identityHashCode(this));
 
-            final String getKey(K key){
+            final String getKey(K key) {
                 return thisHashCode + key.toString();
             }
 
             @Override
             public V get(K key) {
                 String keyAsString = getKey(key);
-                return (V)diskCache.get(keyAsString);
+                return (V) diskCache.get(keyAsString);
             }
 
             @Override

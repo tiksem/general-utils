@@ -7,7 +7,7 @@ import com.utils.framework.Predicate;
  * Date: 16.12.13
  * Time: 14:23
  */
-public class InstanceOfPredicate<T> implements Predicate<T>{
+public class InstanceOfPredicate<T> implements Predicate<T> {
     private Class<? extends T> aClass;
 
     public InstanceOfPredicate(Class<? extends T> aClass) {

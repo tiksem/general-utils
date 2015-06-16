@@ -23,12 +23,12 @@ public abstract class AbstractListSelectedItemPositionManager<T> implements Sele
 
     @Override
     public T selectPrev() {
-        if(getCurrentItemPosition() < 0){
+        if (getCurrentItemPosition() < 0) {
             throw new IllegalStateException("currentItemPosition < 0");
         }
 
         setCurrentItemPosition(getCurrentItemPosition() - 1);
-        if(getCurrentItemPosition() < 0){
+        if (getCurrentItemPosition() < 0) {
             setCurrentItemPosition(list.size() - 1);
         }
 
@@ -37,12 +37,12 @@ public abstract class AbstractListSelectedItemPositionManager<T> implements Sele
 
     @Override
     public T selectNext() {
-        if(getCurrentItemPosition() < 0){
+        if (getCurrentItemPosition() < 0) {
             throw new IllegalStateException("currentItemPosition < 0");
         }
 
         setCurrentItemPosition(getCurrentItemPosition() + 1);
-        if(getCurrentItemPosition() >= list.size()){
+        if (getCurrentItemPosition() >= list.size()) {
             setCurrentItemPosition(0);
         }
 
@@ -71,7 +71,7 @@ public abstract class AbstractListSelectedItemPositionManager<T> implements Sele
 
     @Override
     public Cancelable selectNextWhenAvailable(OnAvailable<T> onNextAvailable) {
-        if(getCurrentItemPosition() < 0){
+        if (getCurrentItemPosition() < 0) {
             throw new IllegalStateException();
         }
 
@@ -86,7 +86,7 @@ public abstract class AbstractListSelectedItemPositionManager<T> implements Sele
 
     @Override
     public Cancelable selectPrevWhenAvailable(OnAvailable<T> onPrevAvailable) {
-        if(getCurrentItemPosition() < 0){
+        if (getCurrentItemPosition() < 0) {
             throw new IllegalStateException();
         }
 

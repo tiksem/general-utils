@@ -8,7 +8,7 @@ import com.utils.framework.Predicate;
  * Time: 18:13
  */
 public class Predicates {
-    public static <T> Predicate<T> not(final Predicate<T> predicate){
+    public static <T> Predicate<T> not(final Predicate<T> predicate) {
         return new Predicate<T>() {
             @Override
             public boolean check(T item) {

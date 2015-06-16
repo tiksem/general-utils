@@ -17,14 +17,14 @@ public final class IOUtilities {
         char[] buffer = new char[BUFFER_SIZE];
         int n;
 
-        while ( ( n = reader.read(buffer)) != -1 ) {
+        while ((n = reader.read(buffer)) != -1) {
             content.append(buffer, 0, n);
         }
 
         return content.toString();
     }
 
-    public static Reader readerFromInputStream(InputStream inputStream, String encoding){
+    public static Reader readerFromInputStream(InputStream inputStream, String encoding) {
         try {
             return new BufferedReader(new InputStreamReader(inputStream, encoding));
         } catch (UnsupportedEncodingException e) {
@@ -32,7 +32,7 @@ public final class IOUtilities {
         }
     }
 
-    public static Reader readerFromInputStream(InputStream inputStream){
+    public static Reader readerFromInputStream(InputStream inputStream) {
         return new BufferedReader(new InputStreamReader(inputStream));
     }
 
@@ -48,13 +48,14 @@ public final class IOUtilities {
 
     // write CharSequence
     //-----------------------------------------------------------------------
+
     /**
      * Writes chars from a <code>CharSequence</code> to a <code>Writer</code>.
      *
-     * @param data  the <code>CharSequence</code> to write, null ignored
-     * @param output  the <code>Writer</code> to write to
+     * @param data   the <code>CharSequence</code> to write, null ignored
+     * @param output the <code>Writer</code> to write to
      * @throws NullPointerException if output is null
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws java.io.IOException  if an I/O error occurs
      * @since 2.0
      */
     public static void write(CharSequence data, Writer output) throws IOException {
@@ -70,10 +71,10 @@ public final class IOUtilities {
      * <p>
      * This method uses {@link String#getBytes()}.
      *
-     * @param data  the <code>CharSequence</code> to write, null ignored
-     * @param output  the <code>OutputStream</code> to write to
+     * @param data   the <code>CharSequence</code> to write, null ignored
+     * @param output the <code>OutputStream</code> to write to
      * @throws NullPointerException if output is null
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws java.io.IOException  if an I/O error occurs
      * @since 2.0
      */
     public static void write(CharSequence data, OutputStream output)
@@ -87,11 +88,11 @@ public final class IOUtilities {
      * <p>
      * This method uses {@link String#getBytes(String)}.
      *
-     * @param data  the <code>CharSequence</code> to write, null ignored
-     * @param output  the <code>OutputStream</code> to write to
-     * @param encoding  the encoding to use, null means platform default
+     * @param data     the <code>CharSequence</code> to write, null ignored
+     * @param output   the <code>OutputStream</code> to write to
+     * @param encoding the encoding to use, null means platform default
      * @throws NullPointerException if output is null
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws java.io.IOException  if an I/O error occurs
      * @since 2.3
      */
     public static void write(CharSequence data, OutputStream output, Charset encoding) throws IOException {
@@ -100,7 +101,7 @@ public final class IOUtilities {
         }
     }
 
-    public static InputStream getInputStreamFromUrl(String url) throws IOException{
+    public static InputStream getInputStreamFromUrl(String url) throws IOException {
         URLConnection connection = null;
         try {
             connection = new URL(url).openConnection();
@@ -110,30 +111,30 @@ public final class IOUtilities {
         return connection.getInputStream();
     }
 
-    public static InputStream getBufferedInputStream(InputStream stream){
-        if(stream instanceof BufferedInputStream){
+    public static InputStream getBufferedInputStream(InputStream stream) {
+        if (stream instanceof BufferedInputStream) {
             return stream;
         } else {
             return new BufferedInputStream(stream);
         }
     }
 
-    public static OutputStream getBufferedOutputStream(OutputStream stream){
-        if(stream instanceof BufferedOutputStream){
+    public static OutputStream getBufferedOutputStream(OutputStream stream) {
+        if (stream instanceof BufferedOutputStream) {
             return stream;
         } else {
             return new BufferedOutputStream(stream);
         }
     }
 
-    public static InputStream getBufferedInputStreamFromUrl(String url) throws IOException{
+    public static InputStream getBufferedInputStreamFromUrl(String url) throws IOException {
         InputStream stream = getInputStreamFromUrl(url);
         return getBufferedInputStream(stream);
     }
 
     public static boolean createFile(String path) throws IOException {
         File file = new File(path);
-        if(file.isDirectory()){
+        if (file.isDirectory()) {
             file.delete();
         }
         return file.createNewFile();
@@ -159,9 +160,9 @@ public final class IOUtilities {
         return getBufferedOutputStream(stream);
     }
 
-    public static InputStream getBufferedInputStreamFromUrl(String url, int buffSize) throws IOException{
+    public static InputStream getBufferedInputStreamFromUrl(String url, int buffSize) throws IOException {
         InputStream stream = getInputStreamFromUrl(url);
-        return new BufferedInputStream(stream,buffSize);
+        return new BufferedInputStream(stream, buffSize);
     }
 
     public static ObjectOutputStream getObjectOutputStreamFromFile(File file) throws IOException {
@@ -174,7 +175,7 @@ public final class IOUtilities {
         return new ObjectInputStream(fileInputStream);
     }
 
-    public static Object getObjectFromFile(File file){
+    public static Object getObjectFromFile(File file) {
         try {
             ObjectInputStream inputStream = getObjectInputStreamFromFile(file);
             return inputStream.readObject();
@@ -183,7 +184,7 @@ public final class IOUtilities {
         }
     }
 
-    public static boolean writeObjectToFile(Object object, File file){
+    public static boolean writeObjectToFile(Object object, File file) {
         try {
             ObjectOutputStream objectOutputStream = getObjectOutputStreamFromFile(file);
             objectOutputStream.writeObject(object);
@@ -249,13 +250,10 @@ public final class IOUtilities {
             for (int i = 0; i < list.length; i++) {
                 File entry = new File(directory, list[i]);
 
-                if (entry.isDirectory())
-                {
+                if (entry.isDirectory()) {
                     if (!removeDirectory(entry))
                         return false;
-                }
-                else
-                {
+                } else {
                     if (!entry.delete())
                         return false;
                 }

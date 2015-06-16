@@ -10,9 +10,9 @@ import java.util.*;
 public class SetWithPredicates<T> extends AbstractSet<T> {
     private HashCodeProvider hashCodeProvider;
     private Equals equalsPredicate;
-    private Set< Entry<T> > set;
+    private Set<Entry<T>> set;
 
-    public class Entry<T>{
+    public class Entry<T> {
         T object;
 
         private Entry(T object) {
@@ -21,7 +21,7 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
 
         @Override
         public boolean equals(Object o) {
-            Entry<T> entry = (Entry<T>)o;
+            Entry<T> entry = (Entry<T>) o;
             o = entry.object;
             return equalsPredicate.equals(object, o);
         }
@@ -32,26 +32,26 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
         }
     }
 
-    private void initEqualsPredicate(Equals equalsPredicate){
-        if(equalsPredicate == null){
+    private void initEqualsPredicate(Equals equalsPredicate) {
+        if (equalsPredicate == null) {
             equalsPredicate = new DefaultEquals();
         }
 
         this.equalsPredicate = equalsPredicate;
     }
 
-    private void initHashCodeProvider(HashCodeProvider hashCodeProvider){
-        if(hashCodeProvider == null){
+    private void initHashCodeProvider(HashCodeProvider hashCodeProvider) {
+        if (hashCodeProvider == null) {
             hashCodeProvider = new DefaultHashCodeProvider();
         }
 
         this.hashCodeProvider = hashCodeProvider;
     }
 
-    private void initSet(Set set){
-        if(set == null){
+    private void initSet(Set set) {
+        if (set == null) {
             set = new HashSet();
-        } else if(!set.isEmpty()) {
+        } else if (!set.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
@@ -100,7 +100,7 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
 
     @Override
     public boolean contains(Object o) {
-        return set.contains(new Entry<T>((T)o));
+        return set.contains(new Entry<T>((T) o));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            Iterator< Entry<T> > iterator = set.iterator();
+            Iterator<Entry<T>> iterator = set.iterator();
 
             @Override
             public boolean hasNext() {
@@ -140,7 +140,7 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
 
     @Override
     public boolean remove(Object o) {
-        return set.remove(new Entry<T>((T)o));
+        return set.remove(new Entry<T>((T) o));
     }
 
     @Override

@@ -7,5 +7,6 @@ import com.utils.framework.OnError;
  */
 public interface NavigationEntity<T> {
     int getLoadedElementsCount();
+
     void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError);
 }

@@ -7,10 +7,10 @@ package com.utils.framework.strings;
  * Time: 19:35
  * To change this template use File | Settings | File Templates.
  */
-public class FirstLetterLowerCaseMaker implements CharTransformer{
+public class FirstLetterLowerCaseMaker implements CharTransformer {
     @Override
     public char transform(CharSequence string, int index, char ch) {
-        if(index == 0){
+        if (index == 0) {
             return Character.toLowerCase(ch);
         }
 

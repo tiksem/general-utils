@@ -11,7 +11,7 @@ import java.util.*;
  * Time: 18:29
  * To change this template use File | Settings | File Templates.
  */
-public abstract class NavigationList<T> extends AbstractList<T> implements NavigationEntity<T>{
+public abstract class NavigationList<T> extends AbstractList<T> implements NavigationEntity<T> {
     private boolean allDataLoaded = false;
     private int loadedPagesCount = 0;
     private int distanceToLoadNextPage;
@@ -45,7 +45,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     @Override
-    public int getLoadedElementsCount(){
+    public int getLoadedElementsCount() {
         return elements.size() - elementsOffset;
     }
 
@@ -75,7 +75,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     protected NavigationList(int maxElementsCount) {
-        this(Collections.<T>emptyList(),maxElementsCount);
+        this(Collections.<T>emptyList(), maxElementsCount);
     }
 
     public int getDistanceToLoadNextPage() {
@@ -86,30 +86,28 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         this.distanceToLoadNextPage = distanceToLoadNextPage;
     }
 
-    private boolean shouldLoadNextPage(int location){
+    private boolean shouldLoadNextPage(int location) {
         return location >= getLoadedElementsCount() - distanceToLoadNextPage;
     }
 
     @Override
     public T get(int location) {
-        if(!allDataLoaded){
+        if (!allDataLoaded) {
             int size = elements.size();
-            if(shouldLoadNextPage(location)){
+            if (shouldLoadNextPage(location)) {
                 lastIndexRequestedBeforePageLoading = location;
                 if (!manualPageLoading) {
                     loadNextPage();
                 } else {
                     requestLoadNextPage(location);
                 }
-                if(location < size){
+                if (location < size) {
                     return elements.get(location);
                 }
-            }
-            else {
+            } else {
                 return elements.get(location);
             }
-        }
-        else {
+        } else {
             if (location < elements.size()) {
                 return elements.get(location);
             } else {
@@ -124,7 +122,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return allDataLoaded;
     }
 
-    public void pausePageLoading(){
+    public void pausePageLoading() {
         pageLoadingPaused = true;
     }
 
@@ -132,9 +130,9 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return pageLoadingPaused;
     }
 
-    public void resumePageLoading(){
+    public void resumePageLoading() {
         pageLoadingPaused = false;
-        if(lastIndexRequestedBeforePageLoading >= 0){
+        if (lastIndexRequestedBeforePageLoading >= 0) {
             loadNextPage();
         }
     }
@@ -144,25 +142,25 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     private void requestLoadNextPage(int index) {
-        if(onPageLoadingRequested != null){
+        if (onPageLoadingRequested != null) {
             onPageLoadingRequested.onPageLoadingRequested(index);
         }
     }
 
-    public void loadNextPage(){
+    public void loadNextPage() {
         loadNextPage(null);
     }
 
-    public void loadNextPage(final OnPageLoadingFinished onPageLoadingFinished){
-        if(allDataLoaded){
+    public void loadNextPage(final OnPageLoadingFinished onPageLoadingFinished) {
+        if (allDataLoaded) {
             return;
         }
 
-        if(pageLoadingPaused){
+        if (pageLoadingPaused) {
             return;
         }
 
-        if(pageLoadingExecuted){
+        if (pageLoadingExecuted) {
             return;
         }
 
@@ -194,7 +192,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
                 onPageLoadingFinished(pageToLoad);
 
-                if(onPageLoadingFinished != null){
+                if (onPageLoadingFinished != null) {
                     onPageLoadingFinished.onLoadingFinished();
                 }
 
@@ -235,18 +233,18 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     private void notifyAllDataLoaded() {
         onAllDataLoaded();
-        if(onAllDataLoaded != null){
+        if (onAllDataLoaded != null) {
             onAllDataLoaded.onAllDataLoaded();
         }
     }
 
-    protected void onAllDataLoaded(){
+    protected void onAllDataLoaded() {
 
     }
 
     @Override
     public void add(int location, T object) {
-        if(location > elementsOffset){
+        if (location > elementsOffset) {
             throw new IndexOutOfBoundsException("Unable to insert element between loaded elements");
         }
 
@@ -258,15 +256,14 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     @Override
     public int size() {
-        if(allDataLoaded) {
+        if (allDataLoaded) {
             return elements.size();
-        }
-        else {
+        } else {
             return elements.size() + 1;
         }
     }
 
-    public static NavigationList emptyList(){
+    public static NavigationList emptyList() {
         NavigationList navigationList = new NavigationList() {
             @Override
             public void getElementsOfPage(int pageNumber, OnLoadingFinished onPageLoadingFinished, OnError onError) {
@@ -277,7 +274,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return navigationList;
     }
 
-    public static <T> NavigationList<T> decorate(List<T> elements){
+    public static <T> NavigationList<T> decorate(List<T> elements) {
         NavigationList<T> list = new NavigationList<T>() {
             @Override
             public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError) {

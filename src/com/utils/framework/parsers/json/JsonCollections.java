@@ -36,7 +36,7 @@ public class JsonCollections {
 
     public static Map<String, List<String>> asStringListMap(final JSONObject jsonObject) {
         final Map<String, List<String>> result = new LinkedHashMap<String, List<String>>();
-        for(final String key : CollectionUtils.asIterable((Iterator<String>)jsonObject.keys())){
+        for (final String key : CollectionUtils.asIterable((Iterator<String>) jsonObject.keys())) {
             try {
                 result.put(key, new AbstractList<String>() {
                     JSONArray array = jsonObject.getJSONArray(key);

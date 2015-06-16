@@ -5,19 +5,18 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- *
  * User: stikhonenko
  * Date: 3/11/13
  * Time: 4:41 PM
  */
 public class Comparators {
-    public static <T> Comparator<T> comparatorCombination(final List<Comparator<T>> comparators){
+    public static <T> Comparator<T> comparatorCombination(final List<Comparator<T>> comparators) {
         return new Comparator<T>() {
             @Override
             public int compare(T a, T b) {
-                for(Comparator<T> comparator : comparators){
+                for (Comparator<T> comparator : comparators) {
                     int compare = comparator.compare(a, b);
-                    if(compare != 0){
+                    if (compare != 0) {
                         return compare;
                     }
                 }
@@ -27,24 +26,24 @@ public class Comparators {
         };
     }
 
-    public static <T> Comparator<T> comparatorCombination(final Comparator<T>... comparators){
+    public static <T> Comparator<T> comparatorCombination(final Comparator<T>... comparators) {
         return comparatorCombination(Arrays.asList(comparators));
     }
 
-    public static <T> Comparator<T> defaultComparator(){
+    public static <T> Comparator<T> defaultComparator() {
         return new Comparator<T>() {
             @Override
             public int compare(T t, T t2) {
-                return ((Comparable)t).compareTo((Comparable)t2);
+                return ((Comparable) t).compareTo((Comparable) t2);
             }
         };
     }
 
-    public static <T> Comparator<T> reverseComparator(final Comparator<T> comparator){
+    public static <T> Comparator<T> reverseComparator(final Comparator<T> comparator) {
         return new Comparator<T>() {
             @Override
             public int compare(T t, T t2) {
-                return -comparator.compare(t,t2);
+                return -comparator.compare(t, t2);
             }
         };
     }

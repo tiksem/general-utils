@@ -21,33 +21,33 @@ public class ObjectProbabilityRangeMap<T> {
         probabilities = Statistics.createProbabilitiesArray(objects, coefficientProvider);
     }
 
-    public int getObjectIndexByProbabilityPoint(float probability){
+    public int getObjectIndexByProbabilityPoint(float probability) {
         int index = Arrays.binarySearch(probabilities, probability);
-        if(index < 0){
+        if (index < 0) {
             index = -index - 1;
         }
 
         return index;
     }
 
-    public T getObjectByProbabilityPoint(float probability){
+    public T getObjectByProbabilityPoint(float probability) {
         int index = getObjectIndexByProbabilityPoint(probability);
         return objects.get(index);
     }
 
-    public T getRandomObject(){
-        float probabilityPoint = (float)Math.random();
+    public T getRandomObject() {
+        float probabilityPoint = (float) Math.random();
         return getObjectByProbabilityPoint(probabilityPoint);
     }
 
-    public int getRandomObjectIndex(){
-        float probabilityPoint = (float)Math.random();
+    public int getRandomObjectIndex() {
+        float probabilityPoint = (float) Math.random();
         return getObjectIndexByProbabilityPoint(probabilityPoint);
     }
 
-    public List<T> generateRandomObjects(int count){
+    public List<T> generateRandomObjects(int count) {
         List<T> result = new ArrayList<T>(count);
-        for(int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             T randomObject = getRandomObject();
             result.add(randomObject);
         }

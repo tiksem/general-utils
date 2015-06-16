@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 13.03.13
  * Time: 22:36
  * To change this template use File | Settings | File Templates.
@@ -32,76 +32,76 @@ public class Memory {
 
     private static final int[] powerOf2 = new int[]{
             2,
-            2*2,
-            2*2*2,
-            2*2*2*2,
-            2*2*2*2*2,
-            2*2*2*2*2*2,
-            2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2,2,
-            2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2,
-            2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2
+            2 * 2,
+            2 * 2 * 2,
+            2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2, 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2,
+            2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2
     };
 
-    private Cache<Class,List<Field>> fieldsCache = new LruCache<Class, List<Field>>(FIELDS_CACHE_SIZE);
+    private Cache<Class, List<Field>> fieldsCache = new LruCache<Class, List<Field>>(FIELDS_CACHE_SIZE);
 
     private static Memory instance;
 
-    public static Memory getInstance(){
-        if(instance == null){
+    public static Memory getInstance() {
+        if (instance == null) {
             instance = new Memory();
         }
 
         return instance;
     }
 
-    public int getObjectAlignSize(int size){
-        if(size <= MINIMUM_OBJECT_SIZE){
+    public int getObjectAlignSize(int size) {
+        if (size <= MINIMUM_OBJECT_SIZE) {
             return MINIMUM_OBJECT_SIZE;
         }
 
         int index = Arrays.binarySearch(powerOf2, size);
-        if(index < 0){
+        if (index < 0) {
             index = -index - 1;
         }
 
         return powerOf2[index];
     }
 
-    public int sizeOfPrimitive(Class type){
-        if(type == int.class){
+    public int sizeOfPrimitive(Class type) {
+        if (type == int.class) {
             return INT_SIZE;
-        } else if(type == long.class){
+        } else if (type == long.class) {
             return LONG_SIZE;
-        } else if(type == byte.class) {
+        } else if (type == byte.class) {
             return BYTE_SIZE;
-        } else if(type == boolean.class) {
+        } else if (type == boolean.class) {
             return BOOLEAN_SIZE;
-        } else if(type == char.class) {
+        } else if (type == char.class) {
             return CHAR_SIZE;
-        } else if(type == float.class) {
+        } else if (type == float.class) {
             return FLOAT_SIZE;
-        } else if(type == double.class) {
+        } else if (type == double.class) {
             return DOUBLE_SIZE;
         } else {
             throw new IllegalArgumentException(type.getCanonicalName() +
@@ -109,59 +109,59 @@ public class Memory {
         }
     }
 
-    public int sizeOfPrimitiveArray(Object array){
+    public int sizeOfPrimitiveArray(Object array) {
         Class type = array.getClass();
 
-        if(type == int[].class){
-            return INT_SIZE * ((int[])array).length;
-        } else if(type == long[].class){
-            return LONG_SIZE * ((long[])array).length;
-        } else if(type == byte[].class) {
-            return BYTE_SIZE * ((byte[])array).length;
-        } else if(type == boolean[].class) {
-            return BOOLEAN_SIZE * ((boolean[])array).length;
-        } else if(type == char[].class) {
-            return CHAR_SIZE * ((char[])array).length;
-        } else if(type == float[].class) {
-            return FLOAT_SIZE * ((float[])array).length;
-        } else if(type == double[].class) {
-            return DOUBLE_SIZE * ((double[])array).length;
+        if (type == int[].class) {
+            return INT_SIZE * ((int[]) array).length;
+        } else if (type == long[].class) {
+            return LONG_SIZE * ((long[]) array).length;
+        } else if (type == byte[].class) {
+            return BYTE_SIZE * ((byte[]) array).length;
+        } else if (type == boolean[].class) {
+            return BOOLEAN_SIZE * ((boolean[]) array).length;
+        } else if (type == char[].class) {
+            return CHAR_SIZE * ((char[]) array).length;
+        } else if (type == float[].class) {
+            return FLOAT_SIZE * ((float[]) array).length;
+        } else if (type == double[].class) {
+            return DOUBLE_SIZE * ((double[]) array).length;
         } else {
             return -1;
         }
     }
 
-    private int sizeOfString(String string){
+    private int sizeOfString(String string) {
         return Math.round((string.length() * CHAR_SIZE))
                 + POINTER_SIZE + INT_SIZE * 3;
     }
 
-    private int sizeOfArray(Object array, ObjectAddressSet excludedInstances){
+    private int sizeOfArray(Object array, ObjectAddressSet excludedInstances) {
         int size = sizeOfPrimitiveArray(array);
-        if(size == -1){
+        if (size == -1) {
             size = 0;
         } else {
             return size;
         }
 
-        for(Object o : (Object[])array){
+        for (Object o : (Object[]) array) {
             size += sizeOf(o, excludedInstances);
         }
 
         return size;
     }
 
-    private int sizeOf(Object object, ObjectAddressSet excludedInstances){
+    private int sizeOf(Object object, ObjectAddressSet excludedInstances) {
         int size = 0;
-        if(object == null || excludedInstances.contains(object)){
+        if (object == null || excludedInstances.contains(object)) {
             return POINTER_SIZE;
         }
 
         Class classOfObject = object.getClass();
 
-        if(classOfObject == String.class){
-            size += sizeOfString((String)object);
-        } else if(classOfObject.isArray()) {
+        if (classOfObject == String.class) {
+            size += sizeOfString((String) object);
+        } else if (classOfObject.isArray()) {
             size += sizeOfArray(object, excludedInstances);
         } else {
             size += sizeOfObject(object, excludedInstances);
@@ -171,13 +171,13 @@ public class Memory {
         return size;
     }
 
-    public int sizeOf(Object object){
+    public int sizeOf(Object object) {
         return sizeOf(object, new ObjectAddressSet());
     }
 
-    private List<Field> getFields(Object object){
+    private List<Field> getFields(Object object) {
         List<Field> fields = fieldsCache.get(object.getClass());
-        if(fields == null){
+        if (fields == null) {
             fields = Reflection.getAllFields(object);
             fieldsCache.put(object.getClass(), fields);
         }
@@ -185,21 +185,21 @@ public class Memory {
         return fields;
     }
 
-    private int sizeOfObject(Object object, ObjectAddressSet excludedInstances){
-        if(object == null){
+    private int sizeOfObject(Object object, ObjectAddressSet excludedInstances) {
+        if (object == null) {
             return POINTER_SIZE;
         }
 
         int size = 0;
         List<Field> fields = getFields(object);
 
-        for(Field field : fields){
-            if(Modifier.isStatic(field.getModifiers())){
+        for (Field field : fields) {
+            if (Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
 
             Class fieldType = field.getType();
-            if(fieldType.isPrimitive()){
+            if (fieldType.isPrimitive()) {
                 size += sizeOfPrimitive(fieldType);
             } else {
                 Object property = Reflection.getValueOfField(object, field);

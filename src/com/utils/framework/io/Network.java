@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 
@@ -43,7 +44,7 @@ public final class Network {
     }
 
     public static String getUrl(String url, Map<String, Object> params) throws IOException {
-        if(params == null || params.isEmpty()){
+        if (params == null || params.isEmpty()) {
             return url;
         }
 
@@ -52,9 +53,9 @@ public final class Network {
 
         urlBuilder.append("?");
 
-        for(Map.Entry<String, Object> param : params.entrySet()){
-            String key = URLEncoder.encode(param.getKey(),"UTF-8");
-            String value = URLEncoder.encode(param.getValue().toString(),"UTF-8");
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            String key = URLEncoder.encode(param.getKey(), "UTF-8");
+            String value = URLEncoder.encode(param.getValue().toString(), "UTF-8");
 
             urlBuilder.append(key);
             urlBuilder.append("=");
@@ -67,9 +68,13 @@ public final class Network {
         return urlBuilder.toString();
     }
 
-    public static String executeGetRequest(String url, Map<String, Object> params) throws IOException{
+    public static String executeGetRequest(String url, Map<String, Object> params, String encoding) throws IOException {
         url = getUrl(url, params);
-        return executeRequestGET(url);
+        return executeRequestGET(url, encoding);
+    }
+
+    public static String executeGetRequest(String url, Map<String, Object> params) throws IOException {
+        return executeGetRequest(url, params, null);
     }
 
     public static <T> T executeRequest(HttpClient httpClient, HttpUriRequest request,
@@ -107,39 +112,37 @@ public final class Network {
     }
 
     public static String executeRequestGET(String url) throws IOException {
+        return executeRequestGET(url, null);
+    }
+
+    public static String executeRequestGET(String url, String encoding) throws IOException {
         InputStream inputStream = null;
         try {
+            if (encoding == null) {
+                encoding = Charset.defaultCharset().name();
+            }
+
             URL urlObject = new URL(url);
             URLConnection connection = urlObject.openConnection();
 
-//            connection.setReadTimeout(readTimeout);
-//            connection.setConnectTimeout(connectionTimeout);
-
             inputStream = connection.getInputStream();
-            InputStreamReader responseReader = new InputStreamReader(inputStream);
+            InputStreamReader responseReader = new InputStreamReader(inputStream, encoding);
             BufferedReader readBuffer = new BufferedReader(responseReader);
-            StringBuilder resultString = new StringBuilder();
-            String line;
-            while ((line = readBuffer.readLine()) != null) {
-                resultString.append(line);
-            }
-            readBuffer.close();
-            return resultString.toString();
+            return IOUtilities.toString(readBuffer);
         } finally {
-            if(inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
     }
 
-    public static interface InterruptListener{
+    public static interface InterruptListener {
         boolean isInterrupted();
     }
 
     public static final byte[] getBytesFromStream(InputStream inputStream,
                                                   InterruptListener interruptListener,
-                                                  ByteArrayOutputStream byteArrayOutputStream) throws IOException
-    {
+                                                  ByteArrayOutputStream byteArrayOutputStream) throws IOException {
         try {
             byteArrayOutputStream.reset();
             final int maxReadCount = 1024;
@@ -168,8 +171,7 @@ public final class Network {
     }
 
     public static final byte[] getBytesFromStream(InputStream inputStream,
-                                                  InterruptListener interruptListener) throws IOException
-    {
+                                                  InterruptListener interruptListener) throws IOException {
         return getBytesFromStream(inputStream, interruptListener, new ReusableByteArrayOutputStream());
     }
 
@@ -179,29 +181,28 @@ public final class Network {
 
     public static final byte[] getBytesFromUrl(String url,
                                                InterruptListener interruptListener,
-                                               ByteArrayOutputStream byteArrayOutputStream) throws IOException{
+                                               ByteArrayOutputStream byteArrayOutputStream) throws IOException {
         InputStream inputStream = null;
         try {
             URL urlObject = new URL(url);
             URLConnection connection = urlObject.openConnection();
             inputStream = new BufferedInputStream(connection.getInputStream());
 
-            if(byteArrayOutputStream != null) {
+            if (byteArrayOutputStream != null) {
                 return getBytesFromStream(inputStream, interruptListener, byteArrayOutputStream);
             } else {
                 return getBytesFromStream(inputStream, interruptListener);
             }
 
         } finally {
-            if(inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
     }
 
     public static final byte[] getBytesFromUrl(String url,
-                                               InterruptListener interruptListener) throws IOException
-    {
+                                               InterruptListener interruptListener) throws IOException {
         return getBytesFromUrl(url, interruptListener, null);
     }
 

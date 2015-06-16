@@ -8,12 +8,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
  * User: stikhonenko
  * Date: 2/25/13
  * Time: 4:09 PM
  */
-public class StringLruDiskCache extends BaseLruDiskCache<String,String>{
+public class StringLruDiskCache extends BaseLruDiskCache<String, String> {
     private CacheDirectoryPathGenerator cacheDirectoryPathGenerator;
 
     protected StringLruDiskCache(int maxSize, CacheDirectoryPathGenerator cacheDirectoryPathGenerator,

@@ -30,7 +30,7 @@ public final class NetworkUtilities {
 
     public static InputStream executePostRequest(String url, byte[] body)
             throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection)openConnection(url);
+        HttpURLConnection urlConnection = (HttpURLConnection) openConnection(url);
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(true);
         urlConnection.setRequestMethod("POST");

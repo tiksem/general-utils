@@ -27,7 +27,7 @@ public class InputStreamLineIterator extends AbstractIterator<String> {
     }
 
     final void onIOError(IOException e) {
-        if(ioExceptionListener != null){
+        if (ioExceptionListener != null) {
             ioExceptionListener.onIOError(e);
         } else {
             throw new RuntimeException(e);
@@ -39,16 +39,16 @@ public class InputStreamLineIterator extends AbstractIterator<String> {
     }
 
     private void readLineIfNeed() {
-        if(line == null){
+        if (line == null) {
             readLine();
         }
     }
 
-    private void readLine(){
+    private void readLine() {
         try {
             while (true) {
                 line = reader.readLine();
-                if(line == null || acceptLine(line)){
+                if (line == null || acceptLine(line)) {
                     break;
                 }
             }
@@ -57,10 +57,10 @@ public class InputStreamLineIterator extends AbstractIterator<String> {
             onIOError(e);
         }
     }
-    
+
     @Override
     public String next() {
-        if(!hasNext()){
+        if (!hasNext()) {
             throw new NoSuchElementException("next was called after eof");
         }
 

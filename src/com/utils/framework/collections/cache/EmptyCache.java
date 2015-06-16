@@ -1,12 +1,11 @@
 package com.utils.framework.collections.cache;
 
 /**
- *
  * User: stikhonenko
  * Date: 3/13/13
  * Time: 1:26 PM
  */
-public class EmptyCache<K,V> implements CacheWithSizeOf<K,V>{
+public class EmptyCache<K, V> implements CacheWithSizeOf<K, V> {
     @Override
     public int sizeOf(K key, V value) {
         return 0;

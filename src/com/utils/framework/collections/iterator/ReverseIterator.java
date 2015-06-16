@@ -12,7 +12,7 @@ public class ReverseIterator<T> extends AbstractIterator<T> {
     private int index;
     private List<T> list;
 
-    public ReverseIterator(List<T> list){
+    public ReverseIterator(List<T> list) {
         setList(list);
     }
 

@@ -11,5 +11,6 @@ import java.util.List;
  */
 public interface ListWithSelectedItem<T> extends List<T> {
     public int getCurrentItemPosition();
+
     public void setCurrentItemPosition(int currentItemPosition);
 }

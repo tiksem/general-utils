@@ -3,10 +3,6 @@ package com.utils.framework.strings;
 import com.utils.framework.ArrayUtils;
 import com.utils.framework.CollectionUtils;
 import com.utils.framework.Reflection;
-import com.utils.framework.collections.iterator.AbstractIterator;
-import com.utils.framework.strings.Capitalizer;
-import com.utils.framework.strings.FirstLetterLowerCaseMaker;
-import com.utils.framework.strings.TransformingString;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -22,10 +18,50 @@ import java.util.regex.Pattern;
  */
 public class Strings {
     private static final Pattern ONLY_SPACES = Pattern.compile("\\s*");
+    
+    public static String joinObjects(List<? extends Object> objects, char separator) {
+        return join(objectsToStringsView(objects), separator);
+    }
 
-    public static <T extends CharSequence> int length(List<T> sequences){
+    public static List<String> objectsToStringsView(final List<? extends Object> objects) {
+        return new AbstractList<String>() {
+            @Override
+            public String get(int location) {
+                return objects.get(location).toString();
+            }
+
+            @Override
+            public int size() {
+                return objects.size();
+            }
+        };
+    }
+
+    public static String join(List<String> parts, char separator) {
+        if (parts.isEmpty()) {
+            return "";
+        }
+
+        int length = length(parts);
+        length += parts.size() - 1;
+        char[] result = new char[length];
+        int resultIndex = 0;
+
+        for (String part : parts) {
+            int partLength = part.length();
+            part.getChars(0, partLength, result, resultIndex);
+            resultIndex += partLength;
+            if (resultIndex != length) {
+                result[resultIndex++] = separator;
+            }
+        }
+
+        return new String(result);
+    }
+
+    public static <T extends CharSequence> int length(List<T> sequences) {
         int size = 0;
-        for(CharSequence charSequence : sequences){
+        for (CharSequence charSequence : sequences) {
             if (charSequence != null) {
                 size += charSequence.length();
             }
@@ -33,21 +69,21 @@ public class Strings {
         return size;
     }
 
-    public static int length(CharSequence[] sequences){
+    public static int length(CharSequence[] sequences) {
         return length(Arrays.asList(sequences));
     }
 
     public static <T extends CharSequence> void join(CharSequence separator, List<T> parts,
-                                                              StringBuilder out){
+                                                     StringBuilder out) {
         int partsSize = parts.size();
 
         for (int i = partsSize - 1; i >= 0; i--, partsSize--) {
-            if(parts.get(i) != null){
+            if (parts.get(i) != null) {
                 break;
             }
         }
 
-        if(partsSize == 0){
+        if (partsSize == 0) {
             return;
         }
 
@@ -56,49 +92,39 @@ public class Strings {
 
             if (part != null) {
                 out.append(part);
-                if(i < partsSize - 1){
+                if (i < partsSize - 1) {
                     out.append(separator);
                 }
             }
         }
     }
 
-    public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts){
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts) {
         StringBuilder result = new StringBuilder();
         join(separator, parts, result);
         return result;
     }
 
-    public static StringBuilder joinObjects(CharSequence separator, final List<Object> parts){
-        return join(separator, new AbstractList<CharSequence>() {
-            @Override
-            public CharSequence get(int location) {
-                return parts.get(location).toString();
-            }
-
-            @Override
-            public int size() {
-                return parts.size();
-            }
-        });
+    public static StringBuilder joinObjects(CharSequence separator, final List<Object> parts) {
+        return join(separator, objectsToStringsView(parts));
     }
 
-    public static StringBuilder joinObjects(CharSequence separator, final Object... parts){
+    public static StringBuilder joinObjects(CharSequence separator, final Object... parts) {
         return joinObjects(separator, Arrays.asList(parts));
     }
 
-    public static <T extends CharSequence> StringBuilder join(CharSequence separator, T[] parts){
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, T[] parts) {
         return join(separator, Arrays.asList(parts));
     }
 
-    public static String joinObjectFields(Object object, String separator){
+    public static String joinObjectFields(Object object, String separator) {
         return joinObjects(separator, Reflection.objectToPropertiesArray(object)).toString();
     }
 
-    public static List<String> getObjectFieldValuesAsStringList(Object object){
+    public static List<String> getObjectFieldValuesAsStringList(Object object) {
         List<Field> fields = Reflection.getAllFields(object);
         List<String> result = new ArrayList<String>(fields.size());
-        for(Field field : fields){
+        for (Field field : fields) {
             Object value = Reflection.getValueOfField(object, field);
             result.add(value.toString());
         }
@@ -116,11 +142,11 @@ public class Strings {
         return new String(array);
     }
 
-    public static CharSequence capitalize(CharSequence charSequence){
+    public static CharSequence capitalize(CharSequence charSequence) {
         return new TransformingString(charSequence, new Capitalizer());
     }
 
-    public static String capitalize(String string){
+    public static String capitalize(String string) {
         return setCharAt(string, 0, Character.toUpperCase(string.charAt(0)));
     }
 
@@ -128,17 +154,17 @@ public class Strings {
         return capitalize(charSequence).toString();
     }
 
-    public static CharSequence makeFirstLetterLowerCase(CharSequence charSequence){
+    public static CharSequence makeFirstLetterLowerCase(CharSequence charSequence) {
         return new TransformingString(charSequence, new FirstLetterLowerCaseMaker());
     }
 
     public static String replaceAllIfNotSuccessNull(String replacement, String from, String replaceTo,
-                                                    boolean ignoreSpaces){
-        if(from.contains(replacement)){
+                                                    boolean ignoreSpaces) {
+        if (from.contains(replacement)) {
             return from.replace(replacement, replaceTo);
-        } else if(ignoreSpaces) {
+        } else if (ignoreSpaces) {
             replacement = replacement.replaceAll(" ", "");
-            if(from.contains(replacement)){
+            if (from.contains(replacement)) {
                 return from.replace(replacement, replaceTo);
             }
         }
@@ -146,7 +172,7 @@ public class Strings {
         return null;
     }
 
-    public static final String setCharAt(String string, int index, char ch){
+    public static final String setCharAt(String string, int index, char ch) {
         char[] array = string.toCharArray();
         array[index] = ch;
         return new String(array);
@@ -161,11 +187,11 @@ public class Strings {
     }
 
     public static StringBuilder copySubSequence(CharSequence charSequence, int start, int end) {
-        if(end - start < 0){
+        if (end - start < 0) {
             throw new IllegalArgumentException("end - start < 0");
         }
 
-        if(end >= charSequence.length()) {
+        if (end >= charSequence.length()) {
             throw new IllegalArgumentException("end >= charSequence.length()");
         }
 
@@ -173,22 +199,22 @@ public class Strings {
     }
 
     public static boolean charSequenceEquals(CharSequence a, CharSequence b) {
-        if(a == null){
+        if (a == null) {
             return b == null;
         }
 
-        if(b == null){
+        if (b == null) {
             return false;
         }
 
         int aLength = a.length();
 
-        if(aLength != b.length()){
+        if (aLength != b.length()) {
             return false;
         }
 
         for (int i = 0; i < aLength; i++) {
-            if(a.charAt(i) != b.charAt(i)){
+            if (a.charAt(i) != b.charAt(i)) {
                 return false;
             }
         }
@@ -205,11 +231,11 @@ public class Strings {
     }
 
     public static String repeat(char ch, int count) {
-        if(count < 0){
+        if (count < 0) {
             throw new IllegalArgumentException();
         }
 
-        if(count == 0){
+        if (count == 0) {
             return "";
         }
 
@@ -224,9 +250,9 @@ public class Strings {
     public static List<String> splitInStringsWithLength(String string, int length) {
         List<String> result = new ArrayList<String>();
         int stringLength = string.length();
-        for(int i = 0; i < stringLength; i += length){
+        for (int i = 0; i < stringLength; i += length) {
             int end = i + length;
-            if(stringLength - i < length){
+            if (stringLength - i < length) {
                 end = stringLength;
             }
 
@@ -245,7 +271,7 @@ public class Strings {
     }
 
     public static char[] replaceCharArray(char[] string, int begin, int end, char[] replacement) {
-        if(begin < 0 || end > string.length){
+        if (begin < 0 || end > string.length) {
             throw new IllegalArgumentException("begin < 0 || end > string.length()");
         }
 
@@ -278,7 +304,7 @@ public class Strings {
     }
 
     public static boolean equalsIgnoreCase(String a, String b) {
-        if(a != null){
+        if (a != null) {
             return a.equalsIgnoreCase(b);
         } else {
             return b == null;
@@ -300,12 +326,12 @@ public class Strings {
 
         while (true) {
             end = ArrayUtils.indexOf(string, delimiter, begin);
-            if(end < 0){
+            if (end < 0) {
                 exitLoop = true;
 
             }
 
-            if(exitLoop){
+            if (exitLoop) {
                 break;
             }
         }
@@ -315,13 +341,13 @@ public class Strings {
 
     public static String getFirstStringBetweenQuotes(String string, String quote1, String quote2) {
         int a = string.indexOf(quote1);
-        if(a < 0){
+        if (a < 0) {
             return null;
         }
         a += quote1.length();
 
         int b = string.indexOf(quote2, a);
-        if(b < 0){
+        if (b < 0) {
             return null;
         }
 
@@ -365,11 +391,11 @@ public class Strings {
         String[] split = string.split(delimiter);
         List<String> transform = CollectionUtils.transform(Arrays.asList(split),
                 new CollectionUtils.Transformer<String, String>() {
-            @Override
-            public String get(String s) {
-                return replacer.getReplacement(s);
-            }
-        });
+                    @Override
+                    public String get(String s) {
+                        return replacer.getReplacement(s);
+                    }
+                });
         return join(joinDelimiter, transform).toString();
     }
 }

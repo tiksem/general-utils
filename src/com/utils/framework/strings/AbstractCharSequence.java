@@ -11,11 +11,11 @@ public abstract class AbstractCharSequence implements CharSequence {
 
     @Override
     public boolean equals(Object o) {
-        if(o == null){
+        if (o == null) {
             return false;
         }
 
-        if(o instanceof CharSequence){
+        if (o instanceof CharSequence) {
             return Strings.charSequenceEquals(this, (CharSequence) o);
         } else {
             return false;

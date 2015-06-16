@@ -14,16 +14,16 @@ import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 13.03.13
  * Time: 22:38
  * To change this template use File | Settings | File Templates.
  */
 public final class Reflection {
-    public static List<Field> getAllFieldsOfClass(Class aClass){
+    public static List<Field> getAllFieldsOfClass(Class aClass) {
         ArrayList<Field> fields = new ArrayList<Field>();
 
-        while(aClass != Object.class){
+        while (aClass != Object.class) {
             List<Field> fieldList = Arrays.asList(aClass.getDeclaredFields());
             fields.addAll(fieldList);
             aClass = aClass.getSuperclass();
@@ -32,12 +32,12 @@ public final class Reflection {
         return fields;
     }
 
-    public static List<Field> getAllFields(Object object){
+    public static List<Field> getAllFields(Object object) {
         Class objectClass = object.getClass();
         return getAllFieldsOfClass(objectClass);
     }
 
-    public static List<Field> getAllFieldsExcluding(Object object, final Collection<String> names){
+    public static List<Field> getAllFieldsExcluding(Object object, final Collection<String> names) {
         List<Field> fields = getAllFields(object);
         CollectionUtils.removeAll(fields, new Predicate<Field>() {
             @Override
@@ -48,14 +48,14 @@ public final class Reflection {
         return fields;
     }
 
-    public static List<Field> getAllFieldsExcluding(Object object, final String... names){
+    public static List<Field> getAllFieldsExcluding(Object object, final String... names) {
         return getAllFieldsExcluding(object, Arrays.asList(names));
     }
 
-    public static List<Method> getAllMethodsOfClass(Class aClass){
+    public static List<Method> getAllMethodsOfClass(Class aClass) {
         ArrayList<Method> methods = new ArrayList<Method>();
 
-        while(aClass != Object.class){
+        while (aClass != Object.class) {
             List<Method> methodList = Arrays.asList(aClass.getDeclaredMethods());
             methods.addAll(methodList);
             aClass = aClass.getSuperclass();
@@ -64,12 +64,12 @@ public final class Reflection {
         return methods;
     }
 
-    public static List<Method> getAllMethods(Object object){
+    public static List<Method> getAllMethods(Object object) {
         Class objectClass = object.getClass();
         return getAllMethodsOfClass(objectClass);
     }
 
-    public static Object getValueOfField(Object object, Field field){
+    public static Object getValueOfField(Object object, Field field) {
         try {
             field.setAccessible(true);
             return field.get(object);
@@ -78,12 +78,12 @@ public final class Reflection {
         }
     }
 
-    public static Object getValueOfField(Object object, String fieldName){
+    public static Object getValueOfField(Object object, String fieldName) {
         Field field = getFieldByNameOrThrow(object.getClass(), fieldName);
         return getValueOfField(object, field);
     }
 
-    public static void setValueOfField(Object object, Field field, Object value){
+    public static void setValueOfField(Object object, Field field, Object value) {
         field.setAccessible(true);
         try {
             field.set(object, value);
@@ -92,7 +92,7 @@ public final class Reflection {
         }
     }
 
-    public static boolean setValueOfFieldIfNull(Object object, Field field, Object value){
+    public static boolean setValueOfFieldIfNull(Object object, Field field, Object value) {
         if (getFieldValueUsingGetter(object, field) == null) {
             setFieldValueUsingSetter(object, field, value);
             return true;
@@ -101,7 +101,7 @@ public final class Reflection {
         return false;
     }
 
-    public static Iterable<Object> getObjectProperties(final Object object){
+    public static Iterable<Object> getObjectProperties(final Object object) {
         final List<Field> fields = getAllFields(object);
         return new Iterable<Object>() {
             @Override
@@ -132,7 +132,7 @@ public final class Reflection {
         };
     }
 
-    public static interface ParamTransformer{
+    public static interface ParamTransformer {
         Object transform(Field field, Object value);
     }
 
@@ -141,14 +141,14 @@ public final class Reflection {
     }
 
     public static void fieldsToPropertyMap(Map<String, Object> map, Object object, List<Field> fields,
-                                                          ParamTransformer paramTransformer) {
+                                           ParamTransformer paramTransformer) {
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
                 Object value = field.get(object);
                 String key = field.getName();
 
-                if(paramTransformer != null){
+                if (paramTransformer != null) {
                     value = paramTransformer.transform(field, value);
                 }
 
@@ -185,17 +185,17 @@ public final class Reflection {
     }
 
     public static Map<String, Object> objectToPropertyMap(Object object) {
-        return objectToPropertyMap(object,null);
+        return objectToPropertyMap(object, null);
     }
 
-    public static Object[] objectToPropertiesArray(Object object){
+    public static Object[] objectToPropertiesArray(Object object) {
         Class objectClass = object.getClass();
         Field[] fields = objectClass.getFields();
         Object[] result = new Object[fields.length];
 
-        for(int i = 0; i < fields.length;){
+        for (int i = 0; i < fields.length; ) {
             Field field = fields[i];
-            if(Modifier.isTransient(field.getModifiers())){
+            if (Modifier.isTransient(field.getModifiers())) {
                 continue;
             }
 
@@ -226,7 +226,7 @@ public final class Reflection {
     }
 
     public static <T> T createObjectOfClass(Class<T> type, Object... params) {
-        if(params.length == 0){
+        if (params.length == 0) {
             try {
                 return type.newInstance();
             } catch (InstantiationException e) {
@@ -258,7 +258,7 @@ public final class Reflection {
             @Override
             public boolean check(Field item) {
                 for (Class annotationClass : annotationClasses) {
-                    if(item.getAnnotation(annotationClass) != null){
+                    if (item.getAnnotation(annotationClass) != null) {
                         return true;
                     }
                 }
@@ -271,7 +271,7 @@ public final class Reflection {
     public static MultiMap<Class, Field> getFieldsWithAnnotationsMap(Class aClass,
                                                                      final Class... annotationClasses) {
         MultiMap<Class, Field> result = new ListValuesMultiMap<Class, Field>();
-        for(Class annotationClass : annotationClasses){
+        for (Class annotationClass : annotationClasses) {
             List<Field> fields = getFieldsWithAnnotations(aClass, annotationClasses);
             result.putAll(annotationClass, fields);
         }
@@ -285,13 +285,13 @@ public final class Reflection {
     }
 
     public static <T extends Annotation> List<Field> getFieldsWithAnnotation(Class aClass,
-                                                       final Class<T> annotationClass, final Predicate<T> predicate) {
+                                                                             final Class<T> annotationClass, final Predicate<T> predicate) {
         List<Field> fields = getAllFieldsOfClass(aClass);
         return CollectionUtils.findAll(fields, new Predicate<Field>() {
             @Override
             public boolean check(Field item) {
                 T annotation = item.getAnnotation(annotationClass);
-                if(annotation == null){
+                if (annotation == null) {
                     return false;
                 }
 
@@ -311,7 +311,7 @@ public final class Reflection {
 
     public static <T extends Annotation> T getAnnotationOrThrow(Field field, Class<T> aClass) {
         T annotation = field.getAnnotation(aClass);
-        if(annotation == null){
+        if (annotation == null) {
             throw new AnnotationNotFoundException(aClass, field.getName());
         }
 
@@ -340,7 +340,7 @@ public final class Reflection {
         String[] result = new String[classes.size()];
         int index = 0;
 
-        for(Class aClass : classes){
+        for (Class aClass : classes) {
             result[index++] = aClass.getCanonicalName();
         }
 
@@ -389,7 +389,7 @@ public final class Reflection {
         try {
             T result = (T) object.getClass().newInstance();
             List<Field> fields = getAllFields(object);
-            for(Field field : fields){
+            for (Field field : fields) {
                 if (!Modifier.isStatic(field.getModifiers())) {
                     Object value = getValueOfField(object, field);
                     setValueOfField(result, field, value);
@@ -403,7 +403,7 @@ public final class Reflection {
 
     public static <T> List<T> cloneObjects(Iterable<? extends T> objects) {
         List<T> result = new ArrayList<T>();
-        for(T object : objects) {
+        for (T object : objects) {
             result.add(cloneObject(object));
         }
 
@@ -415,9 +415,9 @@ public final class Reflection {
     }
 
     public static void setFieldsFromMap(Object object, List<Field> fields, Map<String, Object> map) {
-        for(Field field : fields){
+        for (Field field : fields) {
             Object value = map.get(field.getName());
-            if(value != null){
+            if (value != null) {
                 setFieldValueUsingSetter(object, field, value);
             }
         }
@@ -434,7 +434,7 @@ public final class Reflection {
 
     public static boolean hasOneOrMoreAnnotations(Field field, Class... annotations) {
         for (Class annotation : annotations) {
-            if(field.getAnnotation(annotation) != null){
+            if (field.getAnnotation(annotation) != null) {
                 return true;
             }
         }
@@ -481,7 +481,7 @@ public final class Reflection {
 
     public static Object getOrCreateFieldValue(Object object, Field field, Object... constructorParams) {
         Object value = getFieldValueUsingGetter(object, field);
-        if(value == null){
+        if (value == null) {
             value = createObjectOfClass(field.getType(), constructorParams);
             setFieldValueUsingSetter(object, field, value);
         }
@@ -564,9 +564,9 @@ public final class Reflection {
     }
 
     public static void executeMethodsWithAnnotation(Object thisObject, Class annotationClass,
-                                                      Object... params) {
+                                                    Object... params) {
         List<Method> methods = getMethodsWithAnnotation(thisObject.getClass(), annotationClass);
-        for(Method method : methods){
+        for (Method method : methods) {
             executeMethod(thisObject, method, params);
         }
     }
@@ -575,9 +575,9 @@ public final class Reflection {
                                                        Class annotationClass,
                                                        Predicate<Object> condition) {
         List<Field> fields = getFieldsWithAnnotations(object.getClass(), annotationClass);
-        for(Field field : fields){
+        for (Field field : fields) {
             Object fieldCurrentValue = getFieldValueUsingGetter(object, field);
-            if(condition == null || condition.check(fieldCurrentValue)) {
+            if (condition == null || condition.check(fieldCurrentValue)) {
                 setFieldValueUsingSetter(object, field, value);
             }
         }
@@ -589,7 +589,7 @@ public final class Reflection {
     }
 
     public static void setValuesOfFieldsWithAnnotationIfNull(Object object, Object value,
-                                                       Class annotationClass) {
+                                                             Class annotationClass) {
         setValuesOfFieldsWithAnnotation(object, value, annotationClass, new Predicate<Object>() {
             @Override
             public boolean check(Object item) {
@@ -605,19 +605,19 @@ public final class Reflection {
 
     public static void changeNumberUsingGetterAndSetter(Object object, Field field, long diff) {
         Object value = getFieldValueUsingGetter(object, field);
-        if(value == null){
+        if (value == null) {
             return;
         }
 
-        long valueAsLong = ((Number)value).longValue() + diff;
+        long valueAsLong = ((Number) value).longValue() + diff;
         if (value instanceof Integer) {
-            setFieldValueUsingSetter(object, field, (int)valueAsLong);
-        } else if(value instanceof Long) {
+            setFieldValueUsingSetter(object, field, (int) valueAsLong);
+        } else if (value instanceof Long) {
             setFieldValueUsingSetter(object, field, valueAsLong);
-        } else if(value instanceof Short) {
-            setFieldValueUsingSetter(object, field, (short)valueAsLong);
-        } else if(value instanceof Byte) {
-            setFieldValueUsingSetter(object, field, (byte)valueAsLong);
+        } else if (value instanceof Short) {
+            setFieldValueUsingSetter(object, field, (short) valueAsLong);
+        } else if (value instanceof Byte) {
+            setFieldValueUsingSetter(object, field, (byte) valueAsLong);
         } else {
             throw new ClassCastException("Field value is not a number");
         }

@@ -7,7 +7,7 @@ package com.utils.framework.collections.checkers;
  * Time: 17:29
  * To change this template use File | Settings | File Templates.
  */
-public class ElementCheckersOr implements ElementChecker{
+public class ElementCheckersOr implements ElementChecker {
     private ElementChecker[] elementCheckers;
 
     public ElementCheckersOr(ElementChecker... elementCheckers) {
@@ -16,8 +16,8 @@ public class ElementCheckersOr implements ElementChecker{
 
     @Override
     public boolean elementSatisfyCondition(Object object, int index) {
-        for(ElementChecker elementChecker : elementCheckers){
-            if(elementChecker.elementSatisfyCondition(object, index)){
+        for (ElementChecker elementChecker : elementCheckers) {
+            if (elementChecker.elementSatisfyCondition(object, index)) {
                 return true;
             }
         }

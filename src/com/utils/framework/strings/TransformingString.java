@@ -32,7 +32,7 @@ public class TransformingString extends AbstractCharSequence {
     }
 
     public void setString(CharSequence string) {
-        if(string == null){
+        if (string == null) {
             throw new NullPointerException();
         }
 

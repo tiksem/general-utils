@@ -10,26 +10,26 @@ import java.util.List;
  * Time: 18:27
  * To change this template use File | Settings | File Templates.
  */
-public abstract class SuggestionsProviderWithHelpWord extends GoogleSuggestionsProvider{
+public abstract class SuggestionsProviderWithHelpWord extends GoogleSuggestionsProvider {
     private String lastHelpWorld;
 
     protected abstract String getHelpWord();
 
-    private void removeHelpWordsFromSuggestions(List<String> suggestions){
+    private void removeHelpWordsFromSuggestions(List<String> suggestions) {
         String replacement = " *" + lastHelpWorld + " *";
 
         for (int i = 0; i < suggestions.size(); i++) {
             String suggestion = suggestions.get(i);
-            suggestion = suggestion.replaceAll(replacement,"");
+            suggestion = suggestion.replaceAll(replacement, "");
 
-            suggestions.set(i,suggestion);
+            suggestions.set(i, suggestion);
         }
     }
 
     @Override
     public List<String> getSuggestions(String query) {
         if (query.equals("")) {
-           return Collections.emptyList();
+            return Collections.emptyList();
         }
 
         lastHelpWorld = getHelpWord();

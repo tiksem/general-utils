@@ -1,7 +1,6 @@
 package com.utils.framework.collections.cache;
 
 /**
- *
  * User: stikhonenko
  * Date: 3/13/13
  * Time: 1:21 PM

@@ -8,7 +8,7 @@ import java.util.List;
  * Date: 3/1/13
  * Time: 7:52 PM
  */
-public abstract class PageLazyQueue<T> extends LazyQueue<T>{
+public abstract class PageLazyQueue<T> extends LazyQueue<T> {
     private int loadedPagesCount;
 
     public int getLoadedPagesCount() {

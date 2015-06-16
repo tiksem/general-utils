@@ -11,10 +11,10 @@ import java.util.List;
  * Time: 19:05
  * To change this template use File | Settings | File Templates.
  */
-public abstract class FilterSuggestionsProvider implements SuggestionsProvider{
+public abstract class FilterSuggestionsProvider implements SuggestionsProvider {
     protected abstract List getItemsToFilter();
 
-    protected int getMaxCount(){
+    protected int getMaxCount() {
         return Integer.MAX_VALUE;
     }
 

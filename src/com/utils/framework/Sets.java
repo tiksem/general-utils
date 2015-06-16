@@ -8,8 +8,8 @@ import java.util.*;
  * Time: 14:33
  */
 public class Sets {
-    public static <T extends Object> Set<T> intersection(Collection<Set<T>> sets){
-        if(sets.size() == 0){
+    public static <T extends Object> Set<T> intersection(Collection<Set<T>> sets) {
+        if (sets.size() == 0) {
             return new HashSet<T>();
         }
 
@@ -22,7 +22,7 @@ public class Sets {
         return intersection;
     }
 
-    public static <T extends Object> Set<T> intersection(List<Set<T>> sets){
-        return intersection((Collection<Set<T>>)sets);
+    public static <T extends Object> Set<T> intersection(List<Set<T>> sets) {
+        return intersection((Collection<Set<T>>) sets);
     }
 }

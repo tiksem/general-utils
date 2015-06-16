@@ -21,12 +21,12 @@ public abstract class LazyQueue<T> extends AbstractQueue<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new ReverseIterator<T>(elements){
+        return new ReverseIterator<T>(elements) {
             @Override
             public boolean hasNext() {
-                while(!super.hasNext()){
+                while (!super.hasNext()) {
                     List<T> data = loadData();
-                    if(data == null){
+                    if (data == null) {
                         return false;
                     }
 
@@ -50,9 +50,9 @@ public abstract class LazyQueue<T> extends AbstractQueue<T> {
 
     @Override
     public T poll() {
-        while(elements.isEmpty()){
+        while (elements.isEmpty()) {
             List<T> data = loadData();
-            if(data == null){
+            if (data == null) {
                 return null;
             }
 

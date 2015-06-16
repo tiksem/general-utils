@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Date: 12.12.13
  * Time: 13:34
  */
-public class ArrayStack<T> implements Stack<T>{
+public class ArrayStack<T> implements Stack<T> {
     private Object[] array;
     private int size = 0;
 
@@ -15,8 +15,8 @@ public class ArrayStack<T> implements Stack<T>{
         this.array = array;
     }
 
-    public ArrayStack(int capacity){
-        if(capacity < 0){
+    public ArrayStack(int capacity) {
+        if (capacity < 0) {
             throw new IllegalArgumentException();
         }
 
@@ -25,7 +25,7 @@ public class ArrayStack<T> implements Stack<T>{
 
     @Override
     public void push(T value) {
-        if(size == capacity()){
+        if (size == capacity()) {
             throw new StackOverflowException();
         }
 
@@ -42,11 +42,11 @@ public class ArrayStack<T> implements Stack<T>{
     @SuppressWarnings("unchecked")
     @Override
     public T top() {
-        if(size == 0){
+        if (size == 0) {
             throw new EmptyStackException();
         }
 
-        return (T)array[size - 1];
+        return (T) array[size - 1];
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ArrayStack<T> implements Stack<T>{
         return size;
     }
 
-    public int capacity(){
+    public int capacity() {
         return array.length;
     }
 

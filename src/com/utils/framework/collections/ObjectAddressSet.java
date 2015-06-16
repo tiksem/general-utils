@@ -5,12 +5,12 @@ import com.utils.framework.HashCodeProvider;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 23.03.13
  * Time: 16:59
  * To change this template use File | Settings | File Templates.
  */
-public class ObjectAddressSet<T> extends SetWithPredicates<T>{
+public class ObjectAddressSet<T> extends SetWithPredicates<T> {
     public ObjectAddressSet() {
         super(new Equals() {
             @Override
@@ -18,10 +18,10 @@ public class ObjectAddressSet<T> extends SetWithPredicates<T>{
                 return a == b;
             }
         }, new HashCodeProvider() {
-                  @Override
-                  public int getHashCodeOf(Object object) {
-                      return System.identityHashCode(object);
-                  }
+            @Override
+            public int getHashCodeOf(Object object) {
+                return System.identityHashCode(object);
+            }
         });
     }
 }

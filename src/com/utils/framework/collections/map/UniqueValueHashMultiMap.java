@@ -11,7 +11,7 @@ public class UniqueValueHashMultiMap<K, V> extends SetValuesHashMultiMap<K, V> {
 
     @Override
     public V put(K key, V value) {
-        if(valuesSet.contains(value)){
+        if (valuesSet.contains(value)) {
             throw new ValueExistsException();
         }
 

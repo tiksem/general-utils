@@ -70,27 +70,27 @@ public class Params {
     public Map<String, Object> toQueryMap() {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        if(imageColor != null){
+        if (imageColor != null) {
             result.put("imgcolor", imageColor.name());
         }
 
-        if(imageSize != null){
+        if (imageSize != null) {
             result.put("imgsz", imageSize.name());
         }
 
-        if(imageType != null){
+        if (imageType != null) {
             result.put("imgtype", imageType.name());
         }
 
-        if(count >= 0){
+        if (count >= 0) {
             result.put("imgtype", count);
         }
 
-        if(start >= 0){
+        if (start >= 0) {
             result.put("start", start);
         }
 
-        if(grayScale){
+        if (grayScale) {
             result.put("imgc", "gray");
         }
 

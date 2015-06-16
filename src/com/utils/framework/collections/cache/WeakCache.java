@@ -4,13 +4,13 @@ import java.util.WeakHashMap;
 
 /**
  * Created with IntelliJ IDEA.
- *
+ * <p>
  * Date: 23.03.13
  * Time: 17:48
  * To change this template use File | Settings | File Templates.
  */
-public class WeakCache<K,V> implements Cache<K,V>{
-    private WeakHashMap<K,V> weakHashMap = new WeakHashMap<K, V>();
+public class WeakCache<K, V> implements Cache<K, V> {
+    private WeakHashMap<K, V> weakHashMap = new WeakHashMap<K, V>();
 
     @Override
     public V get(K key) {

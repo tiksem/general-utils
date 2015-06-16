@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
-public class GoogleSuggestionXMLParser extends XMLParser<ArrayList<String> > {
+public class GoogleSuggestionXMLParser extends XMLParser<ArrayList<String>> {
     @Override
     protected ArrayList<String> getElements() {
         Document doc = getDoc();

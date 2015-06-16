@@ -5,7 +5,7 @@ package com.utils.framework.collections;
  * Date: 12.12.13
  * Time: 13:35
  */
-public class StackOverflowException extends RuntimeException{
+public class StackOverflowException extends RuntimeException {
     public StackOverflowException() {
     }
 

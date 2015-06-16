@@ -14,12 +14,13 @@ public abstract class AbstractTwoKeysMap<K1, K2, V> implements TwoKeysMap<K1, K2
     }
 
     protected abstract Map<K1, Map<K2, V>> createRootMap();
+
     protected abstract Map<K2, V> createInnerMap();
 
     @Override
     public V get(K1 key1, K2 key2) {
         Map<K2, V> innerMap = getMap(key1);
-        if(innerMap == null){
+        if (innerMap == null) {
             return null;
         }
 
@@ -29,7 +30,7 @@ public abstract class AbstractTwoKeysMap<K1, K2, V> implements TwoKeysMap<K1, K2
     @Override
     public V put(K1 key1, K2 key2, V value) {
         Map<K2, V> innerMap = getMap(key1);
-        if(innerMap == null){
+        if (innerMap == null) {
             innerMap = createInnerMap();
             map.put(key1, innerMap);
         }
@@ -50,7 +51,7 @@ public abstract class AbstractTwoKeysMap<K1, K2, V> implements TwoKeysMap<K1, K2
     @Override
     public V remove(K1 key1, K2 key2) {
         Map<K2, V> innerMap = getMap(key1);
-        if(innerMap == null){
+        if (innerMap == null) {
             return null;
         }
 

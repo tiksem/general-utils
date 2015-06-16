@@ -26,7 +26,7 @@ public class FileLineIterator extends AbstractIterator<String> {
     @Override
     public boolean hasNext() {
         boolean hasNext = inputStreamLineIterator.hasNext();
-        if(!hasNext){
+        if (!hasNext) {
             try {
                 inputStream.close();
             } catch (IOException e) {

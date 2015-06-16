@@ -5,12 +5,11 @@ import com.utils.framework.naming.FileNameGenerator;
 import java.io.*;
 
 /**
- *
  * User: stikhonenko
  * Date: 3/13/13
  * Time: 1:06 PM
  */
-public class ObjectLruDiskCache<K, V> extends BaseLruDiskCache<K,V>{
+public class ObjectLruDiskCache<K, V> extends BaseLruDiskCache<K, V> {
     private CacheDirectoryPathGenerator cacheDirectoryPathGenerator;
 
     public ObjectLruDiskCache(int maxSize, CacheDirectoryPathGenerator cacheDirectoryPathGenerator) {
@@ -19,8 +18,7 @@ public class ObjectLruDiskCache<K, V> extends BaseLruDiskCache<K,V>{
     }
 
     public ObjectLruDiskCache(int maxSize, FileNameGenerator fileNameGenerator,
-                              CacheDirectoryPathGenerator cacheDirectoryPathGenerator)
-    {
+                              CacheDirectoryPathGenerator cacheDirectoryPathGenerator) {
         super(maxSize, fileNameGenerator);
         this.cacheDirectoryPathGenerator = cacheDirectoryPathGenerator;
     }
@@ -35,8 +33,8 @@ public class ObjectLruDiskCache<K, V> extends BaseLruDiskCache<K,V>{
     protected V readFromStream(InputStream stream) {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(stream);
-            return (V)objectInputStream.readObject();
-        } catch (Exception e){
+            return (V) objectInputStream.readObject();
+        } catch (Exception e) {
             return null;
         }
     }

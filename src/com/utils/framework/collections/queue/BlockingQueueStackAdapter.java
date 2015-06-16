@@ -30,7 +30,7 @@ public class BlockingQueueStackAdapter<T> extends LinkedBlockingDeque<T> {
     }
 
     @Override
-    public boolean add(T object){
+    public boolean add(T object) {
         addFirst(object);
         return true;
     }

@@ -8,12 +8,12 @@ package com.utils.framework;
 public final class Primitive {
     private static final float EQUALS_DELTA = 0.0005f;
 
-    public static int compare(int a, int b){
-        if(a < b){
+    public static int compare(int a, int b) {
+        if (a < b) {
             return -1;
         }
 
-        if(b < a){
+        if (b < a) {
             return 1;
         }
 

@@ -18,16 +18,15 @@ public class GoogleSuggestionsProvider implements SuggestionsProvider<String> {
 
     @Override
     public List<String> getSuggestions(String query) {
-        if(query.equals("")){
+        if (query.equals("")) {
             return Collections.emptyList();
         }
 
-        String xml,url;
+        String xml, url;
         try {
             url = SUGGESTIONS_URL + URLEncoder.encode(query, "UTF-8");
             xml = Network.executeRequestGET(url);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             return Collections.emptyList();
         }
 

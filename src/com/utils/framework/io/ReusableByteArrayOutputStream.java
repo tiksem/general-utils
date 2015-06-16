@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
  * Time: 0:02
  * To change this template use File | Settings | File Templates.
  */
-public class ReusableByteArrayOutputStream extends ByteArrayOutputStream{
+public class ReusableByteArrayOutputStream extends ByteArrayOutputStream {
     public ReusableByteArrayOutputStream() {
 
     }

@@ -11,20 +11,20 @@ import java.util.List;
  * Time: 17:01
  * To change this template use File | Settings | File Templates.
  */
-public abstract class ElementCheckerListPriorityProvider<T> implements CollectionUtils.PrioritiesProvider<T>{
+public abstract class ElementCheckerListPriorityProvider<T> implements CollectionUtils.PrioritiesProvider<T> {
     private List<ElementChecker<T>> elementCheckers;
 
     protected abstract List<ElementChecker<T>> getElementCheckers();
 
     @Override
     public int getPriorityOf(Object object, int index) {
-        if(elementCheckers == null){
+        if (elementCheckers == null) {
             elementCheckers = getElementCheckers();
         }
 
-        for(int i = 0; i < elementCheckers.size(); i++){
+        for (int i = 0; i < elementCheckers.size(); i++) {
             ElementChecker elementChecker = elementCheckers.get(i);
-            if(elementChecker.elementSatisfyCondition(object, index)){
+            if (elementChecker.elementSatisfyCondition(object, index)) {
                 return i;
             }
         }
@@ -35,7 +35,7 @@ public abstract class ElementCheckerListPriorityProvider<T> implements Collectio
 
     @Override
     public int getPrioritiesCount() {
-        if(elementCheckers == null){
+        if (elementCheckers == null) {
             elementCheckers = getElementCheckers();
         }
 

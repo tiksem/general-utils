@@ -17,7 +17,7 @@ public class ImageMagickExecutor {
     private String imageMagickExecutablePath;
 
     public ImageMagickExecutor(String imageMagickExecutablePath) {
-        if(!Strings.isEmpty(imageMagickExecutablePath)){
+        if (!Strings.isEmpty(imageMagickExecutablePath)) {
             imageMagickExecutablePath += "/";
         }
 
@@ -25,7 +25,7 @@ public class ImageMagickExecutor {
     }
 
     private void checkFilePath(String imagePath) throws FileNotFoundException {
-        if(!new File(imagePath).exists()){
+        if (!new File(imagePath).exists()) {
             throw new FileNotFoundException(imagePath);
         }
     }
@@ -50,7 +50,7 @@ public class ImageMagickExecutor {
 
     private String execute(String destination, String command) throws IOException {
         String output = SystemUtilities.execCmd(command);
-        if(!new File(destination).exists()){
+        if (!new File(destination).exists()) {
             throw new ImageMagickException(output);
         }
 
@@ -74,7 +74,7 @@ public class ImageMagickExecutor {
             checkFilePath(source);
             Size size = getImageSize(source);
             int min = Math.min(size.width, size.height);
-            double k = (double)dimension / (double)min;
+            double k = (double) dimension / (double) min;
 
             int resultWidth = (int) Math.round(size.width * k);
             int resultHeight = (int) Math.round(size.height * k);
@@ -93,18 +93,18 @@ public class ImageMagickExecutor {
         }
 
         public String resizeProportionallyFitMax(Size max, String destination) throws IOException {
-            if(size.width <= max.width && size.height <= max.height){
+            if (size.width <= max.width && size.height <= max.height) {
                 return source;
             }
 
-            double k = (double)size.width / size.height;
+            double k = (double) size.width / size.height;
 
             double widthDiff = (size.width - max.width) * k;
-            double heightDiff = (double)(size.height - max.height) / k;
+            double heightDiff = (double) (size.height - max.height) / k;
 
             boolean byHeight = Math.max(heightDiff, widthDiff) == heightDiff;
             String sizeArg;
-            if(byHeight){
+            if (byHeight) {
                 sizeArg = "x" + max.height;
             } else {
                 sizeArg = max.width + "x";

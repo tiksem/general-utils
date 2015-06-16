@@ -15,7 +15,7 @@ public class ListWithNullFirstItem<T> extends AbstractList<T> {
 
     @Override
     public T get(int location) {
-        if(location == 0){
+        if (location == 0) {
             return null;
         }
 

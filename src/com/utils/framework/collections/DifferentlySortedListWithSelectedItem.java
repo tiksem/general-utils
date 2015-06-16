@@ -21,13 +21,13 @@ public class DifferentlySortedListWithSelectedItem<T> extends DifferentlySortedL
     @Override
     public void setCurrentSortComparator(Comparator<T> sortComparator) {
         T currentItem = null;
-        if(currentItemPosition >= 0){
+        if (currentItemPosition >= 0) {
             currentItem = get(currentItemPosition);
         }
 
         super.setCurrentSortComparator(sortComparator);
 
-        if(currentItem != null){
+        if (currentItem != null) {
             currentItemPosition = indexOf(currentItem);
         }
     }

@@ -2,6 +2,8 @@ package com.utils.framework;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.AbstractList;
+import java.util.List;
 
 /**
  * Created by CM on 2/13/2015.
@@ -48,7 +50,7 @@ public class ArrayUtils {
         return transformBytesToObjects(bytes, new ByteToObject<String>() {
             @Override
             public String transform(byte from) {
-                return String.valueOf((int)from);
+                return String.valueOf((int) from);
             }
         });
     }
@@ -76,7 +78,7 @@ public class ArrayUtils {
         int count = 0;
         int length = array.length;
         for (int i = 0; i < length; i++) {
-            if(array[i] == ch){
+            if (array[i] == ch) {
                 count++;
             }
         }
@@ -87,7 +89,7 @@ public class ArrayUtils {
     public static int indexOf(char[] array, char ch, int from) {
         int length = array.length;
         for (int i = from; i < length; i++) {
-            if(array[i] == ch){
+            if (array[i] == ch) {
                 return i;
             }
         }
@@ -99,13 +101,13 @@ public class ArrayUtils {
         int length = array.length;
         if (object != null) {
             for (int i = 0; i < length; i++) {
-                if(object.equals(array[i])){
+                if (object.equals(array[i])) {
                     return i;
                 }
             }
         } else {
             for (int i = 0; i < length; i++) {
-                if(array[i] == null){
+                if (array[i] == null) {
                     return i;
                 }
             }
@@ -116,5 +118,19 @@ public class ArrayUtils {
 
     public static boolean contains(Object[] array, Object object) {
         return indexOf(array, object) >= 0;
+    }
+
+    public static List<Long> asList(long... elements) {
+        return new AbstractList<Long>() {
+            @Override
+            public Long get(int location) {
+                return elements[location];
+            }
+
+            @Override
+            public int size() {
+                return elements.length;
+            }
+        };
     }
 }

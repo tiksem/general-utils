@@ -64,9 +64,9 @@ public class GooglePlacesSearcher {
 
             List<JSONObject> addresses = JsonCollections.asList(
                     jsonObject.getJsonArrayFromPath("result", "address_components"));
-            for(JSONObject address : addresses){
+            for (JSONObject address : addresses) {
                 JSONArray types = address.getJSONArray("types");
-                if(hasCountryType(types)){
+                if (hasCountryType(types)) {
                     city.country = address.getString("long_name");
                     city.countryCode = address.getString("short_name");
                 }
@@ -89,7 +89,7 @@ public class GooglePlacesSearcher {
             return jsonObject.parseJsonArrayFromPath(new JsonArrayElementParser<AutoCompleteResult>() {
                 @Override
                 public AutoCompleteResult parse(JSONObject jsonObject) throws JSONException {
-                    if(!JsonCollections.asList(jsonObject.getJSONArray("types")).contains("locality")){
+                    if (!JsonCollections.asList(jsonObject.getJSONArray("types")).contains("locality")) {
                         return null;
                     }
 

@@ -19,8 +19,8 @@ public class NavigationListsUpdatingTrigger {
 
     public void addAndSetActive(NavigationList active) {
         addNavigationList(active);
-        for(NavigationList navigationList : navigationLists){
-            if(navigationList == active){
+        for (NavigationList navigationList : navigationLists) {
+            if (navigationList == active) {
                 navigationList.resumePageLoading();
             } else {
                 navigationList.pausePageLoading();

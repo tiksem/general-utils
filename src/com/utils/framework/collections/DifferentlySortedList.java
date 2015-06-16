@@ -31,7 +31,7 @@ public class DifferentlySortedList<T> extends AbstractList<T> implements Differe
 
     public List<T> getListBySortedComparator(Comparator<T> comparator) {
         List<T> list = sortedLists.get(comparator);
-        if(list == null){
+        if (list == null) {
             list = new ArrayList<T>(getInternalOriginalList());
             Collections.sort(list, comparator);
             sortedLists.put(comparator, list);
