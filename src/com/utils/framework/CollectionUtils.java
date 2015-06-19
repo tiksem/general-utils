@@ -562,6 +562,21 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> List<To> transformNonCopy(List<From> from, Transformer<From, To> transformer) {
+        final int size = from.size();
+        return new AbstractList<To>() {
+            @Override
+            public To get(int location) {
+                return transformer.get(from.get(location));
+            }
+
+            @Override
+            public int size() {
+                return size;
+            }
+        };
+    }
+
     public static <From, To> List<To> transformUnique(Iterable<From> from, Transformer<From, To> transformer) {
         Set<To> result = new LinkedHashSet<To>();
         for (From object : from) {

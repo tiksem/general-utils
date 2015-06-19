@@ -117,21 +117,6 @@ public class Strings {
         return join(separator, Arrays.asList(parts));
     }
 
-    public static String joinObjectFields(Object object, String separator) {
-        return joinObjects(separator, Reflection.objectToPropertiesArray(object)).toString();
-    }
-
-    public static List<String> getObjectFieldValuesAsStringList(Object object) {
-        List<Field> fields = Reflection.getAllFields(object);
-        List<String> result = new ArrayList<String>(fields.size());
-        for (Field field : fields) {
-            Object value = Reflection.getValueOfField(object, field);
-            result.add(value.toString());
-        }
-
-        return result;
-    }
-
     public static String copyCharSequence(CharSequence charSequence) {
         int length = charSequence.length();
         char[] array = new char[length];

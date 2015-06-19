@@ -132,6 +132,21 @@ public final class Reflection {
         };
     }
 
+    public static List<String> getObjectFieldValuesAsStringList(Object object) {
+        List<Field> fields = getAllFields(object);
+        List<String> result = new ArrayList<String>(fields.size());
+        for (Field field : fields) {
+            Object value = getValueOfField(object, field);
+            result.add(value.toString());
+        }
+
+        return result;
+    }
+
+    public static String joinObjectFields(Object object, String separator) {
+        return Strings.joinObjects(separator, objectToPropertiesArray(object)).toString();
+    }
+
     public static interface ParamTransformer {
         Object transform(Field field, Object value);
     }
