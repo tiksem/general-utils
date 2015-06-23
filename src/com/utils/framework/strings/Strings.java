@@ -59,6 +59,28 @@ public class Strings {
         return new String(result);
     }
 
+    public static String join(String[] parts, char separator) {
+        if (parts.length == 0) {
+            return "";
+        }
+
+        int length = length(parts);
+        length += parts.length - 1;
+        char[] result = new char[length];
+        int resultIndex = 0;
+
+        for (String part : parts) {
+            int partLength = part.length();
+            part.getChars(0, partLength, result, resultIndex);
+            resultIndex += partLength;
+            if (resultIndex != length) {
+                result[resultIndex++] = separator;
+            }
+        }
+
+        return new String(result);
+    }
+
     public static <T extends CharSequence> int length(List<T> sequences) {
         int size = 0;
         for (CharSequence charSequence : sequences) {
@@ -70,6 +92,10 @@ public class Strings {
     }
 
     public static int length(CharSequence[] sequences) {
+        return length(Arrays.asList(sequences));
+    }
+
+    public static int length(String[] sequences) {
         return length(Arrays.asList(sequences));
     }
 
