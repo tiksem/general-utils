@@ -409,4 +409,37 @@ public class Strings {
                 });
         return join(joinDelimiter, transform).toString();
     }
+
+    public static int countOccurrences(CharSequence string, char ch) {
+        int count = 0;
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == ch) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static CharSequence limitCharOccurrences(CharSequence string, char ch, int limit) {
+        int count = 0;
+        int i = 0;
+
+        for (; i < string.length(); i++) {
+            if (string.charAt(i) == ch) {
+                count++;
+            }
+
+            if (count > limit) {
+                break;
+            }
+        }
+
+        if (i != string.length()) {
+            StringBuilder result = new StringBuilder();
+            result.append(string, 0, i);
+            return result;
+        } else {
+            return string;
+        }
+    }
 }
