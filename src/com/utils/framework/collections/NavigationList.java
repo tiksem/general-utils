@@ -49,6 +49,14 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return elements.size() - elementsOffset;
     }
 
+    public int getElementsCount() {
+        if (isAllDataLoaded()) {
+            return size();
+        } else {
+            return size() - 1;
+        }
+    }
+
     protected boolean shouldAddElement(T element) {
         return true;
     }
@@ -65,8 +73,10 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
             }
         };
 
-        elements.addAll(initialElements);
-        elementsOffset = initialElements.size();
+        if (initialElements != null) {
+            elements.addAll(initialElements);
+            elementsOffset = initialElements.size();
+        }
         this.maxElementsCount = maxElementsCount;
     }
 
