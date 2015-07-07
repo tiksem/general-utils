@@ -265,6 +265,16 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     @Override
+    public T remove(int location) {
+        if (location > elementsOffset) {
+            throw new IndexOutOfBoundsException("Unable to remove element between loaded elements");
+        }
+
+        elementsOffset--;
+        return elements.remove(location);
+    }
+
+    @Override
     public int size() {
         if (allDataLoaded) {
             return elements.size();
@@ -337,5 +347,10 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     public void setManualPageLoading(boolean manualPageLoading) {
         this.manualPageLoading = manualPageLoading;
+    }
+
+    @Override
+    public T set(int location, T object) {
+        return elements.set(location, object);
     }
 }
