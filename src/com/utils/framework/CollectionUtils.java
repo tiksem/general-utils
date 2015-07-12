@@ -563,7 +563,6 @@ public class CollectionUtils {
     }
 
     public static <From, To> List<To> transformNonCopy(List<From> from, Transformer<From, To> transformer) {
-        final int size = from.size();
         return new AbstractList<To>() {
             @Override
             public To get(int location) {
@@ -572,7 +571,7 @@ public class CollectionUtils {
 
             @Override
             public int size() {
-                return size;
+                return from.size();
             }
         };
     }

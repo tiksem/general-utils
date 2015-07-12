@@ -56,5 +56,9 @@ public abstract class NetworkSuggestionsProvider<T> implements SuggestionsProvid
         }
     }
 
+    public Map<String, Object> getArgs() {
+        return args;
+    }
+
     protected abstract List<T> parse(String response);
 }
