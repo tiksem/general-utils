@@ -241,6 +241,16 @@ public class Strings {
         return value == null || value.length() <= 0;
     }
 
+    public static boolean containsAnyNotEmpty(CharSequence... charSequences) {
+        for (CharSequence charSequence : charSequences) {
+            if (charSequence.length() > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static String repeat(char ch, int count) {
         if (count < 0) {
             throw new IllegalArgumentException();
