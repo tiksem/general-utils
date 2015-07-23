@@ -26,21 +26,21 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private boolean manualPageLoading = false;
     private OnPageLoadingRequested onPageLoadingRequested;
 
-    public static interface OnPageLoadingFinished {
-        void onLoadingFinished();
+    public static interface OnPageLoadingFinished<T> {
+        void onLoadingFinished(List<T> elements);
     }
 
     public static interface OnPageLoadingRequested {
         void onPageLoadingRequested(int index);
     }
 
-    private OnPageLoadingFinished onPageLoadingFinished;
+    private OnPageLoadingFinished<T> onPageLoadingFinished;
 
-    public OnPageLoadingFinished getOnPageLoadingFinished() {
+    public OnPageLoadingFinished<T> getOnPageLoadingFinished() {
         return onPageLoadingFinished;
     }
 
-    public void setOnPageLoadingFinished(OnPageLoadingFinished onPageLoadingFinished) {
+    public void setOnPageLoadingFinished(OnPageLoadingFinished<T> onPageLoadingFinished) {
         this.onPageLoadingFinished = onPageLoadingFinished;
     }
 
@@ -161,7 +161,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         loadNextPage(null);
     }
 
-    public void loadNextPage(final OnPageLoadingFinished onPageLoadingFinished) {
+    public void loadNextPage(final OnPageLoadingFinished<T> onPageLoadingFinished) {
         if (allDataLoaded) {
             return;
         }
@@ -203,12 +203,12 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                 onPageLoadingFinished(pageToLoad);
 
                 if (onPageLoadingFinished != null) {
-                    onPageLoadingFinished.onLoadingFinished();
+                    onPageLoadingFinished.onLoadingFinished(elements);
                 }
 
                 OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
                 if (onPageLoadingFinished != null) {
-                    onPageLoadingFinished.onLoadingFinished();
+                    onPageLoadingFinished.onLoadingFinished(elements);
                 }
 
                 pageLoadingExecuted = false;
