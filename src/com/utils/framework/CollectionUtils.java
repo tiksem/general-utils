@@ -1,6 +1,5 @@
 package com.utils.framework;
 
-import com.utils.framework.collections.ObjectAddressSet;
 import com.utils.framework.collections.SetWithPredicates;
 import com.utils.framework.collections.TimSort;
 import com.utils.framework.collections.map.ListValuesMultiMap;
@@ -144,10 +143,6 @@ public class CollectionUtils {
         collection.removeAll(nonUnique);
 
         return nonUnique;
-    }
-
-    public static interface KeyProvider<K, V> {
-        public K getKey(V value);
     }
 
     public static <K, V> void multiMapFromList(List<V> list,
@@ -632,6 +627,9 @@ public class CollectionUtils {
 
     public static boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
+    }
 
+    public static <T, K extends Comparable<K>> T max(Collection<T> collection, KeyProvider<K, T> keyProvider) {
+        return Collections.max(collection, Comparators.byKey(keyProvider));
     }
 }

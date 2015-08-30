@@ -10,7 +10,7 @@ import java.util.Map;
  * Date: 21.08.14
  * Time: 17:18
  */
-public interface MultiMap<K, V> {
+public interface MultiMap<K, V> extends Iterable<MultiMapEntry<K, V>> {
     boolean containsKey(K key);
 
     boolean containsValue(K key, V value);
