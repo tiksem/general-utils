@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Date: 12.12.13
  * Time: 13:34
  */
-public class ArrayStack<T> implements Stack<T> {
+public class ArrayStack<T> extends AbstractStack<T> {
     private Object[] array;
     private int size = 0;
 

@@ -1,9 +1,6 @@
 package com.utils.framework.collections;
 
-import com.utils.framework.DefaultEquals;
-import com.utils.framework.DefaultHashCodeProvider;
-import com.utils.framework.Equals;
-import com.utils.framework.HashCodeProvider;
+import com.utils.framework.*;
 
 import java.util.*;
 
@@ -85,7 +82,7 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
         if (t != null) {
             return set.add(new Entry<T>(t));
         } else {
-            return true;
+            throw new NullPointerException("null values are not allowed");
         }
     }
 
@@ -146,5 +143,10 @@ public class SetWithPredicates<T> extends AbstractSet<T> {
     @Override
     public int size() {
         return set.size();
+    }
+
+    public static <T> SetWithPredicates<T> fromKeyProvider(KeyProvider<? extends Object, T> keyProvider) {
+        return new SetWithPredicates<>(new KeyProviderEquals<>(keyProvider),
+                new KeyProviderHashCodeProvider<>(keyProvider));
     }
 }

@@ -3,6 +3,7 @@ package com.utils.framework;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -132,5 +133,10 @@ public class ArrayUtils {
                 return elements.length;
             }
         };
+    }
+
+    public static Object[] expandCapacity(Object[] array, float factor, int minCapacityIncrement) {
+        int newLength = Math.max(minCapacityIncrement, (int) (factor * array.length)) + array.length;
+        return Arrays.copyOf(array, newLength);
     }
 }
