@@ -18,6 +18,8 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 public final class Network {
@@ -41,6 +43,18 @@ public final class Network {
 
     public static void setReadTimeout(int readTimeout) {
         Network.readTimeout = readTimeout;
+    }
+
+    public static String getOrderedQueryStringUrl(String url, Map<String, Object> params) throws IOException {
+        if (params == null || params.isEmpty()) {
+            return url;
+        }
+
+        if (!(params instanceof SortedMap)) {
+            params = new TreeMap<>(params);
+        }
+
+        return getUrl(url, params);
     }
 
     public static String getUrl(String url, Map<String, Object> params) throws IOException {
