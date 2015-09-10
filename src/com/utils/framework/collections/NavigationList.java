@@ -265,7 +265,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
             throw new IndexOutOfBoundsException("Unable to insert element between loaded elements");
         }
 
-        if (shouldAddElement(object)) {
+        if (object == null || shouldAddElement(object)) {
             elements.add(location, object);
             elementsOffset++;
         }
