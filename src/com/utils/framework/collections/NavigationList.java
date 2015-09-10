@@ -25,6 +25,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private OnError onError;
     private boolean manualPageLoading = false;
     private OnPageLoadingRequested onPageLoadingRequested;
+    private boolean errorOcurred = false;
 
     public static interface OnPageLoadingFinished<T> {
         void onLoadingFinished(List<T> elements);
@@ -180,6 +181,8 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         getElementsOfPage(pageToLoad, new OnLoadingFinished<T>() {
             @Override
             public void onLoadingFinished(List<T> pageElements, boolean isLastPage) {
+                errorOcurred = false;
+
                 if (isAllDataLoaded()) {
                     return;
                 }
@@ -236,8 +239,12 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         lastIndexRequestedBeforePageLoading = -1;
         pageLoadingExecuted = false;
 
-        if (onError != null) {
-            onError.onError(e);
+        if (!errorOcurred) {
+            if (onError != null) {
+                onError.onError(e);
+            }
+
+            errorOcurred = true;
         }
     }
 
