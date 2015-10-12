@@ -21,7 +21,7 @@ public abstract class NetworkSuggestionsProvider<T> implements SuggestionsProvid
     public NetworkSuggestionsProvider(String url, Map<String, Object> args,
                                       RequestExecutor requestExecutor) {
         this.url = url;
-        this.args = args != null ? new HashMap<>(args) : new HashMap<>();
+        this.args = args != null ? new HashMap<>(args) : new HashMap<String, Object>();
         this.requestExecutor = requestExecutor;
     }
 

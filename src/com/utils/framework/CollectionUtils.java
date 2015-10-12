@@ -534,7 +534,7 @@ public class CollectionUtils {
         return result;
     }
 
-    public static <From, To> List<To> transformNonCopy(List<From> from, Transformer<From, To> transformer) {
+    public static <From, To> List<To> transformNonCopy(final List<From> from, final Transformer<From, To> transformer) {
         return new AbstractList<To>() {
             @Override
             public To get(int location) {

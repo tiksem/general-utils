@@ -48,7 +48,7 @@ public class Comparators {
         };
     }
 
-    public static <T, K extends Comparable<K>> Comparator<T> byKey(KeyProvider<K, T> keyProvider) {
+    public static <T, K extends Comparable<K>> Comparator<T> byKey(final KeyProvider<K, T> keyProvider) {
         return new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {

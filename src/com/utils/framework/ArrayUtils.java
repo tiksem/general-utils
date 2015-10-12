@@ -121,7 +121,7 @@ public class ArrayUtils {
         return indexOf(array, object) >= 0;
     }
 
-    public static List<Long> asList(long... elements) {
+    public static List<Long> asList(final long... elements) {
         return new AbstractList<Long>() {
             @Override
             public Long get(int location) {
