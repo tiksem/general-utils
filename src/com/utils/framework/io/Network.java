@@ -140,9 +140,7 @@ public final class Network {
             URLConnection connection = urlObject.openConnection();
 
             inputStream = connection.getInputStream();
-            InputStreamReader responseReader = new InputStreamReader(inputStream, encoding);
-            BufferedReader readBuffer = new BufferedReader(responseReader);
-            return IOUtilities.toString(readBuffer);
+            return IOUtilities.toString(inputStream, encoding);
         } finally {
             if (inputStream != null) {
                 inputStream.close();

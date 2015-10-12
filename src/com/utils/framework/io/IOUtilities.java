@@ -24,7 +24,7 @@ public final class IOUtilities {
         return content.toString();
     }
 
-    public static Reader readerFromInputStream(InputStream inputStream, String encoding) {
+    public static Reader bufferedReaderFromInputStream(InputStream inputStream, String encoding) {
         try {
             return new BufferedReader(new InputStreamReader(inputStream, encoding));
         } catch (UnsupportedEncodingException e) {
@@ -32,17 +32,17 @@ public final class IOUtilities {
         }
     }
 
-    public static Reader readerFromInputStream(InputStream inputStream) {
+    public static Reader bufferedReaderFromInputStream(InputStream inputStream) {
         return new BufferedReader(new InputStreamReader(inputStream));
     }
 
     public static String toString(InputStream inputStream, String encoding) throws IOException {
-        Reader reader = readerFromInputStream(inputStream, encoding);
+        Reader reader = new InputStreamReader(inputStream, encoding);
         return toString(reader);
     }
 
     public static String toString(InputStream inputStream) throws IOException {
-        Reader reader = readerFromInputStream(inputStream);
+        Reader reader = new InputStreamReader(inputStream);
         return toString(reader);
     }
 
@@ -207,7 +207,7 @@ public final class IOUtilities {
     public static String readSourceFile(String path) throws IOException {
         InputStream inputStream = IOUtilities.class.getClassLoader().
                 getResourceAsStream(path);
-        return toString(readerFromInputStream(inputStream));
+        return toString(bufferedReaderFromInputStream(inputStream));
     }
 
     public static <T extends Serializable> T deserialize(InputStream inputStream) throws IOException {
