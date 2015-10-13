@@ -12,6 +12,8 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class NavigationList<T> extends AbstractList<T> implements NavigationEntity<T> {
+    public static final EmptyList CANCELLED_PAGE = new EmptyList();
+
     private boolean allDataLoaded = false;
     private int loadedPagesCount = 0;
     private int distanceToLoadNextPage;
@@ -25,10 +27,15 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private OnError onError;
     private boolean manualPageLoading = false;
     private OnPageLoadingRequested onPageLoadingRequested;
+    private OnPageLoadingCancelled onPageLoadingCancelled;
     private boolean errorOcurred = false;
 
     public static interface OnPageLoadingFinished<T> {
         void onLoadingFinished(List<T> elements);
+    }
+
+    public interface OnPageLoadingCancelled {
+        void onCancelled();
     }
 
     public static interface OnPageLoadingRequested {
@@ -99,6 +106,14 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     private boolean shouldLoadNextPage(int location) {
         return location >= getLoadedElementsCount() - distanceToLoadNextPage;
+    }
+
+    public OnPageLoadingCancelled getOnPageLoadingCancelled() {
+        return onPageLoadingCancelled;
+    }
+
+    public void setOnPageLoadingCancelled(OnPageLoadingCancelled onPageLoadingCancelled) {
+        this.onPageLoadingCancelled = onPageLoadingCancelled;
     }
 
     @Override
@@ -203,15 +218,19 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                     elements.add(pageElement);
                 }
 
-                onPageLoadingFinished(pageToLoad);
+                if (pageElements != CANCELLED_PAGE) {
+                    onPageLoadingFinished(pageToLoad);
 
-                if (onPageLoadingFinished != null) {
-                    onPageLoadingFinished.onLoadingFinished(elements);
-                }
+                    if (onPageLoadingFinished != null) {
+                        onPageLoadingFinished.onLoadingFinished(elements);
+                    }
 
-                OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
-                if (onPageLoadingFinished != null) {
-                    onPageLoadingFinished.onLoadingFinished(elements);
+                    OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
+                    if (onPageLoadingFinished != null) {
+                        onPageLoadingFinished.onLoadingFinished(elements);
+                    }
+                } else if(onPageLoadingCancelled != null) {
+                    onPageLoadingCancelled.onCancelled();
                 }
 
                 pageLoadingExecuted = false;
@@ -359,5 +378,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     @Override
     public T set(int location, T object) {
         return elements.set(location, object);
+    }
+
+    /* Implement this method in subclass and pass CANCELLED_PAGE list into OnPageLoadingFinished callback
+    * to indicate page loading has been cancelled. See loadNextPage implementation for details*/
+    public void cancelLastPageLoading() {
+        throw new UnsupportedOperationException("Implement cancelLastPageLoading in your subclass");
     }
 }
