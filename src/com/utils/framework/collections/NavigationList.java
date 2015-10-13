@@ -324,7 +324,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         NavigationList<T> list = new NavigationList<T>() {
             @Override
             public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError) {
-
+                throw new RuntimeException("Should not be called");
             }
         };
 

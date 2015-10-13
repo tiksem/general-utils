@@ -207,7 +207,7 @@ public final class IOUtilities {
     public static String readSourceFile(String path) throws IOException {
         InputStream inputStream = IOUtilities.class.getClassLoader().
                 getResourceAsStream(path);
-        return toString(bufferedReaderFromInputStream(inputStream));
+        return toString(inputStream);
     }
 
     public static <T extends Serializable> T deserialize(InputStream inputStream) throws IOException {
