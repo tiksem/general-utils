@@ -2,6 +2,7 @@ package com.utils.framework.strings;
 
 import com.utils.framework.ArrayUtils;
 import com.utils.framework.CollectionUtils;
+import com.utils.framework.Equals;
 import com.utils.framework.Reflection;
 
 import java.lang.reflect.Field;
@@ -451,5 +452,16 @@ public class Strings {
         } else {
             return string;
         }
+    }
+
+    public static <A, B extends CharSequence> boolean stringListsEquals(Collection<A> first,
+                                            Collection<B> second) {
+        return CollectionUtils.contentEquals((Collection<CharSequence>)first, (Collection<CharSequence>)second,
+                new Equals<CharSequence>() {
+            @Override
+            public boolean equals(CharSequence a, CharSequence b) {
+                return charSequenceEquals(a, b);
+            }
+        });
     }
 }
