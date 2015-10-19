@@ -215,6 +215,20 @@ public class CollectionUtils {
         return result;
     }
 
+    @SafeVarargs
+    public static <T> List<T> findNotNullValues(T... origin) {
+        return findNotNullValues(Arrays.asList(origin));
+    }
+
+    public static <T> List<T> findNotNullValues(List<T> origin) {
+        return findAll(origin, new Predicate<T>() {
+            @Override
+            public boolean check(T item) {
+                return item != null;
+            }
+        });
+    }
+
     public interface FindTransform<From, To> extends Transformer<From, To>, Predicate<From> {
 
     }
