@@ -167,4 +167,16 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
     public Map<K, Collection<V>> getMap() {
         return map;
     }
+
+    @Override
+    public void removeAll(MultiMap<K, V> multiMap) {
+        for (MultiMapEntry<K, V> next : multiMap) {
+            remove(next.key, next.value);
+        }
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
 }

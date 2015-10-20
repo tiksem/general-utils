@@ -10,7 +10,8 @@ import java.util.List;
  * Time: 20:24
  */
 public interface ListWithSelectedItem<T> extends List<T> {
-    public int getCurrentItemPosition();
-
-    public void setCurrentItemPosition(int currentItemPosition);
+    int getCurrentItemPosition();
+    void setCurrentItemPosition(int currentItemPosition);
+    T getCurrentItem();
+    boolean goNextIfNotLast();
 }

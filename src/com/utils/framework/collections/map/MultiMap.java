@@ -23,6 +23,8 @@ public interface MultiMap<K, V> extends Iterable<MultiMapEntry<K, V>> {
 
     boolean removeAll(K key);
 
+    void removeAll(MultiMap<K, V> multiMap);
+
     Collection<K> getKeys();
 
     Collection<V> getValues(K key);
@@ -38,4 +40,6 @@ public interface MultiMap<K, V> extends Iterable<MultiMapEntry<K, V>> {
     Map<K, Collection<V>> getMap();
 
     boolean isEmpty();
+
+    void clear();
 }

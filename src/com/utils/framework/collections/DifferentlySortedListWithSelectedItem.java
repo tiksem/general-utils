@@ -33,12 +33,32 @@ public class DifferentlySortedListWithSelectedItem<T> extends DifferentlySortedL
     }
 
     @Override
-    public int getCurrentItemPosition() {
+    public final int getCurrentItemPosition() {
         return currentItemPosition;
     }
 
     @Override
     public void setCurrentItemPosition(int currentItemPosition) {
+        if (currentItemPosition >= size()) {
+            throw new IllegalArgumentException("currentItemPosition >= size()");
+        }
+
         this.currentItemPosition = currentItemPosition;
+    }
+
+    @Override
+    public T getCurrentItem() {
+        return get(getCurrentItemPosition());
+    }
+
+    @Override
+    public boolean goNextIfNotLast() {
+        if (currentItemPosition == size() - 1) {
+            return false;
+        }
+
+        setCurrentItemPosition(currentItemPosition + 1);
+
+        return false;
     }
 }
