@@ -548,6 +548,15 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> List<To> transform(List<From> from,
+                                                Transformer<From, To> transformer, boolean makeCopy) {
+        if (makeCopy) {
+            return transform(from, transformer);
+        } else {
+            return transformNonCopy(from, transformer);
+        }
+    }
+
     public static <From, To> List<To> transformNonCopy(final List<From> from, final Transformer<From, To> transformer) {
         return new AbstractList<To>() {
             @Override
