@@ -11,6 +11,9 @@ import java.util.Map;
  * Date: 2/25/13
  * Time: 2:27 PM
  */
+
+/* Use GetRequestExecutor and RequestExecutorWithCaching instead */
+@Deprecated
 public final class TextLoader {
     private Cache<String, String> memoryCache;
     private Cache<String, String> diskCache;
