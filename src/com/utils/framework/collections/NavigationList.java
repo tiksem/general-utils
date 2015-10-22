@@ -29,6 +29,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private OnPageLoadingRequested onPageLoadingRequested;
     private OnPageLoadingCancelled onPageLoadingCancelled;
     private boolean errorOcurred = false;
+    private boolean isDecorated;
 
     public static interface OnPageLoadingFinished<T> {
         void onLoadingFinished(List<T> elements);
@@ -330,6 +331,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
         list.allDataLoaded = true;
         list.elements = elements;
+        list.isDecorated = true;
 
         return list;
     }
@@ -384,5 +386,9 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     * to indicate page loading has been cancelled. See loadNextPage implementation for details*/
     public void cancelLastPageLoading() {
         throw new UnsupportedOperationException("Implement cancelLastPageLoading in your subclass");
+    }
+
+    public boolean isDecorated() {
+        return isDecorated;
     }
 }
