@@ -1,11 +1,7 @@
 package com.utils.framework.strings;
 
-import com.utils.framework.ArrayUtils;
-import com.utils.framework.CollectionUtils;
-import com.utils.framework.Equals;
-import com.utils.framework.Reflection;
+import com.utils.framework.*;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -412,7 +408,7 @@ public class Strings {
                                              String string, final Replacer replacer) {
         String[] split = string.split(delimiter);
         List<String> transform = CollectionUtils.transform(Arrays.asList(split),
-                new CollectionUtils.Transformer<String, String>() {
+                new Transformer<String, String>() {
                     @Override
                     public String get(String s) {
                         return replacer.getReplacement(s);

@@ -228,7 +228,7 @@ public final class Reflection {
     }
 
     public static <T> List<Class<T>> getClasses(List<T> objects) {
-        return CollectionUtils.transform(objects, new CollectionUtils.Transformer<T, Class<T>>() {
+        return CollectionUtils.transform(objects, new Transformer<T, Class<T>>() {
             @Override
             public Class<T> get(T t) {
                 return (Class<T>) t.getClass();
