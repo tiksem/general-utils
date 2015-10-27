@@ -464,4 +464,20 @@ public class Strings {
             }
         });
     }
+
+    public static int parseUnsignedIntToken(CharSequence value, int index) {
+        int result = 0;
+
+        for (; index < value.length(); index++) {
+            char ch = value.charAt(index);
+            if (Character.isDigit(ch)) {
+                result *= 10;
+                result += Character.digit(ch, 10);
+            } else {
+                break;
+            }
+        }
+
+        return result;
+    }
 }
