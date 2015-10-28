@@ -1,5 +1,6 @@
 package com.utils.framework;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,5 +36,14 @@ public class Lists {
     public static <T> T removeLast(List<T> list) {
         int index = list.size() - 1;
         return list.remove(index);
+    }
+
+    public static <T> ArrayList<T> arrayListWithNulls(int size) {
+        ArrayList<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(null);
+        }
+
+        return list;
     }
 }
