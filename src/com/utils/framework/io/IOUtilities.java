@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
  */
 public final class IOUtilities {
     private static final int BUFFER_SIZE = 1024;
+    private static final int COPY_BUFFER_SIZE = 32 * 1024; // 32 KB
 
     public static String toString(Reader reader) throws IOException {
         StringBuilder content = new StringBuilder();
@@ -277,5 +278,32 @@ public final class IOUtilities {
             throw new RuntimeException(e);
         }
         return new BufferedReader(responseReader);
+    }
+
+    public static void copyStream(InputStream is, OutputStream os) throws IOException {
+        byte[] bytes = new byte[COPY_BUFFER_SIZE];
+        while (true) {
+            int count = is.read(bytes, 0, COPY_BUFFER_SIZE);
+            if (count == -1) {
+                break;
+            }
+            os.write(bytes, 0, count);
+        }
+    }
+
+    public static void copyFile(String source, String destination) throws IOException {
+        copyStream(new FileInputStream(source), new FileOutputStream(destination));
+    }
+
+    public static void downloadFile(String source, String destination) throws IOException {
+        copyStream(getInputStreamFromUrl(source), new FileOutputStream(destination));
+    }
+
+    public static final void closeSilently(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            // Do nothing
+        }
     }
 }
