@@ -391,4 +391,8 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     public boolean isDecorated() {
         return isDecorated;
     }
+
+    public List<T> getElements() {
+        return elements;
+    }
 }
