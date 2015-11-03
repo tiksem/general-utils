@@ -150,6 +150,10 @@ public class Strings {
         return new String(array);
     }
 
+    public static CharSequence capitalizeCharSequence(CharSequence charSequence) {
+        return capitalize(charSequence);
+    }
+
     public static CharSequence capitalize(CharSequence charSequence) {
         return new TransformingString(charSequence, new Capitalizer());
     }

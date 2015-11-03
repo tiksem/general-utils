@@ -45,7 +45,7 @@ public final class Search {
         return result;
     }
 
-    public static <T> List filter(List<T> data, String filter) {
+    public static <T> List<T> filter(List<T> data, String filter) {
         return filter(data, filter, Integer.MAX_VALUE);
     }
 
