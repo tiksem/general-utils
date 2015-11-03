@@ -139,4 +139,14 @@ public class ArrayUtils {
         int newLength = Math.max(minCapacityIncrement, (int) (factor * array.length)) + array.length;
         return Arrays.copyOf(array, newLength);
     }
+
+    public static String[] toLowerCase(String[] source) {
+        int length = source.length;
+        String[] result = new String[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = source[i];
+        }
+
+        return result;
+    }
 }

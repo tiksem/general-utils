@@ -1,6 +1,8 @@
 package com.utils.framework.algorithms;
 
+import com.utils.framework.CollectionUtils;
 import com.utils.framework.Predicate;
+import com.utils.framework.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,21 @@ public final class Search {
 
     public static <T> List<T> filter(List<T> data, String filter) {
         return filter(data, filter, Integer.MAX_VALUE);
+    }
+
+    public static <T> List<T> filterIgnoreCase(List<T> data, String filter, int maxCount) {
+        List strings = CollectionUtils.transformNonCopy(data, new Transformer<T, String>() {
+            @Override
+            public String get(T t) {
+                return t.toString().toLowerCase();
+            }
+        });
+
+        return filter(strings, filter.toLowerCase(), maxCount);
+    }
+
+    public static <T> List<T> filterIgnoreCase(List<T> data, String filter) {
+        return filterIgnoreCase(data, filter, Integer.MAX_VALUE);
     }
 
     public static <T> T find(Iterable<T> iterable, Predicate<T> predicate) {
