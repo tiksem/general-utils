@@ -628,4 +628,11 @@ public class CollectionUtils {
     public static <T, K extends Comparable<K>> T max(Collection<T> collection, KeyProvider<K, T> keyProvider) {
         return Collections.max(collection, Comparators.byKey(keyProvider));
     }
+
+    public static <T> List<T> concat(List<T> a, List<T> b) {
+        ArrayList<T> result = new ArrayList<>(a.size() + b.size());
+        result.addAll(a);
+        result.addAll(b);
+        return result;
+    }
 }
