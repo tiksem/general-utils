@@ -51,19 +51,16 @@ public final class Search {
         return filter(data, filter, Integer.MAX_VALUE);
     }
 
-    public static <T> List<T> filterIgnoreCase(List<T> data, String filter, int maxCount) {
-        List strings = CollectionUtils.transformNonCopy(data, new Transformer<T, String>() {
+    public static <T> List<T> filterIgnoreCase(List<T> data, String filter) {
+        filter = filter.toLowerCase();
+
+        final String finalFilter = filter;
+        return CollectionUtils.findAll(data, new Predicate<T>() {
             @Override
-            public String get(T t) {
-                return t.toString().toLowerCase();
+            public boolean check(T item) {
+                return item.toString().toLowerCase().contains(finalFilter);
             }
         });
-
-        return filter(strings, filter.toLowerCase(), maxCount);
-    }
-
-    public static <T> List<T> filterIgnoreCase(List<T> data, String filter) {
-        return filterIgnoreCase(data, filter, Integer.MAX_VALUE);
     }
 
     public static <T> T find(Iterable<T> iterable, Predicate<T> predicate) {

@@ -495,4 +495,14 @@ public class Strings {
     public static boolean containsIgnoreCase(List<String> strings, String occurrence) {
         return indexOfIgnoreCase(strings, occurrence) >= 0;
     }
+
+    public static boolean containsAnyIgnoreCase(List<String> strings, String... occurrences) {
+        for (String occurrence : occurrences) {
+            if (containsIgnoreCase(strings, occurrence)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
