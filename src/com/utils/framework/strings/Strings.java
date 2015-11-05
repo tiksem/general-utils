@@ -480,4 +480,19 @@ public class Strings {
 
         return result;
     }
+
+    public static int indexOfIgnoreCase(List<String> strings, String occurrence) {
+        int size = strings.size();
+        for (int i = 0; i < size; i++) {
+            if (strings.get(i).equalsIgnoreCase(occurrence)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static boolean containsIgnoreCase(List<String> strings, String occurrence) {
+        return indexOfIgnoreCase(strings, occurrence) >= 0;
+    }
 }
