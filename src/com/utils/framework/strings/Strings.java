@@ -496,6 +496,18 @@ public class Strings {
         return indexOfIgnoreCase(strings, occurrence) >= 0;
     }
 
+    public static boolean containsAnyIgnoreCase(String string, String... occurrences) {
+        string = string.toLowerCase();
+
+        for (String occurrence : occurrences) {
+            if (string.contains(occurrence.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean containsAnyIgnoreCase(List<String> strings, String... occurrences) {
         for (String occurrence : occurrences) {
             if (containsIgnoreCase(strings, occurrence)) {
