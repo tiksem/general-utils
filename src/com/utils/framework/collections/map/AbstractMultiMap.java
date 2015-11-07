@@ -16,19 +16,19 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
     @Override
     public boolean containsKey(K key) {
-        Collection<V> values = getValues(key);
+        Collection<V> values = map.get(key);
         return values != null && !values.isEmpty();
     }
 
     @Override
     public boolean containsValue(K key, V value) {
-        Collection<V> values = getValues(key);
+        Collection<V> values = map.get(key);
         return values != null && values.contains(value);
     }
 
     @Override
     public V put(K key, V value) {
-        Collection<V> values = getValues(key);
+        Collection<V> values = map.get(key);
         if (values == null) {
             values = createValuesCollection();
             putValuesCollection(key, values);
@@ -50,7 +50,7 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
     @Override
     public boolean remove(K key, V value) {
-        Collection<V> values = getValues(key);
+        Collection<V> values = map.get(key);
         return values != null && values.remove(value);
     }
 
@@ -84,7 +84,12 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
     @Override
     public Collection<V> getValues(K key) {
-        return map.get(key);
+        Collection<V> values = map.get(key);
+        if (values == null) {
+            return Collections.emptyList();
+        }
+
+        return values;
     }
 
     private class MapIterator<K, V> implements Iterator<MultiMapEntry<K, V>> {
@@ -150,7 +155,7 @@ public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V>, Iterable
 
     @Override
     public V getFirstValue(K key) {
-        Collection<V> values = getValues(key);
+        Collection<V> values = map.get(key);
         if (values == null || values.isEmpty()) {
             return null;
         }
