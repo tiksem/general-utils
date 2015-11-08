@@ -192,7 +192,11 @@ public class Strings {
 
     public static String replaceFirstChar(String string, char ch, char replacement) {
         int index = string.indexOf(ch);
-        return setCharAt(string, index, replacement);
+        if (index >= 0) {
+            return setCharAt(string, index, replacement);
+        }
+
+        return string;
     }
 
     public static long getLongFromString(String string) {
