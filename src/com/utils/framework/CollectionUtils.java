@@ -145,6 +145,28 @@ public class CollectionUtils {
         return nonUnique;
     }
 
+    public static <T> List<T> asListRemoveNulls(T[] elements) {
+        List<T> result = new ArrayList<>(elements.length);
+        for (T element : elements) {
+            if (element != null) {
+                result.add(element);
+            }
+        }
+
+        return result;
+    }
+
+    public static <T> LinkedHashSet<T> asLinkedHashSetRemoveNulls(T[] elements) {
+        LinkedHashSet<T> result = new LinkedHashSet<>(elements.length);
+        for (T element : elements) {
+            if (element != null) {
+                result.add(element);
+            }
+        }
+
+        return result;
+    }
+
     public static <K, V> void multiMapFromList(List<V> list,
                                                KeyProvider<K, V> keyProvider, MultiMap<K, V> out) {
         for (V object : list) {
