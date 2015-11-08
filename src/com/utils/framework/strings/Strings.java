@@ -184,10 +184,15 @@ public class Strings {
         return null;
     }
 
-    public static final String setCharAt(String string, int index, char ch) {
+    public static String setCharAt(String string, int index, char ch) {
         char[] array = string.toCharArray();
         array[index] = ch;
         return new String(array);
+    }
+
+    public static String replaceFirstChar(String string, char ch, char replacement) {
+        int index = string.indexOf(ch);
+        return setCharAt(string, index, replacement);
     }
 
     public static long getLongFromString(String string) {
