@@ -206,7 +206,7 @@ public class Strings {
     public static int getFirstUnsignedInteger(CharSequence string) {
         for (int i = 0; i < string.length(); i++) {
             char ch = string.charAt(i);
-            if (ch >= '0' && ch <= '9') {
+            if (ch >= '1' && ch <= '9') {
                 return parseUnsignedIntToken(string, i);
             }
         }
