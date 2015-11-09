@@ -203,6 +203,17 @@ public class Strings {
         return Long.parseLong(string.replaceAll("[\\D]", ""));
     }
 
+    public static int getFirstUnsignedInteger(CharSequence string) {
+        for (int i = 0; i < string.length(); i++) {
+            char ch = string.charAt(i);
+            if (ch >= '0' && ch <= '9') {
+                return parseUnsignedIntToken(string, i);
+            }
+        }
+
+        return -1;
+    }
+
     public static String toString(Object o) {
         return o == null ? "" : o.toString();
     }
