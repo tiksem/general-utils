@@ -2,6 +2,7 @@ package com.utils.framework;
 
 import com.utils.framework.collections.SetWithPredicates;
 import com.utils.framework.collections.TimSort;
+import com.utils.framework.collections.iterator.TransformIterator;
 import com.utils.framework.collections.map.ListValuesMultiMap;
 import com.utils.framework.collections.map.MultiMap;
 import com.utils.framework.predicates.InstanceOfPredicate;
@@ -564,6 +565,10 @@ public class CollectionUtils {
         }
 
         return result;
+    }
+
+    public static <From, To> Iterator<To> transform(Iterator<From> from, Transformer<From, To> transformer) {
+        return new TransformIterator<>(from, transformer);
     }
 
     public static <From, To> List<To> transform(List<From> from,

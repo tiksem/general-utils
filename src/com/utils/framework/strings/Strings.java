@@ -34,7 +34,7 @@ public class Strings {
         };
     }
 
-    public static String join(List<String> parts, char separator) {
+    public static String join(Collection<String> parts, char separator) {
         if (parts.isEmpty()) {
             return "";
         }
@@ -78,7 +78,7 @@ public class Strings {
         return new String(result);
     }
 
-    public static <T extends CharSequence> int length(List<T> sequences) {
+    public static <T extends CharSequence> int length(Collection<T> sequences) {
         int size = 0;
         for (CharSequence charSequence : sequences) {
             if (charSequence != null) {
@@ -122,9 +122,28 @@ public class Strings {
         }
     }
 
+    public static <T extends CharSequence> void join(CharSequence separator, Iterator<T> parts,
+                                                     StringBuilder out) {
+        while (parts.hasNext()) {
+            T next = parts.next();
+            if (next != null) {
+                out.append(next);
+                 if (parts.hasNext()) {
+                     out.append(separator);
+                 }
+            }
+        }
+    }
+
     public static <T extends CharSequence> StringBuilder join(CharSequence separator, List<T> parts) {
         StringBuilder result = new StringBuilder();
         join(separator, parts, result);
+        return result;
+    }
+
+    public static <T extends CharSequence> StringBuilder join(CharSequence separator, Iterator<T> iterator) {
+        StringBuilder result = new StringBuilder();
+        join(separator, iterator, result);
         return result;
     }
 
@@ -536,5 +555,22 @@ public class Strings {
         }
 
         return false;
+    }
+
+    public static <T extends Object> String joinKeyValueMap(Map<String, T> map, final String delimiterBetweenKeyAndValue,
+                                         String delimiterBetweenPairs) {
+        Iterator<String> iterator = CollectionUtils.transform(map.entrySet().iterator(),
+                new Transformer<Map.Entry<String, T>, String>() {
+            @Override
+            public String get(Map.Entry<String, T> entry) {
+                return entry.getKey() + delimiterBetweenKeyAndValue + entry.getValue();
+            }
+        });
+
+        return join(delimiterBetweenPairs, iterator).toString();
+    }
+
+    public static char getLast(CharSequence charSequence) {
+        return charSequence.charAt(charSequence.length() - 1);
     }
 }

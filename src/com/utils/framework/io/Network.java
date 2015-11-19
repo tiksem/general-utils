@@ -1,6 +1,8 @@
 package com.utils.framework.io;
 
 import com.utils.framework.ArrayUtils;
+import com.utils.framework.CollectionUtils;
+import com.utils.framework.Transformer;
 import com.utils.framework.strings.Strings;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -17,6 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -62,23 +65,16 @@ public final class Network {
             return url;
         }
 
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(url);
+        StringBuilder urlBuilder = new StringBuilder(url);
 
-        urlBuilder.append("?");
-
-        for (Map.Entry<String, Object> param : params.entrySet()) {
-            String key = URLEncoder.encode(param.getKey(), "UTF-8");
-            String value = URLEncoder.encode(param.getValue().toString(), "UTF-8");
-
-            urlBuilder.append(key);
-            urlBuilder.append("=");
-            urlBuilder.append(value);
-            urlBuilder.append("&");
+        int indexOf = url.lastIndexOf('?');
+        if (indexOf > 0) {
+            urlBuilder.append('&');
+        } else {
+            urlBuilder.append('?');
         }
 
-        urlBuilder.deleteCharAt(urlBuilder.length() - 1);
-
+        appendQueryString(params, urlBuilder);
         return urlBuilder.toString();
     }
 
@@ -230,5 +226,28 @@ public final class Network {
     public static String ip4IntToString(int intIP) {
         byte[] bytes = ArrayUtils.intToByteArray(intIP);
         return Strings.join(".", ArrayUtils.bytesToStrings(bytes)).toString();
+    }
+
+    public static StringBuilder appendQueryString(Map<String, Object> params, StringBuilder out) {
+        Iterator<String> iterator = CollectionUtils.transform(params.entrySet().iterator(),
+                new Transformer<Map.Entry<String, Object>, String>() {
+                    @Override
+                    public String get(Map.Entry<String, Object> param) {
+                        try {
+                            String key = URLEncoder.encode(param.getKey(), "UTF-8");
+                            String value = URLEncoder.encode(param.getValue().toString(), "UTF-8");
+                            return key + "=" + value;
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException("UTF-8 is not supported");
+                        }
+                    }
+                });
+
+        Strings.join("&", iterator, out);
+        return out;
+    }
+
+    public static String toQueryString(Map<String, Object> params) {
+        return appendQueryString(params, new StringBuilder()).toString();
     }
 }
