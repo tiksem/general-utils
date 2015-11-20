@@ -24,15 +24,19 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private boolean pageLoadingPaused = false;
     private int lastIndexRequestedBeforePageLoading = -1;
     private OnAllDataLoaded onAllDataLoaded;
-    private OnError onError;
+    private PageLoadingError onError;
     private boolean manualPageLoading = false;
     private OnPageLoadingRequested onPageLoadingRequested;
     private OnPageLoadingCancelled onPageLoadingCancelled;
-    private boolean errorOcurred = false;
+    private int errorCount = 0;
     private boolean isDecorated;
 
-    public static interface OnPageLoadingFinished<T> {
+    public interface OnPageLoadingFinished<T> {
         void onLoadingFinished(List<T> elements);
+    }
+
+    public interface PageLoadingError {
+        void onError(int errorCount, Throwable error);
     }
 
     public interface OnPageLoadingCancelled {
@@ -197,7 +201,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         getElementsOfPage(pageToLoad, new OnLoadingFinished<T>() {
             @Override
             public void onLoadingFinished(List<T> pageElements, boolean isLastPage) {
-                errorOcurred = false;
+                errorCount = 0;
 
                 if (isAllDataLoaded()) {
                     return;
@@ -259,12 +263,8 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         lastIndexRequestedBeforePageLoading = -1;
         pageLoadingExecuted = false;
 
-        if (!errorOcurred) {
-            if (onError != null) {
-                onError.onError(e);
-            }
-
-            errorOcurred = true;
+        if (onError != null) {
+            onError.onError(++errorCount, e);
         }
     }
 
@@ -353,11 +353,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return loadedPagesCount;
     }
 
-    public OnError getOnError() {
+    public PageLoadingError getOnError() {
         return onError;
     }
 
-    public void setOnError(OnError onError) {
+    public void setOnError(PageLoadingError onError) {
         this.onError = onError;
     }
 
