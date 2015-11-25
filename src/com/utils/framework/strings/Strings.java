@@ -535,6 +535,10 @@ public class Strings {
         return indexOfIgnoreCase(strings, occurrence) >= 0;
     }
 
+    public static boolean containsIgnoreCase(String string, String occurrence) {
+        return string.toLowerCase().contains(occurrence.toLowerCase());
+    }
+
     public static boolean containsAnyIgnoreCase(String string, String... occurrences) {
         string = string.toLowerCase();
 
