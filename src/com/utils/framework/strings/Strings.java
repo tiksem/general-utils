@@ -323,10 +323,23 @@ public class Strings {
         return result;
     }
 
-    public static int findUnsignedIntegerInString(String string) {
-        try {
-            return Integer.valueOf(string.replaceAll("[^\\d]+", ""));
-        } catch (NumberFormatException e) {
+    public static int indexOfFirstDigit(CharSequence string) {
+        int length = string.length();
+        for (int i = 0; i < length; i++) {
+            char charAt = string.charAt(i);
+            if (charAt >= '0' && charAt <= '9') {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static int findUnsignedIntegerInString(CharSequence string) {
+        int digitIndex = indexOfFirstDigit(string);
+        if (digitIndex >= 0) {
+            return parseUnsignedIntToken(string, digitIndex);
+        } else {
             return -1;
         }
     }
@@ -417,6 +430,16 @@ public class Strings {
 
     public static String getFirstStringBetweenQuotes(String string, String quote) {
         return getFirstStringBetweenQuotes(string, quote, quote);
+    }
+
+    public static String[] toLowerCase(String[] source) {
+        int length = source.length;
+        String[] result = new String[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = source[i];
+        }
+
+        return result;
     }
 
     public interface Replacer {
