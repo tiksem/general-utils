@@ -395,4 +395,9 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     public List<T> getElements() {
         return elements;
     }
+
+    public void forceAllDataLoaded() {
+        allDataLoaded = true;
+        notifyAllDataLoaded();
+    }
 }
