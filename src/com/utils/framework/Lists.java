@@ -2,6 +2,7 @@ package com.utils.framework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by CM on 9/11/2015.
@@ -52,5 +53,10 @@ public class Lists {
         result.addAll(a);
         result.addAll(b);
         return result;
+    }
+
+    public static <T> T getRandomItem(Random random, List<T> list) {
+        int index = random.nextInt(list.size());
+        return list.get(index);
     }
 }
