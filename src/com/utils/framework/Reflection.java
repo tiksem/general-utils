@@ -469,6 +469,36 @@ public final class Reflection {
         }
     }
 
+    public static Field findFieldByNameRecursive(Object object, String fieldName) {
+        Class aClass = object.getClass();
+
+        while (aClass != null) {
+            try {
+                return aClass.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+
+            }
+
+            aClass = aClass.getSuperclass();
+        }
+
+        return null;
+    }
+
+    public static Field findFieldByNameRecursiveOrThrow(Object object, String fieldName) {
+        Field field = findFieldByNameRecursive(object, fieldName);
+        if (field == null) {
+            throw new RuntimeException("No such field " + fieldName);
+        }
+
+        return field;
+    }
+
+    public static Object getFieldValueRecursive(Object object, String fieldName) {
+        Field field = findFieldByNameRecursiveOrThrow(object, fieldName);
+        return getValueOfField(object, field);
+    }
+
     public static Object getFieldValueUsingGetter(Object object, String fieldName) {
         Field field = getFieldByNameOrThrow(object, fieldName);
         return getFieldValueUsingGetter(object, field);
