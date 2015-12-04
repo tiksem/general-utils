@@ -5,16 +5,13 @@ import com.utils.framework.CollectionUtils;
 import com.utils.framework.Transformer;
 import com.utils.framework.strings.Strings;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -142,6 +139,33 @@ public final class Network {
                 inputStream.close();
             }
         }
+    }
+
+    public static InputStream getInputStreamFromUrl(String url) throws IOException {
+        URLConnection connection = null;
+        try {
+            connection = new URL(url).openConnection();
+        } catch (MalformedURLException e) {
+            connection = new URL("file:" + url).openConnection();
+        }
+        return connection.getInputStream();
+    }
+
+    public static void downloadFile(String source, String destination) throws IOException {
+        IOUtilities.copyStream(getInputStreamFromUrl(source), new FileOutputStream(destination));
+    }
+
+    public static void downloadFile(String url, OutputStream destination,
+                                    ProgressListener progressListener) throws IOException {
+        URLConnection connection = new URL(url).openConnection();
+        int maxProgress = connection.getContentLength();
+        IOUtilities.copyStream(connection.getInputStream(), destination, maxProgress, progressListener);
+    }
+
+    public static void downloadFile(String url, String destination,
+                                    ProgressListener progressListener) throws IOException {
+        new File(destination).getParentFile().mkdirs();
+        downloadFile(url, new FileOutputStream(destination), progressListener);
     }
 
     public static interface InterruptListener {

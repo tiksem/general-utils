@@ -1,9 +1,6 @@
 package com.utils.framework.io;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 
 /**
@@ -102,16 +99,6 @@ public final class IOUtilities {
         }
     }
 
-    public static InputStream getInputStreamFromUrl(String url) throws IOException {
-        URLConnection connection = null;
-        try {
-            connection = new URL(url).openConnection();
-        } catch (MalformedURLException e) {
-            connection = new URL("file:" + url).openConnection();
-        }
-        return connection.getInputStream();
-    }
-
     public static InputStream getBufferedInputStream(InputStream stream) {
         if (stream instanceof BufferedInputStream) {
             return stream;
@@ -129,7 +116,7 @@ public final class IOUtilities {
     }
 
     public static InputStream getBufferedInputStreamFromUrl(String url) throws IOException {
-        InputStream stream = getInputStreamFromUrl(url);
+        InputStream stream = Network.getInputStreamFromUrl(url);
         return getBufferedInputStream(stream);
     }
 
@@ -162,7 +149,7 @@ public final class IOUtilities {
     }
 
     public static InputStream getBufferedInputStreamFromUrl(String url, int buffSize) throws IOException {
-        InputStream stream = getInputStreamFromUrl(url);
+        InputStream stream = Network.getInputStreamFromUrl(url);
         return new BufferedInputStream(stream, buffSize);
     }
 
@@ -197,7 +184,7 @@ public final class IOUtilities {
     }
 
     public static String readStringFromUrl(String filePath) throws IOException {
-        InputStream inputStream = getInputStreamFromUrl(filePath);
+        InputStream inputStream = Network.getInputStreamFromUrl(filePath);
         try {
             return toString(inputStream);
         } finally {
@@ -291,12 +278,26 @@ public final class IOUtilities {
         }
     }
 
-    public static void copyFile(String source, String destination) throws IOException {
-        copyStream(new FileInputStream(source), new FileOutputStream(destination));
+    public static void copyStream(InputStream is, OutputStream os, int maxProgress, ProgressListener progressListener)
+            throws IOException {
+        byte[] bytes = new byte[COPY_BUFFER_SIZE];
+        while (true) {
+            int count = is.read(bytes, 0, COPY_BUFFER_SIZE);
+            if (count == -1) {
+                break;
+            }
+            os.write(bytes, 0, count);
+            progressListener.onProgressChanged(count, maxProgress);
+        }
     }
 
-    public static void downloadFile(String source, String destination) throws IOException {
-        copyStream(getInputStreamFromUrl(source), new FileOutputStream(destination));
+    public static void copyStream(InputStream is, OutputStream os, ProgressListener progressListener)
+            throws IOException {
+        copyStream(is, os, -1, progressListener);
+    }
+
+    public static void copyFile(String source, String destination) throws IOException {
+        copyStream(new FileInputStream(source), new FileOutputStream(destination));
     }
 
     public static final void closeSilently(Closeable closeable) {
