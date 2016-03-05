@@ -1,29 +1,20 @@
 package com.utils.framework.collections;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by stykhonenko on 13.10.15.
  */
-public class EmptyList<T> extends ArrayList<T> {
+public class EmptyList<T> extends AbstractList<T> {
     @Override
-    public boolean add(T object) {
-        throw new UnsupportedOperationException();
+    public T get(int index) {
+        throw new AssertionError("WTF?");
     }
 
     @Override
-    public void add(int index, T object) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> collection) {
-        throw new UnsupportedOperationException();
+    public int size() {
+        return 0;
     }
 }
