@@ -14,7 +14,7 @@ public class EmptyList<T> extends AbstractList<T> {
     }
 
     @Override
-    public int size() {
+    public final int size() {
         return 0;
     }
 }
