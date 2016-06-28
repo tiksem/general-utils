@@ -30,6 +30,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     private OnPageLoadingCancelled onPageLoadingCancelled;
     private int errorCount = 0;
     private boolean isDecorated;
+    private int removedLoadedElementsCount = 0;
 
     public interface OnPageLoadingFinished<T> {
         void onLoadingFinished(List<T> elements);
@@ -59,7 +60,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
 
     @Override
     public int getLoadedElementsCount() {
-        return elements.size() - elementsOffset;
+        return elements.size() - elementsOffset + removedLoadedElementsCount;
+    }
+
+    public int getRemovedLoadedElementsCount() {
+        return removedLoadedElementsCount;
     }
 
     public int getElementsCount() {
@@ -110,7 +115,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     }
 
     private boolean shouldLoadNextPage(int location) {
-        return location >= getLoadedElementsCount() - distanceToLoadNextPage;
+        return location >= getElementsCount() - distanceToLoadNextPage;
     }
 
     public OnPageLoadingCancelled getOnPageLoadingCancelled() {
@@ -234,7 +239,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
                     if (onPageLoadingFinished != null) {
                         onPageLoadingFinished.onLoadingFinished(elements);
                     }
-                } else if(onPageLoadingCancelled != null) {
+                } else if (onPageLoadingCancelled != null) {
                     onPageLoadingCancelled.onCancelled();
                 }
 
@@ -294,11 +299,23 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
     @Override
     public T remove(int location) {
         if (location > elementsOffset) {
-            throw new IndexOutOfBoundsException("Unable to remove element between loaded elements");
+            removedLoadedElementsCount++;
+        } else {
+            elementsOffset--;
         }
 
-        elementsOffset--;
         return elements.remove(location);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        final int location = indexOf(o);
+        if (location >= 0) {
+            remove(location);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
