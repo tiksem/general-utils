@@ -5,12 +5,12 @@ import com.utils.framework.OnError;
 /**
  * Created by stykhonenko on 28.10.15.
  */
-public class InfiniteLoadingNavigationList<T> extends NavigationList<T> {
-    private static InfiniteLoadingNavigationList instance;
+public class InfiniteLoadingLazyList<T> extends LazyLoadingList<T> {
+    private static InfiniteLoadingLazyList instance;
 
-    public static <T> InfiniteLoadingNavigationList<T> get() {
+    public static <T> InfiniteLoadingLazyList<T> get() {
         if (instance == null) {
-            instance = new InfiniteLoadingNavigationList();
+            instance = new InfiniteLoadingLazyList();
         }
 
         return instance;

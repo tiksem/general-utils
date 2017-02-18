@@ -1,7 +1,6 @@
 package com.utils.framework.collections;
 
 import com.utils.framework.KeyProvider;
-import com.utils.framework.OnError;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +8,7 @@ import java.util.Set;
 /**
  * Created by CM on 8/30/2015.
  */
-public abstract class UniqueNavigationList<T> extends NavigationList<T> {
+public abstract class UniqueLazyLoadingList<T> extends LazyLoadingList<T> {
     private Set<T> set;
 
     protected abstract KeyProvider<Object, T> getKeyProvider();
@@ -22,16 +21,16 @@ public abstract class UniqueNavigationList<T> extends NavigationList<T> {
         }
     }
 
-    public UniqueNavigationList(List<T> initialElements, int maxElementsCount) {
+    public UniqueLazyLoadingList(List<T> initialElements, int maxElementsCount) {
         super(initialElements, maxElementsCount);
         init();
     }
 
-    public UniqueNavigationList() {
+    public UniqueLazyLoadingList() {
         init();
     }
 
-    public UniqueNavigationList(int maxElementsCount) {
+    public UniqueLazyLoadingList(int maxElementsCount) {
         super(maxElementsCount);
         init();
     }

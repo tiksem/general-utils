@@ -11,7 +11,7 @@ import java.util.*;
  * Time: 18:29
  * To change this template use File | Settings | File Templates.
  */
-public abstract class NavigationList<T> extends AbstractList<T> implements NavigationEntity<T> {
+public abstract class LazyLoadingList<T> extends AbstractList<T> implements PageLoadingEntity<T> {
     public static final EmptyList CANCELLED_PAGE = new EmptyList();
 
     private boolean allDataLoaded = false;
@@ -79,7 +79,7 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         return true;
     }
 
-    protected NavigationList(List<T> initialElements, int maxElementsCount) {
+    protected LazyLoadingList(List<T> initialElements, int maxElementsCount) {
         elements = new ArrayList<T>() {
             @Override
             public boolean add(T object) {
@@ -98,11 +98,11 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         this.maxElementsCount = maxElementsCount;
     }
 
-    protected NavigationList() {
+    protected LazyLoadingList() {
         this(Integer.MAX_VALUE);
     }
 
-    protected NavigationList(int maxElementsCount) {
+    protected LazyLoadingList(int maxElementsCount) {
         this(Collections.<T>emptyList(), maxElementsCount);
     }
 
@@ -327,19 +327,19 @@ public abstract class NavigationList<T> extends AbstractList<T> implements Navig
         }
     }
 
-    public static NavigationList emptyList() {
-        NavigationList navigationList = new NavigationList() {
+    public static LazyLoadingList emptyList() {
+        LazyLoadingList lazyLoadingList = new LazyLoadingList() {
             @Override
             public void getElementsOfPage(int pageNumber, OnLoadingFinished onPageLoadingFinished, OnError onError) {
 
             }
         };
-        navigationList.allDataLoaded = true;
-        return navigationList;
+        lazyLoadingList.allDataLoaded = true;
+        return lazyLoadingList;
     }
 
-    public static <T> NavigationList<T> decorate(List<T> elements) {
-        NavigationList<T> list = new NavigationList<T>() {
+    public static <T> LazyLoadingList<T> decorate(List<T> elements) {
+        LazyLoadingList<T> list = new LazyLoadingList<T>() {
             @Override
             public void getElementsOfPage(int pageNumber, OnLoadingFinished<T> onPageLoadingFinished, OnError onError) {
                 throw new RuntimeException("Should not be called");

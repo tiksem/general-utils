@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by CM on 1/25/2015.
  */
-public abstract class NavigationIterator<T> extends AbstractIterator<T> implements NavigationEntity<T> {
+public abstract class PageLoadingIterator<T> extends AbstractIterator<T> implements PageLoadingEntity<T> {
     private int pageNumber;
     private int loadedItemsCount = 0;
     private boolean allDataLoaded;
@@ -39,7 +39,7 @@ public abstract class NavigationIterator<T> extends AbstractIterator<T> implemen
                 }
             });
             if (!dataLoaded) {
-                throw new ConcurrentModificationException("Only one thread can use NavigationIterator");
+                throw new ConcurrentModificationException("Only one thread can use PageLoadingIterator");
             }
         }
     }
