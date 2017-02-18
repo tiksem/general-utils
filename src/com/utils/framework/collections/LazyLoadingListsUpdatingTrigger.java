@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by CM on 8/29/2014.
  */
-public class NavigationListsUpdatingTrigger {
+public class LazyLoadingListsUpdatingTrigger {
     private Set<LazyLoadingList> lazyLoadingLists = new HashSet<LazyLoadingList>();
 
     public void addNavigationList(LazyLoadingList lazyLoadingList) {
