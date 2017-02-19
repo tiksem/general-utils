@@ -567,6 +567,18 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> List<To> transformIgnoreNulls(Iterable<From> from,
+                                                           Transformer<From, To> transformer) {
+        List<To> result = new ArrayList<To>();
+        for (From object : from) {
+            if (object != null) {
+                result.add(transformer.get(object));
+            }
+        }
+
+        return result;
+    }
+
     public static <From, To> Iterator<To> transform(Iterator<From> from, Transformer<From, To> transformer) {
         return new TransformIterator<>(from, transformer);
     }

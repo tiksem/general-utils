@@ -17,7 +17,7 @@ public class Strings {
     private static final Pattern ONLY_SPACES = Pattern.compile("\\s*");
     
     public static String joinObjects(List<? extends Object> objects, char separator) {
-        return join(objectsToStringsView(objects), separator);
+        return join(objectsToStringsIgnoreNulls(objects), separator);
     }
 
     public static List<String> objectsToStringsView(final List<? extends Object> objects) {
@@ -32,6 +32,15 @@ public class Strings {
                 return objects.size();
             }
         };
+    }
+
+    public static <T extends Object> List<String> objectsToStringsIgnoreNulls(final List<T> objects) {
+        return CollectionUtils.transformIgnoreNulls(objects, new Transformer<T, String>() {
+            @Override
+            public String get(T o) {
+                return o.toString();
+            }
+        });
     }
 
     public static String join(Collection<String> parts, char separator) {
@@ -148,7 +157,7 @@ public class Strings {
     }
 
     public static StringBuilder joinObjects(CharSequence separator, final List<Object> parts) {
-        return join(separator, objectsToStringsView(parts));
+        return join(separator, objectsToStringsIgnoreNulls(parts));
     }
 
     public static StringBuilder joinObjects(CharSequence separator, final Object... parts) {
@@ -599,5 +608,16 @@ public class Strings {
 
     public static char getLast(CharSequence charSequence) {
         return charSequence.charAt(charSequence.length() - 1);
+    }
+
+    public static List<String> stringListExcludeEmpty(CharSequence... strings) {
+        List<String> result = new ArrayList<>();
+        for (CharSequence charSequence : strings) {
+            if (!isEmpty(charSequence)) {
+                result.add(charSequence.toString());
+            }
+        }
+
+        return result;
     }
 }
