@@ -61,4 +61,10 @@ public class UnboundedArrayStack<T> extends AbstractStack<T> {
         size = 0;
         Arrays.fill(array, 0, size, null);
     }
+
+    @Override
+    public void replaceTop(T value) {
+        throwIfEmpty();
+        array[size - 1] = value;
+    }
 }

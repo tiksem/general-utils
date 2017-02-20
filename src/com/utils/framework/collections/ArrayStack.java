@@ -42,11 +42,14 @@ public class ArrayStack<T> extends AbstractStack<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T top() {
+        throwIfEmpty();
+        return (T) array[size - 1];
+    }
+
+    private void throwIfEmpty() {
         if (size == 0) {
             throw new EmptyStackException();
         }
-
-        return (T) array[size - 1];
     }
 
     @Override
@@ -62,5 +65,11 @@ public class ArrayStack<T> extends AbstractStack<T> {
     public void clear() {
         size = 0;
         Arrays.fill(array, null);
+    }
+
+    @Override
+    public void replaceTop(T value) {
+        throwIfEmpty();
+        array[size - 1] = value;
     }
 }

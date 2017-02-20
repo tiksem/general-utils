@@ -60,4 +60,10 @@ public class LinkedStack<T> implements Stack<T> {
     public void clear() {
         head = null;
     }
+
+    @Override
+    public void replaceTop(T value) {
+        throwIfEmpty();
+        head.data = value;
+    }
 }
