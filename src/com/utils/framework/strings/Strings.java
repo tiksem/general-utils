@@ -380,7 +380,13 @@ public class Strings {
         final Matcher matcher = pattern.matcher(string);
         List<String> result = new ArrayList<String>();
         while (matcher.find()) {
-            result.add(matcher.group());
+            String group;
+            if (matcher.groupCount() > 0) {
+                group = matcher.group(1);
+            } else {
+                group = matcher.group();
+            }
+            result.add(group);
         }
 
         return result;
