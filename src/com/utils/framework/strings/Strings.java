@@ -626,4 +626,22 @@ public class Strings {
 
         return result;
     }
+
+    public static String removeFromStart(String string, String token) {
+        final int index = string.indexOf(token);
+        if (index >= 0) {
+            return string.substring(index);
+        } else {
+            return string;
+        }
+    }
+
+    public static String removeFromEnd(String string, String token) {
+        final int index = string.lastIndexOf(token);
+        if (index >= 0) {
+            return string.substring(0, index);
+        } else {
+            return string;
+        }
+    }
 }
