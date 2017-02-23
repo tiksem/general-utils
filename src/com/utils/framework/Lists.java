@@ -1,5 +1,6 @@
 package com.utils.framework;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,5 +59,23 @@ public class Lists {
     public static <T> T getRandomItem(Random random, List<T> list) {
         int index = random.nextInt(list.size());
         return list.get(index);
+    }
+
+    public static <T> List<T> listWithAddingElementToFront(final List<T> list, final T element) {
+        return new AbstractList<T>() {
+            @Override
+            public T get(int index) {
+                if (index == 0) {
+                    return element;
+                }
+
+                return list.get(index - 1);
+            }
+
+            @Override
+            public int size() {
+                return list.size() + 1;
+            }
+        };
     }
 }
