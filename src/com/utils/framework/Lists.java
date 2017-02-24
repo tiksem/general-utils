@@ -2,6 +2,7 @@ package com.utils.framework;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -77,5 +78,14 @@ public class Lists {
                 return list.size() + 1;
             }
         };
+    }
+
+    public static <T> List<T> fromIterable(Iterable<T> iterable) {
+        List<T> list = new ArrayList<>();
+        for (T t : iterable) {
+            list.add(t);
+        }
+
+        return list;
     }
 }
