@@ -572,7 +572,10 @@ public class CollectionUtils {
         List<To> result = new ArrayList<To>();
         for (From object : from) {
             if (object != null) {
-                result.add(transformer.get(object));
+                To to = transformer.get(object);
+                if (to != null) {
+                    result.add(to);
+                }
             }
         }
 

@@ -88,4 +88,15 @@ public class Lists {
 
         return list;
     }
+
+    public static <T> List<T> withoutNulls(T... items) {
+        List<T> result = new ArrayList<>();
+        for (T item : items) {
+            if (item != null) {
+                result.add(item);
+            }
+        }
+
+        return result;
+    }
 }
