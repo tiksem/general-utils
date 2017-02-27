@@ -644,4 +644,14 @@ public class Strings {
             return string;
         }
     }
+
+    public static String removeQuotes(String string, String quotes) {
+        string = removeFromStart(string, quotes);
+        string = removeFromEnd(string, quotes);
+        return string;
+    }
+
+    public static String removeQuotes(String string) {
+        return removeQuotes(string, "\"");
+    }
 }
