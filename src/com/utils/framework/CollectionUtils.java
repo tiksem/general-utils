@@ -217,6 +217,16 @@ public class CollectionUtils {
         removeAll(collection, predicate);
     }
 
+    public static <T> boolean contains(Iterable<T> iterable, Predicate<T> predicate) {
+        for (T object : iterable) {
+            if (predicate.check(object)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static <T> T find(Iterable<T> iterable, Predicate<T> predicate) {
         for (T object : iterable) {
             if (predicate.check(object)) {
