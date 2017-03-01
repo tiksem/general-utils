@@ -344,13 +344,17 @@ public class Strings {
         return -1;
     }
 
-    public static int findUnsignedIntegerInString(CharSequence string) {
+    public static int findUnsignedIntegerInString(CharSequence string, int defaultValue) {
         int digitIndex = indexOfFirstDigit(string);
         if (digitIndex >= 0) {
             return parseUnsignedIntToken(string, digitIndex);
         } else {
-            return -1;
+            return defaultValue;
         }
+    }
+
+    public static int findUnsignedIntegerInString(CharSequence string) {
+        return findUnsignedIntegerInString(string, -1);
     }
 
     public static char[] replaceCharArray(char[] string, int begin, int end, char[] replacement) {
