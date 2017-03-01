@@ -658,4 +658,13 @@ public class Strings {
     public static String removeQuotes(String string) {
         return removeQuotes(string, "\"");
     }
+
+    public static String findStringStartedWith(String startedWith, String inString) {
+        int index = inString.indexOf(startedWith);
+        if (index < 0) {
+            return null;
+        }
+
+        return inString.substring(index);
+    }
 }
