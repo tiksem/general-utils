@@ -327,10 +327,11 @@ public abstract class LazyLoadingList<T> extends AbstractList<T> implements Page
         }
     }
 
-    public static LazyLoadingList emptyList() {
-        LazyLoadingList lazyLoadingList = new LazyLoadingList() {
+    public static <T> LazyLoadingList<T> emptyList() {
+        LazyLoadingList<T> lazyLoadingList = new LazyLoadingList<T>() {
             @Override
-            public void getElementsOfPage(int pageNumber, OnLoadingFinished onPageLoadingFinished, OnError onError) {
+            public void getElementsOfPage(int pageNumber,
+                                          OnLoadingFinished onPageLoadingFinished, OnError onError) {
 
             }
         };

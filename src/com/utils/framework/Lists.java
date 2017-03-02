@@ -103,4 +103,37 @@ public class Lists {
     public static <T> boolean isEmpty(List<T> list) {
         return list == null || list.isEmpty();
     }
+
+    public static <T> List<T> repeatedValues(final T value, final int size) {
+        return new AbstractList<T>() {
+            @Override
+            public T get(int index) {
+                return value;
+            }
+
+            @Override
+            public int size() {
+                return size;
+            }
+        };
+    }
+
+    public static <T> List<List<T>> separateIntoListsWithSize(int size, List<T> original) {
+        List<List<T>> result = new ArrayList<>();
+        List<T> currentRow = null;
+        for (int i = 0; i < original.size(); i++) {
+            if (i % size == 0) {
+                if (currentRow != null) {
+                    result.add(currentRow);
+                }
+
+                currentRow = new ArrayList<>();
+            }
+
+            T item = original.get(i);
+            currentRow.add(item);
+        }
+        result.add(currentRow);
+        return result;
+    }
 }
