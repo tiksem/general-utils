@@ -80,6 +80,24 @@ public class Lists {
         };
     }
 
+    public static <T> List<T> listWithAddingElementToEnd(final List<T> list, final T element) {
+        return new AbstractList<T>() {
+            @Override
+            public T get(int index) {
+                if (index == list.size()) {
+                    return element;
+                }
+
+                return list.get(index);
+            }
+
+            @Override
+            public int size() {
+                return list.size() + 1;
+            }
+        };
+    }
+
     public static <T> List<T> fromIterable(Iterable<T> iterable) {
         List<T> list = new ArrayList<>();
         for (T t : iterable) {
