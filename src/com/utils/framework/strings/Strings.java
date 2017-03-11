@@ -396,6 +396,15 @@ public class Strings {
         return result;
     }
 
+    public static List<String> filter(List<String> strings, final Pattern pattern) {
+        return CollectionUtils.findAll(strings, new Predicate<String>() {
+            @Override
+            public boolean check(String item) {
+                return pattern.matcher(item).matches();
+            }
+        });
+    }
+
     public static boolean equalsIgnoreCase(String a, String b) {
         if (a != null) {
             return a.equalsIgnoreCase(b);
@@ -666,5 +675,15 @@ public class Strings {
         }
 
         return inString.substring(index);
+    }
+
+    public static String findStringStartedWith(String startedWith, String[] inStrings) {
+        for (String string : inStrings) {
+            if (string.startsWith(startedWith)) {
+                return string;
+            }
+        }
+
+        return null;
     }
 }

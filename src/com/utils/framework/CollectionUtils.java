@@ -577,7 +577,31 @@ public class CollectionUtils {
         return result;
     }
 
+    public static <From, To> List<To> transform(From[] from, Transformer<From, To> transformer) {
+        List<To> result = new ArrayList<To>();
+        for (From object : from) {
+            result.add(transformer.get(object));
+        }
+
+        return result;
+    }
+
     public static <From, To> List<To> transformIgnoreNulls(Iterable<From> from,
+                                                           Transformer<From, To> transformer) {
+        List<To> result = new ArrayList<To>();
+        for (From object : from) {
+            if (object != null) {
+                To to = transformer.get(object);
+                if (to != null) {
+                    result.add(to);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static <From, To> List<To> transformIgnoreNulls(From[] from,
                                                            Transformer<From, To> transformer) {
         List<To> result = new ArrayList<To>();
         for (From object : from) {
