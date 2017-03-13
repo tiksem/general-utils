@@ -643,7 +643,7 @@ public class Strings {
     public static String removeFromStart(String string, String token) {
         final int index = string.indexOf(token);
         if (index >= 0) {
-            return string.substring(index);
+            return string.substring(index + token.length());
         } else {
             return string;
         }
