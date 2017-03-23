@@ -9,16 +9,16 @@ import java.util.Set;
 public class LazyLoadingListsUpdatingTrigger {
     private Set<LazyLoadingList> lazyLoadingLists = new HashSet<LazyLoadingList>();
 
-    public void addNavigationList(LazyLoadingList lazyLoadingList) {
+    public void addLazyLoadingList(LazyLoadingList lazyLoadingList) {
         lazyLoadingLists.add(lazyLoadingList);
     }
 
-    public void removeNavigationList(LazyLoadingList lazyLoadingList) {
+    public void removeLazyLoadingList(LazyLoadingList lazyLoadingList) {
         lazyLoadingLists.add(lazyLoadingList);
     }
 
     public void addAndSetActive(LazyLoadingList active) {
-        addNavigationList(active);
+        addLazyLoadingList(active);
         for (LazyLoadingList lazyLoadingList : lazyLoadingLists) {
             if (lazyLoadingList == active) {
                 lazyLoadingList.resumePageLoading();
