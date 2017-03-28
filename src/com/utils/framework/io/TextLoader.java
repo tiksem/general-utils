@@ -12,7 +12,7 @@ import java.util.Map;
  * Time: 2:27 PM
  */
 
-/* Use GetRequestExecutor and RequestExecutorWithCaching instead */
+/* Use GetRequestExecutor and RequestExecutorWithOfflineCaching instead */
 @Deprecated
 public final class TextLoader {
     private Cache<String, String> memoryCache;

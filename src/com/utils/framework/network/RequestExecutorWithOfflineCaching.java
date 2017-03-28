@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * Created by CM on 9/11/2015.
  */
-public class RequestExecutorWithCaching implements RequestExecutor {
+public class RequestExecutorWithOfflineCaching implements RequestExecutor {
     private RequestExecutor networkRequestExecutor;
     private Cache<String, String> cache;
     private CacheRequestExecutor cacheRequestExecutor;
 
-    public RequestExecutorWithCaching(RequestExecutor networkRequestExecutor, Cache<String, String> cache) {
+    public RequestExecutorWithOfflineCaching(RequestExecutor networkRequestExecutor, Cache<String, String> cache) {
         this.networkRequestExecutor = networkRequestExecutor;
         this.cache = cache;
         cacheRequestExecutor = new CacheRequestExecutor(cache);
