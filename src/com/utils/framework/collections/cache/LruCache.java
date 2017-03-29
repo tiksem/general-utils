@@ -321,4 +321,9 @@ public class LruCache<K, V> extends CacheWithSizeOfProvider<K, V> implements Cac
     public boolean contains(K key) {
         return get(key) != null;
     }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
 }

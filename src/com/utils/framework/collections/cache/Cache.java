@@ -7,8 +7,7 @@ package com.utils.framework.collections.cache;
  */
 public interface Cache<K, V> {
     V get(K key);
-
     V put(K key, V value);
-
     boolean contains(K key);
+    void clear();
 }

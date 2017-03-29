@@ -43,4 +43,9 @@ public class ObjectLruDiskCache<K, V> extends BaseLruDiskCache<K, V> {
     protected String getCacheDirectory() {
         return cacheDirectoryPathGenerator.getCachingDirectory();
     }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 }

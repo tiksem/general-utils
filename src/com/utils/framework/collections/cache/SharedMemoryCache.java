@@ -78,6 +78,11 @@ public abstract class SharedMemoryCache implements SharedCache {
                 Key internalKey = getInternalKey(key);
                 return cache.contains(internalKey);
             }
+
+            @Override
+            public void clear() {
+                cache.clear();
+            }
         };
     }
 

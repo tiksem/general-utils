@@ -92,4 +92,9 @@ public abstract class BaseLruDiskCache<K, V> implements Cache<K, V> {
     protected abstract V readFromStream(InputStream stream);
 
     protected abstract String getCacheDirectory();
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -26,4 +26,9 @@ public class WeakCache<K, V> implements Cache<K, V> {
     public boolean contains(K key) {
         return weakHashMap.containsKey(key);
     }
+
+    @Override
+    public void clear() {
+        weakHashMap.clear();
+    }
 }

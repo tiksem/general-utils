@@ -25,4 +25,9 @@ public class EmptyCache<K, V> implements CacheWithSizeOf<K, V> {
     public boolean contains(K key) {
         return false;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

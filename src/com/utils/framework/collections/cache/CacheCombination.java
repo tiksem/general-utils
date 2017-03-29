@@ -71,4 +71,9 @@ public class CacheCombination<K, V> implements Cache<K, V> {
 
         return false;
     }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 }

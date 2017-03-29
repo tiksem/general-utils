@@ -45,6 +45,11 @@ public abstract class SharedLruDiskCache implements SharedCache {
                 String keyAsString = getKey(key);
                 return diskCache.contains(keyAsString);
             }
+
+            @Override
+            public void clear() {
+                diskCache.clear();
+            }
         };
     }
 }
