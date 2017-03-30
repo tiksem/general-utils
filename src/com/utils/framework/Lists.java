@@ -154,4 +154,12 @@ public class Lists {
         result.add(currentRow);
         return result;
     }
+
+    // [a, b)
+    public static <T> List<T> removeRangeGetRemovedItems(List<T> list, int a, int b) {
+        List<T> subList = list.subList(a, b);
+        List<T> removed = new ArrayList<T>(subList);
+        subList.clear();
+        return removed;
+    }
 }
