@@ -148,4 +148,14 @@ public class Maps {
     public static Map<String, String> readProperties(String filePath) throws IOException {
         return readProperties(new FileInputStream(filePath));
     }
+
+    public static <K, V> Map<K, V> fromList(List<V> list, KeyProvider<K, V> keyProvider) {
+        Map<K, V> map = new HashMap<>();
+        for (V value : list) {
+            K key = keyProvider.getKey(value);
+            map.put(key, value);
+        }
+
+        return map;
+    }
 }
