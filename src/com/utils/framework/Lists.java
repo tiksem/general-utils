@@ -162,4 +162,8 @@ public class Lists {
         subList.clear();
         return removed;
     }
+
+    public static int size(List<?> list) {
+        return list != null ? list.size() : 0;
+    }
 }
