@@ -33,7 +33,7 @@ public abstract class LazyLoadingList<T> extends AbstractList<T> implements Page
     private int removedLoadedElementsCount = 0;
 
     public interface OnPageLoadingFinished<T> {
-        void onLoadingFinished(List<T> elements);
+        void onLoadingFinished(List<T> elements, boolean isLastPage);
     }
 
     public interface PageLoadingError {
@@ -232,12 +232,12 @@ public abstract class LazyLoadingList<T> extends AbstractList<T> implements Page
                     onPageLoadingFinished(pageToLoad);
 
                     if (onPageLoadingFinished != null) {
-                        onPageLoadingFinished.onLoadingFinished(elements);
+                        onPageLoadingFinished.onLoadingFinished(elements, isLastPage);
                     }
 
                     OnPageLoadingFinished onPageLoadingFinished = getOnPageLoadingFinished();
                     if (onPageLoadingFinished != null) {
-                        onPageLoadingFinished.onLoadingFinished(elements);
+                        onPageLoadingFinished.onLoadingFinished(elements, isLastPage);
                     }
                 } else if (onPageLoadingCancelled != null) {
                     onPageLoadingCancelled.onCancelled();
